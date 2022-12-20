@@ -11,7 +11,7 @@ After forking electron-react-boilerplate, I installed nostr-tools as a dev depen
 npm install -D nostr-tools
 ```
 
-If I install it as a regular dependency, it gets recognized as a native module.
+If I install it as a regular dependency, it gets recognized as a native module and an error gets thrown during installation step.
 I had a similar issue when I put ipfs-core into erb; see [README](https://github.com/wds4/electron-react-boilerplate-ipfs-core) for discussion.
 
 # v0.24.1
