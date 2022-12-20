@@ -4,6 +4,8 @@ So far I can generate private and public keys and signEvent. Currently having pr
 
 ## Issues I've encountered
 
+See also this [issue](https://github.com/fiatjaf/nostr-tools/issues/46) in the nostr-tools repo.
+
 ### treated as a native dependency
 After forking electron-react-boilerplate, I installed nostr-tools as a dev dependency:
 

@@ -33,8 +33,7 @@ export default class Home extends React.Component {
         console.log("sk1: "+sk1+"; pk1: "+pk1)
 
         let message = 'hello'
-        // Currently throws an error - nip04 not exported correctly I think. Might be fixed in next release.
-        // Currently v0.24.1
+        // As of v0.24.1, nip04 throws an error - nip04 not exported correctly I think. Might be fixed in next release?
         // let ciphertext = nip04.encrypt(sk1, pk2, 'hello')
 
         document.getElementById("senderPrivKeyContainer").innerHTML = sk1;
@@ -61,7 +60,6 @@ export default class Home extends React.Component {
 
         const privateKey =
             '5c6c25b7ef18d8633e97512159954e1aa22809c6b763e94b9f91071836d00217'
-        // Each of these throws the same error:
         let hash = getEventHash(unsigned)
         console.log("hash: "+hash)
         let sig = await signEvent(unsigned, privateKey)
@@ -81,6 +79,7 @@ export default class Home extends React.Component {
                         <div id="senderPrivKeyContainer" >senderPrivKeyContainer</div>
                         <div>sender pub key:</div>
                         <div id="senderPubKeyContainer" >senderPubKeyContainer</div>
+                        <div>(also look at the js console)</div>
                     </div>
                 </div>
             </>
