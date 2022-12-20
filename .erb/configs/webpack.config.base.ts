@@ -44,6 +44,9 @@ const configuration: webpack.Configuration = {
   resolve: {
     extensions: ['.js', '.jsx', '.json', '.ts', '.tsx'],
     modules: [webpackPaths.srcPath, 'node_modules'],
+    fallback: {
+      "stream": false,
+    }
   },
 
   plugins: [

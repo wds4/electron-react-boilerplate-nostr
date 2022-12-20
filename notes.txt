@@ -1,0 +1,22 @@
+
+19 Dec 2022
+electron-react-boilerplate-nostr
+Purpose: to do a hello world of nostr in erb
+Forked erb in github
+clones to MBPro
+
+made cosmetic changes: imported from my template electron-react-boilerplate-ipfs
+
+following https://github.com/fiatjaf/nostr-tools
+
+npm install nostr-tools
+added to home.js:
+import { generatePrivateKey, getPublicKey } from 'nostr-tools'
+
+Got polyfill error; this is how I fixed it:
+Followed advice from:
+https://stackoverflow.com/questions/64557638/how-to-polyfill-node-core-modules-in-webpack-5
+and updated .erb/configs/webpack.config.base.ts by adding under resolve:
+fallback: {
+  "stream": false,
+}
