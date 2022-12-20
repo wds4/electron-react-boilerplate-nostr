@@ -4,7 +4,7 @@ So far I can generate private and public keys and signEvent. Currently having pr
 
 ## Issues I've encountered
 
-See also this [issue](https://github.com/fiatjaf/nostr-tools/issues/46) in the nostr-tools repo.
+See also [this discussion](https://github.com/fiatjaf/nostr-tools/issues/46) in the nostr-tools repo.
 
 ### treated as a native dependency
 After forking electron-react-boilerplate, I installed nostr-tools as a dev dependency:
@@ -16,7 +16,7 @@ npm install -D nostr-tools
 If I install it as a regular dependency, it gets recognized as a native module and an error gets thrown during installation step.
 I had a similar issue when I put ipfs-core into erb; see [README](https://github.com/wds4/electron-react-boilerplate-ipfs-core) for discussion.
 
-### v0.24.1
+### v0.24.1 (and earlier, probably)
 
 To get getEventHash, signEvent and probably other functions working, I needed to update event.js with the following changes.
 (These fixes were already put into the codebase (19 Dec 2022 I think) but not yet incorporated into latest version.)
@@ -31,6 +31,9 @@ export function getEventHash(event) {
   return Buffer.from(eventHash).toString('hex')
 }
 ```
+
+### polyfills 
+This is related to the native dependency issue above. I had to modify [webpack.config.base.ts](https://github.com/wds4/electron-react-boilerplate-nostr/blob/main/.erb/configs/webpack.config.base.ts) as per [this discussion](https://github.com/fiatjaf/nostr-tools/issues/46).
 
 ## Install
 
