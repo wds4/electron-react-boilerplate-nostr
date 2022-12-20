@@ -1,6 +1,6 @@
 Initial attempt at getting nostr-tools to work in electron-react-boilerplate (erb).
 
-So far I can generate private and public keys - nothing else yet.
+So far I can generate private and public keys and signEvent. Currently having problems with nip04.
 
 ## Issues I've encountered
 
