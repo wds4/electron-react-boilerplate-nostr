@@ -1,9 +1,16 @@
 import React from 'react';
 import Masthead from './mastheads/mainMasthead.js';
 import * as MiscAppFxns from "./lib/app/misc.ts";
-import {            validateEvent,
-           verifySignature,
-           getBlankEvent, generatePrivateKey, getPublicKey, getEventHash, signEvent, matchFilters } from 'nostr-tools'
+import {  nip04,
+          validateEvent,
+          verifySignature,
+          getBlankEvent,
+          generatePrivateKey,
+          getPublicKey,
+          getEventHash,
+          signEvent,
+          matchFilters
+        } from 'nostr-tools'
 
 const updateMainColWidth = MiscAppFxns.updateMainColWidth;
 
@@ -24,6 +31,11 @@ export default class Home extends React.Component {
         let pk2 = getPublicKey(sk2)
 
         console.log("sk1: "+sk1+"; pk1: "+pk1)
+
+        let message = 'hello'
+        // Currently throws an error - nip04 not exported correctly I think. Might be fixed in next release.
+        // Currently v0.24.1
+        // let ciphertext = nip04.encrypt(sk1, pk2, 'hello')
 
         document.getElementById("senderPrivKeyContainer").innerHTML = sk1;
         document.getElementById("senderPubKeyContainer").innerHTML = pk1;
@@ -49,9 +61,11 @@ export default class Home extends React.Component {
 
         const privateKey =
             '5c6c25b7ef18d8633e97512159954e1aa22809c6b763e94b9f91071836d00217'
-        let sig = await signEvent(unsigned, privateKey)
+        // Each of these throws the same error:
         let hash = getEventHash(unsigned)
-        let pubkey = getPublicKey(privateKey)
+        console.log("hash: "+hash)
+        let sig = await signEvent(unsigned, privateKey)
+        console.log("sig: "+sig)
 
     }
     render() {
