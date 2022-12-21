@@ -38,7 +38,7 @@ export default class Home extends React.Component {
 
         document.getElementById("senderPrivKeyContainer").innerHTML = sk1;
         document.getElementById("senderPubKeyContainer").innerHTML = pk1;
-
+        /*
         const event = {
             id: 'd7dd5eb3ab747e16f8d0212d53032ea2a7cadef53837e5a6c66d42849fcb9027',
             kind: 1,
@@ -49,6 +49,7 @@ export default class Home extends React.Component {
             tags: [['client', 'astral']],
             sig: 'f110e4fdf67835fb07abc72469933c40bdc7334615610cade9554bf00945a1cebf84f8d079ec325d26fefd76fe51cb589bdbe208ac9cdbd63351ddad24a57559'
         }
+        */
 
         const unsigned = {
             created_at: 1671217411,
@@ -62,9 +63,33 @@ export default class Home extends React.Component {
             '5c6c25b7ef18d8633e97512159954e1aa22809c6b763e94b9f91071836d00217'
         let hash = getEventHash(unsigned)
         console.log("hash: "+hash)
+        document.getElementById("getEventHashContainer").innerHTML = hash;
         let sig = await signEvent(unsigned, privateKey)
         console.log("sig: "+sig)
+        document.getElementById("signEventContainer").innerHTML = sig;
 
+
+        let event = {
+          kind: 1,
+          created_at: Math.floor(Date.now() / 1000),
+          tags: [],
+          content: 'hello'
+        }
+
+        event.id = getEventHash(event)
+        event.pubkey = getPublicKey(sk1)
+        event.sig = await signEvent(event, sk1)
+        console.log("event.sig: "+event.sig)
+
+        let ok = validateEvent(event)
+        let veryOk = await verifySignature(event)
+        console.log("ok: "+ok)
+        console.log("veryOk: "+veryOk)
+
+
+
+        document.getElementById("validateEventContainer").innerHTML = ok;
+        document.getElementById("verifySignatureContainer").innerHTML = veryOk;
     }
     render() {
         return (
@@ -75,11 +100,28 @@ export default class Home extends React.Component {
                     <Masthead />
                     <div id="mainPanel" >
                         <div className="h2">erb-nostr: hello world</div>
-                        <div>sender private key:</div>
-                        <div id="senderPrivKeyContainer" >senderPrivKeyContainer</div>
-                        <div>sender pub key:</div>
-                        <div id="senderPubKeyContainer" >senderPubKeyContainer</div>
-                        <div>(also look at the js console)</div>
+                        <div>demo of various functions:</div>
+
+                        <br />
+
+                        <div className="leftCol" >generatePrivateKey:</div>
+                        <div className="rightCol" id="senderPrivKeyContainer" >senderPrivKeyContainer</div>
+
+                        <div className="leftCol" >getPublicKey:</div>
+                        <div className="rightCol" id="senderPubKeyContainer" >senderPubKeyContainer</div>
+
+                        <div className="leftCol" >getEventHash:</div>
+                        <div className="rightCol" id="getEventHashContainer" >getEventHashContainer</div>
+
+                        <div className="leftCol" >signEvent:</div>
+                        <div className="rightCol" id="signEventContainer" >signEventContainer</div>
+
+                        <div className="leftCol" >validateEvent:</div>
+                        <div className="rightCol" id="validateEventContainer" >validateEventContainer</div>
+
+                        <div className="leftCol" >verifySignature:</div>
+                        <div className="rightCol" id="verifySignatureContainer" >verifySignatureContainer</div>
+
                     </div>
                 </div>
             </>

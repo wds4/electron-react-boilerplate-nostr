@@ -53,10 +53,11 @@ div.h4 {
 }
 .leftCol {
     display:inline-block;
-    width:100px;
+    width:200px;
 }
 .rightCol {
     display:inline-block;
+    width:700px;
 }
 #root {
     padding:0px;
@@ -85,4 +86,5 @@ div.h4 {
 #mainPanel {
     width:100%;
     padding-top:20px;
+    font-size:12px;
 }
