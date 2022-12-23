@@ -6,20 +6,11 @@ import {
     Kind,
     useNostrEvents,
     dateToUnix,
-    generateSignedEvent,
-    SendMsgType,
-    useNostr
 } from "@nostrgg/react";
-
-import {
-    initNostr,
-    SendMsgType,
-    Kind,
-} from "@nostrgg/client"
 
 const GlobalFeed = () => {
     const currentTime = dateToUnix(new Date())
-    const howLongAgo = 60 * 60; // 60 * 60 = fetch messages as old as from one hour ago
+    const howLongAgo = 60 * 60; // 60 * 60 = fetch messages as old as one hour
     const sinceAgo = currentTime - howLongAgo;
     const { events } = useNostrEvents({
         filter: {
