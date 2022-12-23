@@ -109,6 +109,8 @@
     }
   },
   "dependencies": {
+    "@nostrgg/client": "^0.1.1",
+    "@nostrgg/react": "^0.1.2",
     "electron-debug": "^3.2.0",
     "electron-log": "^4.4.8",
     "electron-updater": "^5.2.3",

@@ -33,7 +33,7 @@ div, pre {
     white-space: -pre-wrap;
     white-space: -o-pre-wrap;
     word-wrap: break-word;
-
+    overflow:scroll;
 }
 div.h1 {
     font-size:36px;
@@ -85,8 +85,6 @@ div.h4 {
 }
 #mainPanel {
     width:100%;
-    height:80%;
     padding-top:20px;
     font-size:12px;
-    overflow:scroll;
 }

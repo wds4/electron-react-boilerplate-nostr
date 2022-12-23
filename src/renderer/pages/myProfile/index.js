@@ -1,17 +1,7 @@
 import React from 'react';
-import Masthead from '../mastheads/mainMasthead.js';
-import LeftNavbar from '../navbars/leftNav.js';
-import * as MiscAppFxns from "../lib/app/misc.ts";
-import {  nip04,
-          validateEvent,
-          verifySignature,
-          getBlankEvent,
-          generatePrivateKey,
-          getPublicKey,
-          getEventHash,
-          signEvent,
-          matchFilters
-        } from 'nostr-tools'
+import Masthead from '../../mastheads/mainMasthead.js';
+import LeftNavbar from '../../navbars/leftNav.js';
+import * as MiscAppFxns from "../../lib/app/misc.ts";
 
 const updateMainColWidth = MiscAppFxns.updateMainColWidth;
 
@@ -32,7 +22,7 @@ export default class Home extends React.Component {
                 <div id="mainCol" >
                     <Masthead />
                     <div id="mainPanel" >
-                        <div className="h2">erb-nostr: hello world</div>
+                        <div className="h2">my profile</div>
 
                     </div>
                 </div>

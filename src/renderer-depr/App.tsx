@@ -17,10 +17,15 @@ import './css/feed.css';
 import { NostrProvider } from "@nostrgg/react";
 
 const relayUrls = [
+];
+
+/*
+const relayUrls = [
     "wss://nostr-pub.wellorder.net",
     "wss://nostr-relay.untethr.me",
     "wss://relay.damus.io",
 ];
+*/
 
 const updateMainColWidth = MiscAppFxns.updateMainColWidth;
 
