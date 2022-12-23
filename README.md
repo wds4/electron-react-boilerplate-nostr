@@ -24,24 +24,6 @@ fallback: {
 }
 ```
 
-### v0.24.1 (and earlier, probably)
-
-To get getEventHash, signEvent and probably other functions working, I needed to update event.js with the following changes.
-(These fixes were already put into the codebase (19 Dec 2022 I think) but not yet incorporated into latest version.)
-```
-import {sha256} from '@noble/hashes/sha256'
-```
-
-and rewrite
-```
-export function getEventHash(event) {
-  let eventHash = sha256(Buffer.from(serializeEvent(event)))
-  return Buffer.from(eventHash).toString('hex')
-}
-```
-
-UPDATE: this issue is FIXED as of v1.0.0aplha2
-
 ## Install
 
 Clone the repo and install dependencies:

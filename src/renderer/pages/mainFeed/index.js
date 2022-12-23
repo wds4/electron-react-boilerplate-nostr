@@ -35,13 +35,9 @@ const GlobalFeed = () => {
             {events.map( (event) => {
                 const currentTime = dateToUnix(new Date());
                 const createdAt = event.created_at;
-                const howOld = createdAt - currentTime;
-                const minOld = Math.floor(howOld / 60);
-                var agoText = "";
-                if (minOld < 0) {
-                    const minOld_ = - minOld;
-                    agoText += minOld_ + " min ago";
-                }
+                const secondsOld = currentTime - createdAt;
+                var howOldText = "";
+                howOldText += secondsOld + " seconds ago";
                 // const hourOld = Math.floor(minOld / 60);
                 return (
                     <div className="eventContainer" >
@@ -54,7 +50,7 @@ const GlobalFeed = () => {
                                     {event.pubkey}
                                 </div>
                                 <div className="eventTimeContainer" >
-                                    {agoText}
+                                    {howOldText}
                                 </div>
                             </div>
                             <div className="eventContentContainer" >
