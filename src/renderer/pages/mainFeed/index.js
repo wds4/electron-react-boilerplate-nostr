@@ -2,7 +2,6 @@ import React from 'react';
 import Masthead from '../../mastheads/mainMasthead.js';
 import LeftNavbar from '../../navbars/leftNav.js';
 import * as MiscAppFxns from "../../lib/app/misc.ts";
-
 import {
     Kind,
     useNostrEvents,
@@ -17,7 +16,6 @@ import {
     SendMsgType,
     Kind,
 } from "@nostrgg/client"
-
 
 const GlobalFeed = () => {
     const currentTime = dateToUnix(new Date())
@@ -75,32 +73,6 @@ export default class Home extends React.Component {
     }
     async componentDidMount() {
         updateMainColWidth();
-
-        /*
-        initNostr({
-            relayUrls: [
-                "wss://nostr-pub.wellorder.net",
-            ],
-            onConnect: (relayUrl, sendEvent) => {
-                console.log("Nostr connected to:", relayUrl)
-
-                // Send a REQ event to start listening to events from that relayer:
-                sendEvent([SendMsgType.REQ, {
-                    filter: {
-                        kinds: [Kind.TextNote],
-                        since: 0, // All events since the dawn of time
-                    },
-                }], relayUrl)
-            },
-            onEvent: (relayUrl, event) => {
-                console.log("Nostr received event:", event)
-            },
-            onClose: () => {
-                console.log("======================= onClose ========================== ")
-            },
-            debug: true, // Enable logs
-        });
-        */
     }
     render() {
         return (

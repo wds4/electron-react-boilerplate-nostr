@@ -1,7 +1,7 @@
 Initial attempt at getting nostr to work in electron. I am using electron-react-boilerplate as a starting point.
 
-Tools I'm using:
-<li>(nostr-tools)[https://github.com/fiatjaf/nostr-tools]</li>
+nostr tools I'm using right now: (nostr-tools)[https://github.com/fiatjaf/nostr-tools], (nostrgg-client)[https://github.com/nostrgg/nostrgg-client], (nostrgg-react)[https://github.com/nostrgg/nostrgg-react].
+
 ## Install
 
 Clone the repo and install dependencies:

@@ -23,6 +23,7 @@ export default class Home extends React.Component {
                     <Masthead />
                     <div id="mainPanel" >
                         <div className="h2">manage channels</div>
+                        <div>(under construction)</div>
 
                     </div>
                 </div>

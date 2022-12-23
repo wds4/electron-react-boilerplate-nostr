@@ -12,17 +12,18 @@
 }
 .eventMainBodyContainer {
     display:inline-block;
-    width:80%;
-    min-height:70px;
+    width:calc(100% - 70px);
+    min-height:50px;
     background-color:white;
-    border:1px dashed grey;
     border-radius:5px;
+    margin-left:5px;
 }
 .eventNameAndTimeContainer {
     height:20px;
     padding:2px;
     background-color:#DFDFDF;
     font-size:12px;
+    padding:1px;
 }
 .eventNameContainer {
     display:inline-block;
@@ -39,4 +40,7 @@
     display:inline-block;
     color:grey;
     float:right;
+}
+.eventContentContainer {
+    padding:5px;
 }
