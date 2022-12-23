@@ -1,5 +1,7 @@
-Initial attempt at getting nostr-tools to work in electron. I am using electron-react-boilerplate as a starting point.
+Initial attempt at getting nostr to work in electron. I am using electron-react-boilerplate as a starting point.
 
+Tools I'm using:
+<li>(nostr-tools)[https://github.com/fiatjaf/nostr-tools]</li>
 ## Install
 
 Clone the repo and install dependencies:
