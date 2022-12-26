@@ -36,7 +36,9 @@ export default class Home extends React.Component {
         const howLongAgo = 60 * 60; // 60 * 60 = fetch messages as old as one hour
         const sinceAgo = currentTime - howLongAgo;
 
-        const relay = relayInit('wss://relay.damus.io')
+        // const relay = relayInit('wss://relay.damus.io')
+        // const relay = relayInit('wss://nostr-pub.wellorder.net')
+        const relay = relayInit('wss://nostr-relay.untethr.me')
         await relay.connect()
 
         relay.on('connect', () => {
@@ -64,21 +66,19 @@ export default class Home extends React.Component {
             sub.unsub()
         })
 
-        jQuery(".leftNavButton").click(function(){
+        // if user navigates away from page, close relay
+        const aNavButtons = document.getElementsByClassName("leftNavButton");
+        for(var i = 0; i < aNavButtons.length; i++) {
+            (function(index) {
+                aNavButtons[index].addEventListener("click", function() {
+                    relay.close()
+                })
+            })(i);
+        }
+
+        document.getElementById("userProfileButton").addEventListener("click",function(){
             relay.close()
-            console.log("leftNavButton click")
         })
-        const elem = document.getElementById("userProfileButton")
-        elem.addEventListener("click",function(){
-            relay.close()
-            console.log("userProfileButton addEventListener click")
-        })
-        /*
-        jQuery("#userProfileButton").click(function(){
-            relay.close()
-            console.log("userProfileButton click")
-        })
-        */
     }
     render() {
         return (
