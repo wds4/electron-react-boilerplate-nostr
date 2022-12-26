@@ -15,6 +15,9 @@ import log from 'electron-log';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 
+// not sure if need this in main or renderer
+import 'websocket-polyfill'
+
 class AppUpdater {
   constructor() {
     log.transports.file.level = 'info';

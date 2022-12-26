@@ -46,6 +46,7 @@ const configuration: webpack.Configuration = {
     modules: [webpackPaths.srcPath, 'node_modules'],
     fallback: {
       "stream": false,
+      "util": false,
     }
   },
 
