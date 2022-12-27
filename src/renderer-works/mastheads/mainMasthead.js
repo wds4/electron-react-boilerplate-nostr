@@ -18,10 +18,6 @@ export default class Masthead extends React.Component {
                   <div id="mastheadCenterContainer" className="mastheadCenterContainer" >
                   Home
                   </div>
-
-                  <div className="mastheadRightContainer" >
-                      <NavLink className="mastheadNavButton" to='/MyProfile' >Profile</NavLink>
-                  </div>
               </div>
 
               <div className="mastheadSubBanner" >

@@ -3,9 +3,6 @@ import { NavLink } from "react-router-dom";
 import Masthead from '../../mastheads/mainMasthead.js';
 import LeftNavbar from '../../navbars/leftNav.js';
 import * as MiscAppFxns from "../../lib/app/misc.ts";
-import { asyncSql } from "../../index.tsx";
-
-import {nip05} from 'nostr-tools'
 
 import {
     Kind,
@@ -17,41 +14,12 @@ import {
     generatePrivateKey,
     getPublicKey,
     getEventHash,
-    signEvent,
-    validateEvent,
-    verifySignature,
+    signEvent
 } from 'nostr-tools'
 
 const jQuery = require("jquery");
 
 const updateMainColWidth = MiscAppFxns.updateMainColWidth;
-
-const fetchProfilesInfo = async () => {
-   var aProfileInfo = [];
-
-   var sql = ""
-   sql += "SELECT * FROM nostrProfiles "
-
-   var aNostrProfilesData = await asyncSql(sql);
-   for (var n=0;n<aNostrProfilesData.length;n++) {
-      var oNextProfileInfo = aNostrProfilesData[n];
-      var pK = oNextProfileInfo.pubkey;
-      var name = oNextProfileInfo.name;
-      var picture_url = oNextProfileInfo.picture_url;
-      aProfileInfo[pK] = {};
-      if (name) {
-          aProfileInfo[pK].name = name;
-      } else {
-          aProfileInfo[pK].name = "..."+pK.slice(-6);
-      }
-      if (picture_url) {
-          aProfileInfo[pK].picture_url = picture_url;
-      } else {
-          aProfileInfo[pK].picture_url = null;
-      }
-   }
-   return aProfileInfo;
-}
 
 export default class Home extends React.Component {
 
@@ -64,20 +32,13 @@ export default class Home extends React.Component {
 
     async componentDidMount() {
         updateMainColWidth();
-        document.getElementById("mastheadCenterContainer").innerHTML = "main feed"
-
-        const aProfileInfo = await fetchProfilesInfo()
-
-        this.setState({events: [] })
-        this.forceUpdate();
-
         const currentTime = dateToUnix(new Date())
         const howLongAgo = 60 * 60; // 60 * 60 = fetch messages as old as one hour
         const sinceAgo = currentTime - howLongAgo;
 
-        const relay = relayInit('wss://relay.damus.io')
+        // const relay = relayInit('wss://relay.damus.io')
         // const relay = relayInit('wss://nostr-pub.wellorder.net')
-        // const relay = relayInit('wss://nostr-relay.untethr.me')
+        const relay = relayInit('wss://nostr-relay.untethr.me')
         await relay.connect()
 
         relay.on('connect', () => {
@@ -91,34 +52,15 @@ export default class Home extends React.Component {
             {
                 // authors: ["397f7a110d18b3643184dca6673d8fa812186a3a13009afa83c229c563a0a604"]
                 since: sinceAgo,
-                // since: 0,
                 kinds: [Kind.TextNote],
-                // kinds: [0],
             }
         ])
         sub.on('event', event => {
-            let ok = validateEvent(event)
-            let veryOk = verifySignature(event)
-
-            console.log('mainFeed page; got an event with event id: '+ event.id+'; ok: '+ok+'; veryOk: '+veryOk)
-
-            if ((ok) && (veryOk)) {
-                var aEvents = this.state.events
-                var pK = event.pubkey;
-                event.name = pK;
-                if (aProfileInfo.hasOwnProperty(pK)) {
-                  if (aProfileInfo[pK].hasOwnProperty("name")) {
-                      event.name = aProfileInfo[pK].name;
-                  }
-                  if (aProfileInfo[pK].hasOwnProperty("picture_url")) {
-                      event.picture_url = aProfileInfo[pK].picture_url;
-                  }
-                }
-                aEvents.push(event)
-                this.setState({events: aEvents})
-                this.forceUpdate();
-                console.log(event)
-            }
+            console.log('mainFeed page; got an event with event id: ', event.id)
+            var aEvents = this.state.events
+            aEvents.push(event)
+            this.setState({events: aEvents})
+            this.forceUpdate();
         })
         sub.on('eose', () => {
             sub.unsub()
@@ -161,11 +103,8 @@ export default class Home extends React.Component {
                                 howOldText += secondsOld + " seconds ago";
                                 // const hourOld = Math.floor(minOld / 60);
                                 const pubKey = event.pubkey;
-                                const name = event.name;
-                                const picture_url = event.picture_url;
-                                var pictureHTML = "<img src='"+picture_url+"' class='smallAvatarBox' />";
 
-                                jQuery(".eventNameContainer").unbind("click").click(async function(){
+                                jQuery(".eventNameContainer").unbind("click").click(function(){
                                     var clickedPubKey = jQuery(this).data("pubkey")
                                     console.log("eventNameContainer clicked; clickedPubKey: "+clickedPubKey)
                                     jQuery("#userProfileContainer").html(clickedPubKey)
@@ -175,13 +114,13 @@ export default class Home extends React.Component {
 
                                 return (
                                     <div className="eventContainer"  >
-                                        <div id="smallAvatarContainer" className="smallAvatarContainer" >
-                                            <img src={picture_url} className='smallAvatarBox' />
+                                        <div className="smallAvatarContainer" >
+                                            avatar
                                         </div>
                                         <div className="eventMainBodyContainer" >
                                             <div className="eventNameAndTimeContainer" >
                                                 <div className="eventNameContainer" data-pubkey={pubKey} >
-                                                    {name}
+                                                    {event.pubkey}
                                                 </div>
                                                 <div className="eventTimeContainer" >
                                                     {howOldText}

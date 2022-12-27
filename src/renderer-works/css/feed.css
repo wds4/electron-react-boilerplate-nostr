@@ -6,22 +6,9 @@
 }
 .smallAvatarContainer {
     display:inline-block;
-    position:relative;
     width:50px;
     height:50px;
-}
-.smallAvatarBox {
-  	display:inline-block;
-  	background-color:white;
-  	border:1px solid black;
-  	border-radius:250px;
-  	width:95%;
-  	height:95%;
-  	margin: 0;
-  	position: absolute;
-  	top: 50%;
-  	left: 50%;
-  	transform: translate(-50%, -50%);
+    border:1px dashed grey;
 }
 .eventMainBodyContainer {
     display:inline-block;

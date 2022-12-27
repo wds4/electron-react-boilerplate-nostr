@@ -18,6 +18,10 @@ import { resolveHtmlPath } from './util';
 // not sure if need this in main or renderer
 import 'websocket-polyfill'
 
+import webpackPaths from '../../.erb/configs/webpack.paths'
+import sqlite from 'sqlite3';
+const sqlite3 = sqlite.verbose();
+
 class AppUpdater {
   constructor() {
     log.transports.file.level = 'info';
@@ -34,6 +38,12 @@ ipcMain.on('ipc-example', async (event, arg) => {
   event.reply('ipc-example', msgTemplate('pong'));
 });
 
+ipcMain.on('asynchronous-sql-command', async (event, sql) => {
+    db.all(sql, (err, result) => {
+        event.reply('asynchronous-sql-reply', result);
+    });
+});
+
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
   sourceMapSupport.install();
@@ -45,6 +55,55 @@ const isDebug =
 if (isDebug) {
   require('electron-debug')();
 }
+
+const databaseName = "nostr.sqlite3";
+const sqlPath_dev = path.join(webpackPaths.appPath,'sql',databaseName);
+const sqlPath_prod = path.join(app.getPath('userData'), databaseName)
+const sqlPath = isDebug
+  ? sqlPath_dev
+  : sqlPath_prod
+
+const sqlPathsInfo = [sqlPath, sqlPath_dev, sqlPath_prod, isDebug]
+ipcMain.on('ipc-show-userDataPaths', async (event, arg) => {
+  event.reply('ipc-show-userDataPaths', sqlPathsInfo);
+});
+
+const db = new sqlite3.Database(sqlPath, (err) => {
+    if (err) console.error('Database opening error: ', err);
+});
+
+var createNostrProfilesTableCommand = "";
+createNostrProfilesTableCommand += "id INTEGER PRIMARY KEY, ";
+createNostrProfilesTableCommand += "event_id TEXT NULL, ";
+createNostrProfilesTableCommand += "content TEXT NULL, ";
+createNostrProfilesTableCommand += "created_at INTEGER NULL, ";
+createNostrProfilesTableCommand += "pubkey TEXT NULL, ";
+createNostrProfilesTableCommand += "name TEXT NULL, ";
+createNostrProfilesTableCommand += "about TEXT NULL, ";
+createNostrProfilesTableCommand += "picture_url TEXT NULL, ";
+createNostrProfilesTableCommand += "nip05 TEXT NULL, ";
+createNostrProfilesTableCommand += "lud06 TEXT NULL, ";
+createNostrProfilesTableCommand += "firstSeen INTEGER NULL, ";
+createNostrProfilesTableCommand += "lastUpdate INTEGER NULL, ";
+createNostrProfilesTableCommand += "UNIQUE(event_id, pubkey) ";
+
+var createMyProfileTableCommand = "";
+createMyProfileTableCommand += "id INTEGER PRIMARY KEY, ";
+createMyProfileTableCommand += "created_at INTEGER NULL, ";
+createMyProfileTableCommand += "pubkey TEXT NULL, ";
+createMyProfileTableCommand += "privkey TEXT NULL, ";
+createMyProfileTableCommand += "name TEXT NULL, ";
+createMyProfileTableCommand += "about TEXT NULL, ";
+createMyProfileTableCommand += "picture_url TEXT NULL, ";
+createMyProfileTableCommand += "lastUpdate INTEGER NULL, ";
+createMyProfileTableCommand += "UNIQUE(pubkey, privkey) ";
+
+db.serialize(() => {
+    // db.run('DROP TABLE IF EXISTS nostrProfiles');
+    // db.run('DROP TABLE IF EXISTS anotherCoolTable');
+    db.run('CREATE TABLE IF NOT EXISTS nostrProfiles ('+createNostrProfilesTableCommand+')');
+    db.run('CREATE TABLE IF NOT EXISTS myProfile ('+createMyProfileTableCommand+')');
+});
 
 const installExtensions = async () => {
   const installer = require('electron-devtools-installer');
@@ -122,6 +181,7 @@ const createWindow = async () => {
 app.on('window-all-closed', () => {
   // Respect the OSX convention of having the application in memory even
   // after all windows have been closed
+  db.close();
   if (process.platform !== 'darwin') {
     app.quit();
   }

@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import Masthead from '../../mastheads/mainMasthead.js';
 import LeftNavbar from '../../navbars/leftNav.js';
 import * as MiscAppFxns from "../../lib/app/misc.ts";
+
 import { asyncSql } from "../../index.tsx";
 
 import {nip05} from 'nostr-tools'
@@ -26,31 +27,66 @@ const jQuery = require("jquery");
 
 const updateMainColWidth = MiscAppFxns.updateMainColWidth;
 
-const fetchProfilesInfo = async () => {
-   var aProfileInfo = [];
+const updateProfileInSql = async (event) => {
+    console.log(event)
+    var pubkey = event.pubkey;
+    if (pubkey) {
+        const currentTime = dateToUnix(new Date())
+        var insertCommand = "";
+        insertCommand += "INSERT OR IGNORE INTO nostrProfiles (pubkey, firstSeen) VALUES ( '"+pubkey+"', "+currentTime+" )";
 
-   var sql = ""
-   sql += "SELECT * FROM nostrProfiles "
+        console.log("insertCommand: "+insertCommand)
 
-   var aNostrProfilesData = await asyncSql(sql);
-   for (var n=0;n<aNostrProfilesData.length;n++) {
-      var oNextProfileInfo = aNostrProfilesData[n];
-      var pK = oNextProfileInfo.pubkey;
-      var name = oNextProfileInfo.name;
-      var picture_url = oNextProfileInfo.picture_url;
-      aProfileInfo[pK] = {};
-      if (name) {
-          aProfileInfo[pK].name = name;
-      } else {
-          aProfileInfo[pK].name = "..."+pK.slice(-6);
-      }
-      if (picture_url) {
-          aProfileInfo[pK].picture_url = picture_url;
-      } else {
-          aProfileInfo[pK].picture_url = null;
-      }
-   }
-   return aProfileInfo;
+        await asyncSql(insertCommand).then( async (result) => function(){
+            console.log("result: "+JSON.stringify(result,null,4))
+        });
+
+        var updateCommand = "";
+        updateCommand += " UPDATE nostrProfiles ";
+
+        var sContent = event.content;
+
+        var oContent = JSON.parse(sContent);
+        updateCommand += " SET content = '"+sContent+"' ";
+
+        if (oContent.hasOwnProperty("name")) {
+            updateCommand += " , name = '"+oContent.name+"' ";
+        }
+
+        if (oContent.hasOwnProperty("about")) {
+            updateCommand += " , about = '"+oContent.about+"' ";
+        }
+
+        if (event.hasOwnProperty("created_at")) {
+            updateCommand += " , created_at = "+event.created_at+" ";
+        }
+
+        if (oContent.hasOwnProperty("picture")) {
+            updateCommand += " , picture_url = '"+oContent.picture+"' ";
+        }
+
+        if (oContent.hasOwnProperty("lud06")) {
+            updateCommand += " , lud06 = '"+oContent.lud06+"' ";
+        }
+
+        if (oContent.hasOwnProperty("nip05")) {
+            updateCommand += " , nip05 = '"+oContent.nip05+"' ";
+        }
+
+        if (event.hasOwnProperty("id")) {
+            updateCommand += " , event_id = '"+event.id+"' ";
+        }
+
+        updateCommand += " , lastUpdate = "+currentTime+" ";
+
+        updateCommand += " WHERE pubkey = '"+pubkey+"' ";
+
+        console.log("updateCommand: "+updateCommand)
+
+        await asyncSql(updateCommand).then( async (result) => function(){
+            console.log("result: "+JSON.stringify(result,null,4))
+        });
+    }
 }
 
 export default class Home extends React.Component {
@@ -64,9 +100,7 @@ export default class Home extends React.Component {
 
     async componentDidMount() {
         updateMainColWidth();
-        document.getElementById("mastheadCenterContainer").innerHTML = "main feed"
-
-        const aProfileInfo = await fetchProfilesInfo()
+        document.getElementById("mastheadCenterContainer").innerHTML = "download profiles"
 
         this.setState({events: [] })
         this.forceUpdate();
@@ -90,34 +124,29 @@ export default class Home extends React.Component {
         let sub = relay.sub([
             {
                 // authors: ["397f7a110d18b3643184dca6673d8fa812186a3a13009afa83c229c563a0a604"]
-                since: sinceAgo,
-                // since: 0,
-                kinds: [Kind.TextNote],
-                // kinds: [0],
+                // since: sinceAgo,
+                since: 0,
+                // kinds: [Kind.TextNote],
+                kinds: [0],
             }
         ])
-        sub.on('event', event => {
+        sub.on('event', async event => {
             let ok = validateEvent(event)
             let veryOk = verifySignature(event)
 
-            console.log('mainFeed page; got an event with event id: '+ event.id+'; ok: '+ok+'; veryOk: '+veryOk)
+            console.log('downloadProfiles page; got an event with event id: '+ event.id+'; ok: '+ok+'; veryOk: '+veryOk)
 
             if ((ok) && (veryOk)) {
+                await updateProfileInSql(event)
+
+                /*
                 var aEvents = this.state.events
-                var pK = event.pubkey;
-                event.name = pK;
-                if (aProfileInfo.hasOwnProperty(pK)) {
-                  if (aProfileInfo[pK].hasOwnProperty("name")) {
-                      event.name = aProfileInfo[pK].name;
-                  }
-                  if (aProfileInfo[pK].hasOwnProperty("picture_url")) {
-                      event.picture_url = aProfileInfo[pK].picture_url;
-                  }
-                }
                 aEvents.push(event)
                 this.setState({events: aEvents})
                 this.forceUpdate();
                 console.log(event)
+                */
+
             }
         })
         sub.on('eose', () => {
@@ -161,11 +190,8 @@ export default class Home extends React.Component {
                                 howOldText += secondsOld + " seconds ago";
                                 // const hourOld = Math.floor(minOld / 60);
                                 const pubKey = event.pubkey;
-                                const name = event.name;
-                                const picture_url = event.picture_url;
-                                var pictureHTML = "<img src='"+picture_url+"' class='smallAvatarBox' />";
 
-                                jQuery(".eventNameContainer").unbind("click").click(async function(){
+                                jQuery(".eventNameContainer").unbind("click").click(function(){
                                     var clickedPubKey = jQuery(this).data("pubkey")
                                     console.log("eventNameContainer clicked; clickedPubKey: "+clickedPubKey)
                                     jQuery("#userProfileContainer").html(clickedPubKey)
@@ -175,13 +201,13 @@ export default class Home extends React.Component {
 
                                 return (
                                     <div className="eventContainer"  >
-                                        <div id="smallAvatarContainer" className="smallAvatarContainer" >
-                                            <img src={picture_url} className='smallAvatarBox' />
+                                        <div className="smallAvatarContainer" >
+                                            avatar
                                         </div>
                                         <div className="eventMainBodyContainer" >
                                             <div className="eventNameAndTimeContainer" >
                                                 <div className="eventNameContainer" data-pubkey={pubKey} >
-                                                    {name}
+                                                    {event.pubkey}
                                                 </div>
                                                 <div className="eventTimeContainer" >
                                                     {howOldText}
