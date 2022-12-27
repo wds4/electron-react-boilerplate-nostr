@@ -7,7 +7,7 @@ export default class LeftNavbar extends React.PureComponent {
       <>
         <div className="leftNavPanel" >
             <NavLink className="leftNavButton"  to='/MainFeed'>
-                <div style={{fontSize:"12px",lineHeight:"100%"}} >main feed (nostr-tools)</div>
+                <div style={{fontSize:"12px",lineHeight:"100%"}} >main feed 1 (nostr-tools)</div>
             </NavLink>
 
             <NavLink className="leftNavButton"  to='/MainFeed2'>
