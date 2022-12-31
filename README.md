@@ -4,7 +4,7 @@ nostr tools I'm using right now: (nostr-tools)[https://github.com/fiatjaf/nostr-
 
 ## Features
 
-[x] automatic generation of privkey and pubkey
+- automatic generation of privkey and pubkey
 [x] view and manage basics of your profile (name, picture_url, etc)
 [x] main feed in 2 modes, "firehose" (unfiltered) and "following"
 [x] view other profiles
