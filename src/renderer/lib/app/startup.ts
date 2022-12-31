@@ -40,7 +40,7 @@ export const initMyProfileData = async () => {
 
 export const initMiscGlobalVars = () => {
     window.mainFeed = {}
-    window.mainFeed.type = "firehose"
+    window.mainFeed.type = "following"
     window.init.initMiscGlobalVars = true;
     /*
     firehose: show messages from all users
