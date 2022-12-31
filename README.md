@@ -13,12 +13,14 @@ nostr tools I'm using right now: (nostr-tools)[https://github.com/fiatjaf/nostr-
 
 ## Todo
 
+- refactor following page (need to request events for info on all users at once, not separate request for each user)
 - reply to post
 - thread viewer
 - show pictures
 - ability to input your own privkey (Alby?)
 - implement caching (redux?)
 - calculate and show number of followers
+- maybe change location of sql database
 
 ## Known issues
 
@@ -27,12 +29,14 @@ nostr tools I'm using right now: (nostr-tools)[https://github.com/fiatjaf/nostr-
 
 ## Install
 
-Clone the repo and install dependencies:
+Clone the repo, install dependencies, make sql directory:
 
 ```bash
 git clone https://github.com/wds4/electron-react-boilerplate-nostr.git your-project-name
 cd your-project-name
 npm install
+cd release/app
+mkdir sql
 ```
 
 ## Starting Development

@@ -23,6 +23,14 @@ const updateProfileInSql = async (event) => {
     var about = JSON.parse(event.content).about;
     var pubkey = event.pubkey;
 
+    // Do this so no need to call fetchProfilesInfo again
+    window.profiles[pubkey] = event
+    /*
+    // deprecating:
+    // When set to false, fetchProfilesInfo will be called again next time landingPage is accessed (en route to mainFeed)
+    // window.init.fetchProfilesInfo = false
+    */
+
     const currentTime = dateToUnix(new Date())
 
     var insertCommand = "";

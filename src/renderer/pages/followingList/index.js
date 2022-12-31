@@ -7,11 +7,6 @@ import SingleUserElem from "./singleUserElem";
 import { useNostrEvents } from "nostr-react";
 
 import {
-    Kind,
-    dateToUnix,
-} from "@nostrgg/react";
-
-import {
     relayInit,
     generatePrivateKey,
     getPublicKey,
