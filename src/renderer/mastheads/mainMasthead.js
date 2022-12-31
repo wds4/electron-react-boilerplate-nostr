@@ -1,10 +1,13 @@
 import React from 'react';
 import { NavLink } from "react-router-dom";
+import AvatarElem from "./avatarElem";
 
 export default class Masthead extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            myPubkey: window.myPubkey
+        }
     }
     async componentDidMount() {}
     render() {
@@ -20,7 +23,10 @@ export default class Masthead extends React.Component {
                   </div>
 
                   <div className="mastheadRightContainer" >
-                      <NavLink className="mastheadNavButton" to='/MyProfile' >Profile</NavLink>
+                      <NavLink className="mastheadNavButton" to='/CreatePost' >post</NavLink>
+                      <NavLink to='/MyProfile' style={{marginLeft:"5px"}} >
+                          <AvatarElem pubkey={this.state.myPubkey} />
+                      </NavLink>
                   </div>
               </div>
 

@@ -3,7 +3,6 @@
     position:relative;
     height:50px;
 }
-
 .mastheadLeftContainer {
     font-size:28px;
     color:#1B2631;
@@ -57,4 +56,24 @@
     text-align:center;
     font-size:12px;
     color:grey;
+}
+
+.mastheadAvatarContainer {
+    display:inline-block;
+    position:relative;
+    width:50px;
+    height:50px;
+}
+.mastheadAvatarBox {
+  	display:inline-block;
+  	background-color:white;
+  	border:1px solid black;
+  	border-radius:250px;
+  	width:95%;
+  	height:95%;
+  	margin: 0;
+  	position: absolute;
+  	top: 50%;
+  	left: 50%;
+  	transform: translate(-50%, -50%);
 }

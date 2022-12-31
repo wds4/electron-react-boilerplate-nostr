@@ -1,57 +1,127 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import ReactDOM from 'react-dom';
 import { NavLink } from "react-router-dom";
 import Masthead from '../../mastheads/mainMasthead.js';
 import LeftNavbar from '../../navbars/leftNav.js';
 import * as MiscAppFxns from "../../lib/app/misc.ts";
-import { asyncSql } from "../../index.tsx";
+import * as StartupFxns from "../../lib/app/startup.ts";
+import AvatarElem from "./avatarElem";
+import NameElem from "./nameElem";
+import BlankAvatar from "./blankAvatar.png";
+import MainFeedTypeSelector from "./mainFeedTypeSelector";
 
-import {nip05} from 'nostr-tools'
-
-import {
-    Kind,
-    dateToUnix,
-} from "@nostrgg/react";
-
-import {
-    relayInit,
-    generatePrivateKey,
-    getPublicKey,
-    getEventHash,
-    signEvent,
-    validateEvent,
-    verifySignature,
-} from 'nostr-tools'
+import { useNostrEvents, dateToUnix } from "nostr-react";
 
 const jQuery = require("jquery");
-
 const updateMainColWidth = MiscAppFxns.updateMainColWidth;
+const cloneObj = MiscAppFxns.cloneObj
+const secsToTime = MiscAppFxns.secsToTime
+const timeout = MiscAppFxns.timeout
 
-const fetchProfilesInfo = async () => {
-   var aProfileInfo = [];
+const GlobalFeed = ( ) => {
+    const now = useRef(new Date()); // Make sure current time isn't re-rendered
+    const currentTime = dateToUnix(now.current)
 
-   var sql = ""
-   sql += "SELECT * FROM nostrProfiles "
+    if (window.mainFeed.type=="firehose") {
+        const howLongAgo = 30 * 60; // 60 * 60 = fetch messages as old as one hour
+        const sinceAgo = currentTime - howLongAgo;
+        var { events } = useNostrEvents({
+            filter: {
+                since: sinceAgo, // all new events from now
+                kinds: [1],
+            },
+        });
+    }
+    var aAuthors = [];
+    if (window.myProfile) {
+        aAuthors = window.myProfile.following
+    }
+    if (window.mainFeed.type=="following") {
+        var numFollowing = aAuthors.length;
+        const howLongAgo = 2 * 24 * 60 * 60; // 60 * 60 = fetch messages as old as one hour
+        const sinceAgo = currentTime - howLongAgo;
+        var { events } = useNostrEvents({
+            filter: {
+                authors: aAuthors,
+                since: sinceAgo, // all new events from now
+                kinds: [1],
+            },
+        });
+    }
+    return (
+        <>
+            <div style={{position:"relative",height:"30px"}} >
+                <div className="mainFeedTypeSelector" >
+                    <MainFeedTypeSelector following={aAuthors}  />
+                </div>
+            </div>
+            <div>
+                <pre style={{display:"none"}} >
+                {JSON.stringify(window.profiles,null,4)}
+                </pre>
+                {events.map( (event) => {
+                    const pk = event.pubkey;
+                    // const name = event.name;
 
-   var aNostrProfilesData = await asyncSql(sql);
-   for (var n=0;n<aNostrProfilesData.length;n++) {
-      var oNextProfileInfo = aNostrProfilesData[n];
-      var pK = oNextProfileInfo.pubkey;
-      var name = oNextProfileInfo.name;
-      var picture_url = oNextProfileInfo.picture_url;
-      aProfileInfo[pK] = {};
-      if (name) {
-          aProfileInfo[pK].name = name;
-      } else {
-          aProfileInfo[pK].name = "..."+pK.slice(-6);
-      }
-      if (picture_url) {
-          aProfileInfo[pK].picture_url = picture_url;
-      } else {
-          aProfileInfo[pK].picture_url = null;
-      }
-   }
-   return aProfileInfo;
-}
+                    // ONE of the following:
+                    // <AvatarElem pubkey={pk} />
+                    // <img className="smallAvatarBox" />
+
+                    // <NameElem pubkey={pk} />
+
+                    jQuery(".eventNameContainer").unbind("click").click(async function(){
+                        var clickedPubKey = jQuery(this).data("pubkey")
+                        console.log("eventNameContainer clicked; clickedPubKey: "+clickedPubKey)
+                        jQuery("#userProfileContainer").html(clickedPubKey)
+                        window.clickedPubKey = clickedPubKey;
+                        jQuery("#userProfileButton").get(0).click();
+                    })
+                    var pic_url = "";
+                    var name = "..." + pk.slice(-6);
+                    var nameClass = "nameUnknown";
+                    var avatarClass_blank = "smallAvatarBox_show";
+                    var avatarClass_pic = "smallAvatarBox_hide";
+                    if (window.profiles.hasOwnProperty(pk)) {
+                        var oEvent_this = window.profiles[pk]
+                        pic_url = JSON.parse(oEvent_this.content).picture;
+                        name = JSON.parse(oEvent_this.content).name;
+                        nameClass = "nameKnown";
+                        var avatarClass_blank = "smallAvatarBox_hide";
+                        var avatarClass_pic = "smallAvatarBox_show";
+                    }
+                    const howOld = secsToTime(event.created_at)
+                    const avatarID = "smallAvatarContainer_"+pk;
+                    return (
+                        <>
+                            <div className="eventContainer" >
+                                <div id={avatarID} className="smallAvatarContainer" >
+                                    <img src={BlankAvatar} className={avatarClass_blank} />
+                                    <img src={pic_url} className={avatarClass_pic} />
+                                </div>
+                                <div className="eventMainBodyContainer" >
+                                    <div className="eventNameAndTimeContainer" >
+                                        <div className="eventNameContainer" data-pubkey={pk} >
+                                            <span className={nameClass} style={{marginRight:"10px"}}>{name}</span>
+                                        </div>
+                                        <div className="eventTimeContainer" >
+                                            {howOld}
+                                        </div>
+                                    </div>
+                                    <div className="eventContentContainer" >
+                                        {event.content}
+                                    </div>
+                                </div>
+                            </div>
+                            <pre style={{border:"1px solid purple",padding:"5px",margin:"5px",display:"none"}}>
+                            {JSON.stringify(event,null,4)}
+                            </pre>
+                        </>
+                    )}
+                )}
+            </div>
+        </>
+    );
+};
 
 export default class Home extends React.Component {
 
@@ -66,77 +136,6 @@ export default class Home extends React.Component {
         updateMainColWidth();
         document.getElementById("mastheadCenterContainer").innerHTML = "main feed"
 
-        const aProfileInfo = await fetchProfilesInfo()
-
-        this.setState({events: [] })
-        this.forceUpdate();
-
-        const currentTime = dateToUnix(new Date())
-        const howLongAgo = 60 * 60; // 60 * 60 = fetch messages as old as one hour
-        const sinceAgo = currentTime - howLongAgo;
-
-        const relay = relayInit('wss://relay.damus.io')
-        // const relay = relayInit('wss://nostr-pub.wellorder.net')
-        // const relay = relayInit('wss://nostr-relay.untethr.me')
-        await relay.connect()
-
-        relay.on('connect', () => {
-            console.log(`connected to ${relay.url}`)
-        })
-        relay.on('error', () => {
-            console.log(`failed to connect to ${relay.url}`)
-        })
-
-        let sub = relay.sub([
-            {
-                // authors: ["397f7a110d18b3643184dca6673d8fa812186a3a13009afa83c229c563a0a604"]
-                since: sinceAgo,
-                // since: 0,
-                kinds: [Kind.TextNote],
-                // kinds: [0],
-            }
-        ])
-        sub.on('event', event => {
-            let ok = validateEvent(event)
-            let veryOk = verifySignature(event)
-
-            console.log('mainFeed page; got an event with event id: '+ event.id+'; ok: '+ok+'; veryOk: '+veryOk)
-
-            if ((ok) && (veryOk)) {
-                var aEvents = this.state.events
-                var pK = event.pubkey;
-                event.name = pK;
-                if (aProfileInfo.hasOwnProperty(pK)) {
-                  if (aProfileInfo[pK].hasOwnProperty("name")) {
-                      event.name = aProfileInfo[pK].name;
-                  }
-                  if (aProfileInfo[pK].hasOwnProperty("picture_url")) {
-                      event.picture_url = aProfileInfo[pK].picture_url;
-                  }
-                }
-                aEvents.push(event)
-                this.setState({events: aEvents})
-                this.forceUpdate();
-                console.log(event)
-            }
-        })
-        sub.on('eose', () => {
-            sub.unsub()
-        })
-
-        // if user navigates away from page, close relay
-        const aNavButtons = document.getElementsByClassName("leftNavButton");
-        for(var i = 0; i < aNavButtons.length; i++) {
-            (function(index) {
-                aNavButtons[index].addEventListener("click", function() {
-                    relay.close()
-                })
-            })(i);
-        }
-
-        document.getElementById("userProfileButton").addEventListener("click",function(){
-            relay.close()
-        })
     }
     render() {
         return (
@@ -145,56 +144,16 @@ export default class Home extends React.Component {
                     <LeftNavbar />
                 </div>
                 <div id="mainCol" >
-                    <Masthead />
+                    <div id="mastheadElem" >
+                        <Masthead />
+                    </div>
                     <div id="mainPanel" >
                         <NavLink  to='/UserProfile' id="userProfileButton" style={{display:"none"}} >
                             <div style={{fontSize:"12px",lineHeight:"100%"}} >user profile</div>
                             <div id="userProfileContainer" ></div>
                         </NavLink>
 
-                        <div className="mainFeedContainer" id="mainFeedContainer" >
-                            {this.state.events.map( (event) => {
-                                const currentTime = dateToUnix(new Date());
-                                const createdAt = event.created_at;
-                                const secondsOld = currentTime - createdAt;
-                                var howOldText = "";
-                                howOldText += secondsOld + " seconds ago";
-                                // const hourOld = Math.floor(minOld / 60);
-                                const pubKey = event.pubkey;
-                                const name = event.name;
-                                const picture_url = event.picture_url;
-                                var pictureHTML = "<img src='"+picture_url+"' class='smallAvatarBox' />";
-
-                                jQuery(".eventNameContainer").unbind("click").click(async function(){
-                                    var clickedPubKey = jQuery(this).data("pubkey")
-                                    console.log("eventNameContainer clicked; clickedPubKey: "+clickedPubKey)
-                                    jQuery("#userProfileContainer").html(clickedPubKey)
-                                    window.clickedPubKey = clickedPubKey;
-                                    jQuery("#userProfileButton").get(0).click();
-                                })
-
-                                return (
-                                    <div className="eventContainer"  >
-                                        <div id="smallAvatarContainer" className="smallAvatarContainer" >
-                                            <img src={picture_url} className='smallAvatarBox' />
-                                        </div>
-                                        <div className="eventMainBodyContainer" >
-                                            <div className="eventNameAndTimeContainer" >
-                                                <div className="eventNameContainer" data-pubkey={pubKey} >
-                                                    {name}
-                                                </div>
-                                                <div className="eventTimeContainer" >
-                                                    {howOldText}
-                                                </div>
-                                            </div>
-                                            <div className="eventContentContainer" >
-                                                {event.content}
-                                            </div>
-                                        </div>
-                                    </div>
-                                )}
-                            )}
-                        </div>
+                        <GlobalFeed />
 
                     </div>
                 </div>

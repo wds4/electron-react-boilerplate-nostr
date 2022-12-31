@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { NavLink } from "react-router-dom";
 import Masthead from '../../mastheads/mainMasthead.js';
 import LeftNavbar from '../../navbars/leftNav.js';
 import * as MiscAppFxns from "../../lib/app/misc.ts";
+import FollowCounts from"./followCounts";
 
-import {nip05} from 'nostr-tools'
+import { useNostrEvents } from "nostr-react";
 
 import {
     Kind,
@@ -23,38 +25,127 @@ import {
 const jQuery = require("jquery");
 
 const updateMainColWidth = MiscAppFxns.updateMainColWidth;
+const secsToTime = MiscAppFxns.secsToTime
 
-const fetchProfileInfo = async (pK) => {
-   var sql = ""
-   sql += "SELECT * FROM nostrProfiles WHERE pubkey = '"+pK+"' "
+const UserInfo = () => {
+    var { events } = useNostrEvents({
+        filter: {
+            authors: [ window.clickedPubKey ],
+            since: 0, // all new events from now
+            kinds: [0],
+        },
+    });
+    window.clickedAvatarHTML = "";
+    window.clickedName = "..." + window.clickedPubKey.slice(-6);
+    window.clickedAvatarUrl = "";
+    if (events.length > 0) {
+        // need to make sure sort order is correct
+        events.sort((a, b) => parseFloat(b.created_at) - parseFloat(a.created_at));
+        var event = events[0];
+        var pic_url = JSON.parse(event.content).picture;
+        window.clickedAvatarUrl = pic_url
+        var picHTML = '<img src="'+pic_url+'" class=smallAvatarBox />';
+        jQuery(".smallAvatarContainer").html(picHTML)
+        var name = JSON.parse(event.content).name;
+        window.clickedName = name;
+        jQuery(".eventNameContainer").html(name)
+        return (
+            <>
+                <pre style={{border:"2px solid blue",margin:"5px",padding:"5px",display:"none"}}>
+                {JSON.stringify(event,null,4)}
+                </pre>
+                <div className="mainUserProfileBox" >
+                    <div id="largeAvatarContainer" className="largeAvatarContainer" >
+                        <img src={ JSON.parse(event.content).picture } className='mainProfilePageAvatarBox' />
+                    </div>
+                    <div id="mainUserProfileRightColumnContainer" className="mainUserProfileRightColumnContainer" >
+                        <div id="mainUserNameContainer" className="mainUserNameContainer" >
+                            { JSON.parse(event.content).name }
+                        </div>
 
-   var aNostrProfileData = await asyncSql(sql);
-   var oProfileInfo = aNostrProfileData[0];
+                        <div id="mainUserAboutContainer" className="mainUserAboutContainer" >
+                            { JSON.parse(event.content).about }
+                        </div>
 
-   console.log("oProfileInfo: "+JSON.stringify(oProfileInfo,null,4))
+                        <div style={{fontSize:"10px"}}>
+                            pubkey: {window.clickedPubKey}
+                        </div>
+                        <FollowCounts pubkey={window.clickedPubKey} />
+                    </div>
+                </div>
+            </>
+        );
+    } else {
+        return (
+            <>
+                <div className="mainUserProfileBox" >
+                    <div id="largeAvatarContainer" className="largeAvatarContainer" >
+                        <img className='mainProfilePageAvatarBox' />
+                    </div>
+                    <div id="mainUserProfileRightColumnContainer" className="mainUserProfileRightColumnContainer" >
+                        <div id="mainUserNameContainer" className="mainUserNameContainer" style={{color:"grey"}} >
+                            ... {window.clickedPubKey.slice(-6)}
+                        </div>
 
-   if (oProfileInfo) {
-       var pK = oProfileInfo.pubkey;
-       var name = oProfileInfo.name;
-       var about = oProfileInfo.about;
-       var picture_url = oProfileInfo.picture_url;
+                        <div id="mainUserAboutContainer" className="mainUserAboutContainer" style={{color:"grey"}}  >
+                            about
+                        </div>
 
-       if (name) {
-          jQuery("#mainUserNameContainer").html(name)
-       }
-       if (about) {
-          jQuery("#mainUserAboutContainer").html(about)
-       }
-       if (picture_url) {
-            var avatarHTML = "<img src='"+picture_url+"' class='mainProfilePageAvatarBox' />"
-           jQuery("#largeAvatarContainer").html(avatarHTML)
-       }
-       jQuery("#sqlInfoContainer").html(JSON.stringify(oProfileInfo,null,4))
-       return true; // indicates success
-   } else {
-      return false; // indicates failure
-   }
-}
+                        <div style={{fontSize:"10px"}}>
+                            pubkey: {window.clickedPubKey}
+                        </div>
+                    </div>
+                </div>
+            </>
+        );
+    }
+};
+
+const UserPosts = () => {
+    var { events } = useNostrEvents({
+        filter: {
+            authors: [ window.clickedPubKey ],
+            since: 0, // all new events from now
+            kinds: [1],
+        },
+    });
+
+    return (
+        <>
+            <div>number of posts: {events.length}</div>
+            {events.map( (event) => {
+                var currentTime = Math.floor(Date.now() / 1000);
+                var displayTime = secsToTime(event.created_at);
+                return (
+                  <>
+                      <div className="eventContainer"  >
+                          <pre style={{border:"1px solid purple",padding:"5px",marginBottom:"5px",display:"none"}} >
+                          {JSON.stringify(event,null,4)}
+                          </pre>
+
+                          <div id="smallAvatarContainer" className="smallAvatarContainer" >
+                              <img src={window.clickedAvatarUrl} className="smallAvatarBox" />
+                          </div>
+                          <div className="eventMainBodyContainer" >
+                              <div className="eventNameAndTimeContainer" >
+                                  <div className="eventNameContainer" data-pubkey={event.pubkey} >
+                                      {window.clickedName}
+                                  </div>
+                                  <div className="eventTimeContainer" >
+                                      {displayTime}
+                                  </div>
+                              </div>
+                              <div className="eventContentContainer" >
+                                  {event.content}
+                              </div>
+                          </div>
+                      </div>
+                  </>
+                )}
+            )}
+        </>
+    )
+};
 
 export default class Home extends React.Component {
     constructor(props) {
@@ -69,66 +160,6 @@ export default class Home extends React.Component {
 
         this.setState({events: [] })
         this.forceUpdate();
-
-        var pubKey = window.clickedPubKey;
-
-        var success = await fetchProfileInfo(pubKey);
-
-        let profile = await nip05.queryProfile('jb55.com')
-        console.log(profile.pubkey)
-        // prints: 32e1827635450ebb3c5a7d12c1f8e7b2b514439ac10a67eef3d9fd9c5c68e245
-        console.log(profile.relays)
-        // prints: [wss://relay.damus.io]
-        console.log(profile)
-        let fooSearchDomain = await nip05.searchDomain('jb55.com')
-        console.log("fooSearchDomain: "+JSON.stringify(fooSearchDomain,null,4))
-
-        // const relay = relayInit('wss://relay.damus.io')
-        // const relay = relayInit('wss://nostr-pub.wellorder.net')
-        const relay = relayInit('wss://nostr-relay.untethr.me')
-        await relay.connect()
-
-        relay.on('connect', () => {
-            console.log(`connected to ${relay.url}`)
-        })
-        relay.on('error', () => {
-            console.log(`failed to connect to ${relay.url}`)
-        })
-
-        // let's query for an event that exists
-        let sub = relay.sub([
-          {
-              authors: [ window.clickedPubKey ],
-              kinds: [Kind.TextNote],
-          }
-        ])
-        sub.on('event', event => {
-            let ok = validateEvent(event)
-            let veryOk = verifySignature(event)
-
-            // console.log('userProfile page; got an event with event id: '+ event.id+'; ok: '+ok+'; veryOk: '+veryOk)
-
-            if ((ok) && (veryOk)) {
-                var aEvents = this.state.events
-                aEvents.push(event)
-                this.setState({events: aEvents})
-                this.forceUpdate();
-                // console.log(event)
-            }
-
-        })
-        sub.on('eose', () => {
-            sub.unsub()
-        })
-
-        jQuery(".leftNavButton").click(function(){
-            relay.close()
-            console.log("leftNavButton click")
-        })
-        jQuery("#userProfileButton").click(function(){
-            relay.close()
-            console.log("userProfileButton click")
-        })
     }
     render() {
         return (
@@ -137,58 +168,12 @@ export default class Home extends React.Component {
                     <LeftNavbar />
                 </div>
                 <div id="mainCol" >
-                    <Masthead />
+                    <div id="mastheadElem" >
+                        <Masthead />
+                    </div>
                     <div id="mainPanel" >
-                        <div className="mainUserProfileBox" >
-                            <div id="largeAvatarContainer" className="largeAvatarContainer" >
-                                largeAvatarContainer
-                            </div>
-                            <div id="mainUserProfileRightColumnContainer" className="mainUserProfileRightColumnContainer" >
-                                <div id="mainUserNameContainer" className="mainUserNameContainer" >
-                                    mainUserNameContainer
-                                </div>
-                                <div id="mainUserAboutContainer" className="mainUserAboutContainer" >
-                                    mainUserAboutContainer
-                                </div>
-                                <div style={{display:"inline-block",fontSize:"10px"}}>pubkey: {window.clickedPubKey}</div>
-                            </div>
-                        </div>
-                        <div id="sqlInfoContainer" style={{display:"none"}} >sqlInfoContainer</div>
-
-
-                        <div className="mainFeedContainer" id="mainFeedContainer" >
-                            {this.state.events.map( (event) => {
-                                const currentTime = dateToUnix(new Date());
-                                const createdAt = event.created_at;
-                                const secondsOld = currentTime - createdAt;
-                                var howOldText = "";
-                                howOldText += secondsOld + " seconds ago";
-                                // const hourOld = Math.floor(minOld / 60);
-                                const pubKey = event.pubkey;
-
-                                return (
-                                    <div className="eventContainer"  >
-                                        <div className="smallAvatarContainer" >
-                                            avatar
-                                        </div>
-                                        <div className="eventMainBodyContainer" >
-                                            <div className="eventNameAndTimeContainer" >
-                                                <div className="eventNameContainer" data-pubkey={pubKey} >
-                                                    {event.pubkey}
-                                                </div>
-                                                <div className="eventTimeContainer" >
-                                                    {howOldText}
-                                                </div>
-                                            </div>
-                                            <div className="eventContentContainer" >
-                                                {event.content}
-                                            </div>
-                                        </div>
-                                    </div>
-                                )}
-                            )}
-                        </div>
-
+                        <UserInfo />
+                        <UserPosts />
                     </div>
                 </div>
             </>

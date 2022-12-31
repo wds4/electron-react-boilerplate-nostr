@@ -27,7 +27,9 @@ export default class Home extends React.Component {
                     <LeftNavbar />
                 </div>
                 <div id="mainCol" >
-                    <Masthead />
+                    <div id="mastheadElem" >
+                        <Masthead />
+                    </div>
                     <div id="mainPanel" >
                         <SqlDemoApp />
                     </div>

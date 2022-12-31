@@ -33,14 +33,16 @@ class AppUpdater {
 let mainWindow: BrowserWindow | null = null;
 
 ipcMain.on('ipc-example', async (event, arg) => {
-  const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
-  console.log(msgTemplate(arg));
-  event.reply('ipc-example', msgTemplate('pong'));
+    const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
+    console.log(msgTemplate(arg));
+    event.reply('ipc-example', msgTemplate('pong'));
 });
 
-ipcMain.on('asynchronous-sql-command', async (event, sql) => {
+ipcMain.on('asynchronous-sql-command', async (event, data) => {
+    const sql = data[0];
+    const nonce = data[1];
     db.all(sql, (err, result) => {
-        event.reply('asynchronous-sql-reply', result);
+        event.reply('asynchronous-sql-reply-'+nonce, result);
     });
 });
 
@@ -74,15 +76,19 @@ const db = new sqlite3.Database(sqlPath, (err) => {
 
 var createNostrProfilesTableCommand = "";
 createNostrProfilesTableCommand += "id INTEGER PRIMARY KEY, ";
-createNostrProfilesTableCommand += "event_id TEXT NULL, ";
+createNostrProfilesTableCommand += "event TEXT NULL, ";
+createNostrProfilesTableCommand += "event_id TEXT NULL UNIQUE, ";
 createNostrProfilesTableCommand += "content TEXT NULL, ";
 createNostrProfilesTableCommand += "created_at INTEGER NULL, ";
-createNostrProfilesTableCommand += "pubkey TEXT NULL, ";
+createNostrProfilesTableCommand += "pubkey TEXT NULL UNIQUE, ";
 createNostrProfilesTableCommand += "name TEXT NULL, ";
+createNostrProfilesTableCommand += "display_name TEXT NULL, ";
 createNostrProfilesTableCommand += "about TEXT NULL, ";
 createNostrProfilesTableCommand += "picture_url TEXT NULL, ";
 createNostrProfilesTableCommand += "nip05 TEXT NULL, ";
 createNostrProfilesTableCommand += "lud06 TEXT NULL, ";
+createNostrProfilesTableCommand += "followers TEXT NULL, ";
+createNostrProfilesTableCommand += "following TEXT NULL, ";
 createNostrProfilesTableCommand += "firstSeen INTEGER NULL, ";
 createNostrProfilesTableCommand += "lastUpdate INTEGER NULL, ";
 createNostrProfilesTableCommand += "UNIQUE(event_id, pubkey) ";
@@ -90,17 +96,24 @@ createNostrProfilesTableCommand += "UNIQUE(event_id, pubkey) ";
 var createMyProfileTableCommand = "";
 createMyProfileTableCommand += "id INTEGER PRIMARY KEY, ";
 createMyProfileTableCommand += "created_at INTEGER NULL, ";
-createMyProfileTableCommand += "pubkey TEXT NULL, ";
-createMyProfileTableCommand += "privkey TEXT NULL, ";
+createMyProfileTableCommand += "pubkey TEXT NULL UNIQUE, ";
+createMyProfileTableCommand += "privkey TEXT NULL UNIQUE, ";
 createMyProfileTableCommand += "name TEXT NULL, ";
+createMyProfileTableCommand += "display_name TEXT NULL, ";
+createMyProfileTableCommand += "website TEXT NULL, ";
 createMyProfileTableCommand += "about TEXT NULL, ";
 createMyProfileTableCommand += "picture_url TEXT NULL, ";
+createMyProfileTableCommand += "following TEXT NULL, ";
+createMyProfileTableCommand += "followers TEXT NULL, ";
+createMyProfileTableCommand += "ln_url TEXT NULL, ";
+createMyProfileTableCommand += "nip05_verification TEXT NULL, ";
 createMyProfileTableCommand += "lastUpdate INTEGER NULL, ";
 createMyProfileTableCommand += "UNIQUE(pubkey, privkey) ";
 
 db.serialize(() => {
     // db.run('DROP TABLE IF EXISTS nostrProfiles');
     // db.run('DROP TABLE IF EXISTS anotherCoolTable');
+    // db.run('DROP TABLE IF EXISTS myProfile');
     db.run('CREATE TABLE IF NOT EXISTS nostrProfiles ('+createNostrProfilesTableCommand+')');
     db.run('CREATE TABLE IF NOT EXISTS myProfile ('+createMyProfileTableCommand+')');
 });

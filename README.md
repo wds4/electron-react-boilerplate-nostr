@@ -2,6 +2,30 @@ Initial attempt at getting nostr to work in electron. I am using electron-react-
 
 nostr tools I'm using right now: (nostr-tools)[https://github.com/fiatjaf/nostr-tools] and (nostrgg-react)[https://github.com/nostrgg/nostrgg-react].
 
+## Features
+
+[x] automatic generation of privkey and pubkey
+[x] view and manage basics of your profile (name, picture_url, etc)
+[x] main feed in 2 modes, "firehose" (unfiltered) and "following"
+[x] view other profiles
+[x] follow / unfollow button
+[x] submit a post
+
+## Todo
+
+[] reply to post
+[] thread viewer
+[] show pictures
+[] ability to input your own privkey (Alby?)
+[] implement caching (redux?)
+[] calculate and show number of followers
+
+## Known issues
+
+Websocket does not reconnect after being dropped
+
+Follow buttons are a little buggy.
+
 ## Install
 
 Clone the repo and install dependencies:
@@ -27,8 +51,6 @@ To package apps for the local platform:
 ```bash
 npm run package
 ```
-
-I've tested packaged app in macOS and seems to work.
 
 ## License
 

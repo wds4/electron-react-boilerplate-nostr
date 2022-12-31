@@ -26,6 +26,7 @@ import {
 const jQuery = require("jquery");
 
 const updateMainColWidth = MiscAppFxns.updateMainColWidth;
+const isValidObj = MiscAppFxns.isValidObj;
 
 const updateProfileInSql = async (event) => {
     console.log(event)
@@ -106,19 +107,22 @@ export default class Home extends React.Component {
         this.forceUpdate();
 
         const currentTime = dateToUnix(new Date())
-        const howLongAgo = 60 * 60; // 60 * 60 = fetch messages as old as one hour
+        const howLongAgo = 7 * 24 * 60 * 60; // 60 * 60 = fetch messages as old as one hour
         const sinceAgo = currentTime - howLongAgo;
 
-        const relay = relayInit('wss://relay.damus.io')
+        // const relay = relayInit('wss://relay.damus.io')
         // const relay = relayInit('wss://nostr-pub.wellorder.net')
         // const relay = relayInit('wss://nostr-relay.untethr.me')
+        const relay = relayInit('wss://nostr-relay.wlvs.space')
+        // const relay = relayInit('wss://nostr.fmt.wiz.biz')
+        // const relay = relayInit('wss://nostr.oxtr.dev') // doesn't work
         await relay.connect()
 
         relay.on('connect', () => {
-            console.log(`connected to ${relay.url}`)
+            console.log(`downloadProfiles: connected to ${relay.url}`)
         })
         relay.on('error', () => {
-            console.log(`failed to connect to ${relay.url}`)
+            console.log(`downloadProfiles: failed to connect to ${relay.url}`)
         })
 
         let sub = relay.sub([
@@ -131,22 +135,23 @@ export default class Home extends React.Component {
             }
         ])
         sub.on('event', async event => {
-            let ok = validateEvent(event)
-            let veryOk = verifySignature(event)
+            if (!isValidObj(event)) {
+                // console.log('downloadProfiles page; got an event that is NOT VALID: '+ event.id)
+            }
+            if (isValidObj(event)) {
+                let ok = validateEvent(event)
+                let veryOk = verifySignature(event)
 
-            console.log('downloadProfiles page; got an event with event id: '+ event.id+'; ok: '+ok+'; veryOk: '+veryOk)
+                console.log('downloadProfiles page; got an event with event id: '+ event.id+'; ok: '+ok+'; veryOk: '+veryOk)
 
-            if ((ok) && (veryOk)) {
-                await updateProfileInSql(event)
-
-                /*
-                var aEvents = this.state.events
-                aEvents.push(event)
-                this.setState({events: aEvents})
-                this.forceUpdate();
-                console.log(event)
-                */
-
+                if ((ok) && (veryOk)) {
+                    await updateProfileInSql(event)
+                    var aEvents = this.state.events
+                    aEvents.push(event)
+                    this.setState({events: aEvents})
+                    this.forceUpdate();
+                    // console.log(event)
+                }
             }
         })
         sub.on('eose', () => {
@@ -174,7 +179,9 @@ export default class Home extends React.Component {
                     <LeftNavbar />
                 </div>
                 <div id="mainCol" >
-                    <Masthead />
+                    <div id="mastheadElem" >
+                        <Masthead />
+                    </div>
                     <div id="mainPanel" >
                         <NavLink  to='/UserProfile' id="userProfileButton" style={{display:"none"}} >
                             <div style={{fontSize:"12px",lineHeight:"100%"}} >user profile</div>

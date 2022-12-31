@@ -21,7 +21,9 @@ export default class Home extends React.Component {
                     <LeftNavbar />
                 </div>
                 <div id="mainCol" >
-                    <Masthead />
+                    <div id="mastheadElem" >
+                        <Masthead />
+                    </div>
                     <div id="mainPanel" >
                         <div className="h2">manage channels</div>
                         <div>(under construction)</div>

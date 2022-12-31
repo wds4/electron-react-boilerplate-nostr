@@ -23,6 +23,32 @@
   	left: 50%;
   	transform: translate(-50%, -50%);
 }
+.smallAvatarBox_show {
+  	display:inline-block;
+  	background-color:white;
+  	border:1px solid black;
+  	border-radius:250px;
+  	width:95%;
+  	height:95%;
+  	margin: 0;
+  	position: absolute;
+  	top: 50%;
+  	left: 50%;
+  	transform: translate(-50%, -50%);
+}
+.smallAvatarBox_hide {
+  	display:none;
+  	background-color:white;
+  	border:1px solid black;
+  	border-radius:250px;
+  	width:95%;
+  	height:95%;
+  	margin: 0;
+  	position: absolute;
+  	top: 50%;
+  	left: 50%;
+  	transform: translate(-50%, -50%);
+}
 .eventMainBodyContainer {
     display:inline-block;
     width:calc(100% - 70px);
@@ -56,4 +82,23 @@
 }
 .eventContentContainer {
     padding:5px;
+}
+.nameKnown {
+    color:black;
+}
+.nameUnknown {
+    color:grey;
+}
+.mainFeedTypeSelector {
+    margin-bottom:30px;
+    position:absolute;
+    right:5px;
+}
+.numFollowingContainer_show {
+    display:inline-block;
+    margin-right:10px;
+}
+.numFollowingContainer_hide {
+    display:none;
+    margin-right:10px;
 }
