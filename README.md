@@ -30,7 +30,7 @@ nostr tools I'm using right now: (nostr-tools)[https://github.com/fiatjaf/nostr-
 Clone the repo and install dependencies:
 
 ```bash
-git clone https://github.com/wds/electron-react-boilerplate-nostr.git your-project-name
+git clone https://github.com/wds4/electron-react-boilerplate-nostr.git your-project-name
 cd your-project-name
 npm install
 ```
