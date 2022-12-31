@@ -14,7 +14,7 @@ nostr tools I'm using right now: (nostr-tools)[https://github.com/fiatjaf/nostr-
 ## Todo
 
 - refactor following page (need to request events for info on all users at once, not separate request for each user)
-- reply to post
+- add reply, retweet, like buttons
 - thread viewer
 - show pictures
 - ability to input your own privkey (Alby?)
