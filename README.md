@@ -5,20 +5,20 @@ nostr tools I'm using right now: (nostr-tools)[https://github.com/fiatjaf/nostr-
 ## Features
 
 - automatic generation of privkey and pubkey
-[x] view and manage basics of your profile (name, picture_url, etc)
-[x] main feed in 2 modes, "firehose" (unfiltered) and "following"
-[x] view other profiles
-[x] follow / unfollow button
-[x] submit a post
+- view and manage basics of your profile (name, picture_url, etc)
+- main feed in 2 modes, "firehose" (unfiltered) and "following"
+- view other profiles
+- follow / unfollow button
+- submit a post
 
 ## Todo
 
-[] reply to post
-[] thread viewer
-[] show pictures
-[] ability to input your own privkey (Alby?)
-[] implement caching (redux?)
-[] calculate and show number of followers
+- reply to post
+- thread viewer
+- show pictures
+- ability to input your own privkey (Alby?)
+- implement caching (redux?)
+- calculate and show number of followers
 
 ## Known issues
 
