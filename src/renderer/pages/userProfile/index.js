@@ -60,7 +60,12 @@ const UserInfo = () => {
                     </div>
                     <div id="mainUserProfileRightColumnContainer" className="mainUserProfileRightColumnContainer" >
                         <div id="mainUserNameContainer" className="mainUserNameContainer" >
-                            { JSON.parse(event.content).name }
+                            <span style={{color:"black"}} >
+                                { JSON.parse(event.content).display_name }
+                            </span>
+                            <span style={{color:"grey",marginLeft:"10px"}} >
+                                { JSON.parse(event.content).name }
+                            </span>
                         </div>
 
                         <div id="mainUserAboutContainer" className="mainUserAboutContainer" >

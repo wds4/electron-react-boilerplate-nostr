@@ -22,10 +22,13 @@ const populateMyProfileInfo = (oMyProfileData) => {
     var myPubkey = oMyProfileData.pubkey;
     window.clickedPubKey = myPubkey;
     var myName = oMyProfileData.name;
+    var myDisplayName = oMyProfileData.display_name;
     var myAbout = oMyProfileData.about;
     var picture_url = oMyProfileData.picture_url;
 
     jQuery("#myProfileNameContainer").html(myName)
+
+    jQuery("#myProfileDisplayNameContainer").html(myDisplayName)
 
     jQuery("#myProfileAboutContainer").html(myAbout)
 
@@ -103,8 +106,13 @@ export default class Home extends React.Component {
                             </NavLink>
 
                             <div id="myProfileRightColumnContainer" className="myProfileRightColumnContainer" >
-                                <div id="myProfileNameContainer" className="myProfileNameContainer" >
-                                    myProfileNameContainer
+                                <div  className="myProfileNameContainer" >
+                                    <span id="myProfileDisplayNameContainer" style={{color:"black"}} >
+                                        myProfileDisplayNameContainer
+                                    </span>
+                                    <span id="myProfileNameContainer" style={{color:"grey",marginLeft:"10px"}} >
+                                        myProfileNameContainer
+                                    </span>
                                 </div>
 
                                 <div id="myProfileAboutContainer" className="myProfileAboutContainer" >

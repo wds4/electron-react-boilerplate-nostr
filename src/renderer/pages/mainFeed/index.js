@@ -78,6 +78,7 @@ const GlobalFeed = ( ) => {
                     })
                     var pic_url = "";
                     var name = "..." + pk.slice(-6);
+                    var display_name = "";
                     var nameClass = "nameUnknown";
                     var avatarClass_blank = "smallAvatarBox_show";
                     var avatarClass_pic = "smallAvatarBox_hide";
@@ -85,6 +86,7 @@ const GlobalFeed = ( ) => {
                         var oEvent_this = window.profiles[pk]
                         pic_url = JSON.parse(oEvent_this.content).picture;
                         name = JSON.parse(oEvent_this.content).name;
+                        display_name = JSON.parse(oEvent_this.content).display_name;
                         nameClass = "nameKnown";
                         var avatarClass_blank = "smallAvatarBox_hide";
                         var avatarClass_pic = "smallAvatarBox_show";
@@ -101,7 +103,10 @@ const GlobalFeed = ( ) => {
                                 <div className="eventMainBodyContainer" >
                                     <div className="eventNameAndTimeContainer" >
                                         <div className="eventNameContainer" data-pubkey={pk} >
-                                            <span className={nameClass} style={{marginRight:"10px"}}>{name}</span>
+                                            <span className={nameClass} style={{marginRight:"10px"}}>
+                                                {display_name}
+                                                <span style={{color:"grey",marginLeft:"10px"}}>{name}</span>
+                                            </span>
                                         </div>
                                         <div className="eventTimeContainer" >
                                             {howOld}

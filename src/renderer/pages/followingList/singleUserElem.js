@@ -20,6 +20,7 @@ const cloneObj = MiscAppFxns.cloneObj
 const updateProfileInSql = async (event) => {
     var pic_url = JSON.parse(event.content).picture
     var name = JSON.parse(event.content).name;
+    var display_name = JSON.parse(event.content).display_name;
     var about = JSON.parse(event.content).about;
     var pubkey = event.pubkey;
 
@@ -52,6 +53,10 @@ const updateProfileInSql = async (event) => {
 
     if (oContent.hasOwnProperty("name")) {
         updateCommand += " , name = '"+oContent.name+"' ";
+    }
+
+    if (oContent.hasOwnProperty("display_name")) {
+        updateCommand += " , display_name = '"+oContent.display_name+"' ";
     }
 
     if (oContent.hasOwnProperty("about")) {
@@ -104,6 +109,7 @@ const SingleUserElem2 = (props) => {
         var event = events[0];
         var pic_url = JSON.parse(event.content).picture
         var name = JSON.parse(event.content).name;
+        var display_name = JSON.parse(event.content).display_name;
         var about = JSON.parse(event.content).about;
         var pk_next = event.pubkey;
         updateProfileInSql(event);
@@ -123,7 +129,12 @@ const SingleUserElem2 = (props) => {
                         <div className="singleUserMainBodyContainer" >
                             <div className="eventNameAndTimeContainer" >
                                 <div className="eventNameContainer" data-pubkey={pk} >
-                                    {name}
+                                    <span style={{color:"black"}} >
+                                        {display_name}
+                                    </span>
+                                    <span style={{color:"grey",marginLeft:"10px"}} >
+                                        {name}
+                                    </span>
                                 </div>
                                 <div className="eventTimeContainer" style={{color:"grey"}} >
                                     ... {pk.slice(-6)}
@@ -142,6 +153,7 @@ const SingleUserElem2 = (props) => {
         );
     } else {
         var name = "";
+        var display_name = "";
         var about = "";
         var pk_next = props.pubkey;
         var navLinkElem = "goToUserProfileButton"+pk_next;
@@ -155,7 +167,12 @@ const SingleUserElem2 = (props) => {
                         <div className="singleUserMainBodyContainer" >
                             <div className="eventNameAndTimeContainer" >
                                 <div className="eventNameContainer" data-pubkey={pk} >
-                                    {name}
+                                    <span style={{color:"black"}} >
+                                        {display_name}
+                                    </span>
+                                    <span style={{color:"grey",marginLeft:"10px"}} >
+                                        {name}
+                                    </span>
                                 </div>
                                 <div className="eventTimeContainer" style={{color:"grey"}} >
                                     ... {pk.slice(-6)}
