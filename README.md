@@ -22,9 +22,8 @@ nostr tools I'm using right now: (nostr-tools)[https://github.com/fiatjaf/nostr-
 
 ## Known issues
 
-Websocket does not reconnect after being dropped
-
-Follow buttons are a little buggy.
+- Websocket does not reconnect after being dropped
+- Follow buttons are a little buggy.
 
 ## Install
 
