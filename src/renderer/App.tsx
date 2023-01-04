@@ -37,7 +37,7 @@ import './css/userList.css';
 import './css/follows.css';
 import './css/grapevine.css';
 import './css/toggleSwitch1.css'; // probably will use just one of these
-import './css/toggleSwitch2.css';
+import './css/grapevineToggleSwitch.css';
 import './css/grapevineSettings.css';
 
 import { asyncSql } from "./index.tsx";

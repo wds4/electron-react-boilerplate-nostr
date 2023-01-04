@@ -15,6 +15,9 @@
     background-color:#DFDFDF;
     color:black;
 }
+.leaveRatingButton:hover {
+    background-color:yellow;
+}
 .leaveRatingButton_hidden {
     display:none;
 }
@@ -31,7 +34,7 @@
     width:120px;
     padding-top:5px;
     position:relative;
-    font-size:18px;
+    font-size:14px;
     text-align:left;
     color:purple;
 }

@@ -6,6 +6,7 @@ window.init = {};
 window.init.initMyProfileData = false
 window.init.initMiscGlobalVars = false
 window.init.fetchProfilesInfo = false
+window.init.grapevineSettings = false
 
 window.relayForReplies = "wss://relay.damus.io";
 
@@ -82,4 +83,50 @@ export const fetchProfilesInfo = async () => {
    }
    window.init.fetchProfilesInfo = true;
    return aProfileInfo;
+}
+
+export const setGrapevineDefaults = () => {
+    window.grapevineSettings = {};
+
+    window.grapevineSettings.active = true;
+    window.grapevineSettings.showHeader = false;
+    window.grapevineSettings.contexts = false;
+
+    window.grapevineSettings.worship = {};
+    window.grapevineSettings.worship.active = true;
+    window.grapevineSettings.worship.up = true;
+    window.grapevineSettings.worship.down = false;
+    window.grapevineSettings.worship.contexts = false;
+
+    window.grapevineSettings.attention = {};
+    window.grapevineSettings.attention.active = true;
+    window.grapevineSettings.attention.up = true;
+    window.grapevineSettings.attention.down = false;
+    window.grapevineSettings.attention.contexts = false;
+
+    window.grapevineSettings.believe = {};
+    window.grapevineSettings.believe.active = false;
+    window.grapevineSettings.believe.up = true;
+    window.grapevineSettings.believe.down = false;
+    window.grapevineSettings.believe.contexts = false;
+
+    window.grapevineSettings.nostr = {};
+    window.grapevineSettings.nostr.active = true;
+    window.grapevineSettings.nostr.up = true;
+    window.grapevineSettings.nostr.down = false;
+    window.grapevineSettings.nostr.contexts = false;
+
+    window.grapevineSettings.ontology = {};
+    window.grapevineSettings.ontology.active = false;
+    window.grapevineSettings.ontology.up = true;
+    window.grapevineSettings.ontology.down = true;
+    window.grapevineSettings.ontology.contexts = false;
+
+    window.grapevineSettings.advice = {};
+    window.grapevineSettings.advice.active = false;
+    window.grapevineSettings.advice.up = true;
+    window.grapevineSettings.advice.down = true;
+    window.grapevineSettings.advice.contexts = false;
+
+    window.init.grapevineSettings = true;
 }

@@ -34,12 +34,16 @@ export default class Home extends React.Component {
         if (!window.init.initMiscGlobalVars) {
             StartupFxns.initMiscGlobalVars()
         }
+        if (!window.init.grapevineSettings) {
+            StartupFxns.setGrapevineDefaults()
+        }
         if (!window.init.initMyProfileData) {
             await StartupFxns.initMyProfileData();
         }
         if (!window.init.fetchProfilesInfo) {
             await StartupFxns.fetchProfilesInfo()
         }
+
         await timeout(10)
         jQuery("#mainFeedButton").get(0).click()
     }
