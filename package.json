@@ -1,5 +1,5 @@
 {
-  "description": "A boilerplate for building a nostr client for the desktop",
+  "description": "A foundation for building a decentralized web client using electron and nostr",
   "keywords": [
     "electron",
     "boilerplate",
