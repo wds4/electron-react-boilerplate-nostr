@@ -26,7 +26,7 @@ const FollowCounts2 = (props) => {
         var aFollowing_ = event_.tags
         return (
             <>
-                <div className="followCountContainer"  data-createdat={event_.created_at} >
+                <div className="followCountContainer" data-createdat={event_.created_at} >
                     <NavLink className="followsNavLink" to='/FollowingList'>
                         following
                         <div style={{display:"inline-block",marginLeft:"5px"}} >{aFollowing_.length}</div>
@@ -35,9 +35,6 @@ const FollowCounts2 = (props) => {
                         followers
                         <div style={{display:"inline-block",marginLeft:"5px"}} >?</div>
                     </div>
-                    <pre style={{display:"none",overflow:"scroll",height:"100px",width:"600px"}} >
-                    {JSON.stringify(event_,null,4)}
-                    </pre>
                 </div>
             </>
         );
@@ -72,7 +69,7 @@ export default class FollowCounts extends React.Component {
         const pk = this.props.pubkey;
         return (
             <>
-                <div style={{backgroundColor:"#EFEFEF",width:"100%",height:"30px"}} >
+                <div style={{backgroundColor:"#EFEFEF",textAlign:"center"}} >
                     <FollowCounts2 pubkey={pk} />
                 </div>
             </>

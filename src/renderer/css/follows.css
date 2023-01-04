@@ -28,3 +28,6 @@
 .unfollowButton:hover {
     background-color:#DFDFDF;
 }
+.followCountContainer {
+    margin-top:10px;
+}

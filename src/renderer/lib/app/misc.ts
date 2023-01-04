@@ -76,3 +76,18 @@ export const secsToTime = (secs) => {
 export const timeout = (ms) => {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
+
+export const fetchMySk = async () => {
+    var sql = ""
+    sql += "SELECT * FROM myProfile WHERE id=1"
+    var aMyProfileData = await asyncSql(sql);
+
+    if (aMyProfileData.length > 0) {
+        var oMyProfileData = aMyProfileData[0]
+
+        var myPk = oMyProfileData.pubkey;
+        var mySk = oMyProfileData.privkey;
+        return mySk
+    }
+    return false;
+}

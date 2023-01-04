@@ -1,7 +1,7 @@
 .mastheadContainer {
     overflow:hidden;
     position:relative;
-    height:50px;
+    height:60px;
 }
 .mastheadLeftContainer {
     font-size:28px;
@@ -41,6 +41,7 @@
     background-color:#EFEFEF;
     border-radius:3px;
     padding:5px;
+    margin-left:10px;
     font-size:10px;
     vertical-align:middle;
     text-decoration:none;

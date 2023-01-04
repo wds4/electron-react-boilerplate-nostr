@@ -45,11 +45,11 @@ export default function PublishPost() {
         }
 
         const event: NostrEvent = {
-          content: message,
-          kind: 1,
-          tags: [],
-          created_at: dateToUnix(),
-          pubkey: getPublicKey(privKey),
+            content: message,
+            kind: 1,
+            tags: [],
+            created_at: dateToUnix(),
+            pubkey: getPublicKey(privKey),
         };
 
         event.id = getEventHash(event);
@@ -57,7 +57,6 @@ export default function PublishPost() {
 
         jQuery("#newEventContainer").html(JSON.stringify(event,null,4))
         publish(event);
-
     };
 
     return (

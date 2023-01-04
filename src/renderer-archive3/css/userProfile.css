@@ -1,0 +1,51 @@
+.mainUserProfileBox {
+    width:100%;
+    margin-bottom:20px;
+}
+.largeAvatarContainer {
+    display:inline-block;
+    position:relative;
+    width:200px;
+    height:200px;
+}
+.mainProfilePageAvatarBox {
+  	display:inline-block;
+  	background-color:blue;
+  	border:5px solid black;
+  	border-radius:250px;
+  	width:95%;
+  	height:95%;
+  	margin: 0;
+  	position: absolute;
+  	top: 50%;
+  	left: 50%;
+  	transform: translate(-50%, -50%);
+}
+.mainUserProfileRightColumnContainer {
+    display:inline-block;
+    width:400px;
+    height:200px;
+    margin-left:10px;
+}
+.mainUserAboutContainer {
+    width:100%;
+    height:100px;
+    overflow:scroll;
+}
+.mainUserNameContainer {
+    font-size:18px;
+    width:100%;
+    height:30px;
+    overflow:scroll;
+    position:relative;
+}
+.mainUserRatingsContainer {
+    width:100%;
+    height:50px;
+    border:1px dashed red;
+}
+.mainUserScoresContainer {
+    width:100%;
+    height:50px;
+    border:1px dashed red;
+}

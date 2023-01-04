@@ -7,6 +7,8 @@ window.init.initMyProfileData = false
 window.init.initMiscGlobalVars = false
 window.init.fetchProfilesInfo = false
 
+window.relayForReplies = "wss://relay.damus.io";
+
 export const initMyProfileData = async () => {
     window.myProfile = {};
     window.myProfile.following = [];

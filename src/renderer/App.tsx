@@ -20,6 +20,10 @@ import EditMyProfile from './pages/editMyProfile/index';
 import SqlSettings from './pages/sqlSettings/index';
 import CreatePost from './pages/createPost/index';
 import LandingPage from './pages/landingPage/index';
+import Thread from './pages/thread/index';
+import Reply from './pages/reply/index';
+import SearchForUser from './pages/searchForUser/index';
+import GrapevineSettings from './pages/grapevineSettings/index';
 
 import './css/app.css';
 import './css/mastheads.css';
@@ -31,6 +35,10 @@ import './css/editMyProfile.css';
 import './css/newPost.css';
 import './css/userList.css';
 import './css/follows.css';
+import './css/grapevine.css';
+import './css/toggleSwitch1.css'; // probably will use just one of these
+import './css/toggleSwitch2.css';
+import './css/grapevineSettings.css';
 
 import { asyncSql } from "./index.tsx";
 
@@ -48,7 +56,10 @@ const updateMainColWidth = MiscAppFxns.updateMainColWidth;
 export default class App extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            random_key: "12345",
+            someValue: "abcde"
+        }
     }
 
     async componentDidMount() {
@@ -73,6 +84,10 @@ export default class App extends React.Component {
                             <Route path="/SqlSettings" element={<SqlSettings />} />
                             <Route path="/CreatePost" element={<CreatePost />} />
                             <Route path="/LandingPage" element={<LandingPage />} />
+                            <Route path="/Thread/:testVar1" exact element={<Thread />} />
+                            <Route path="/Reply/:testVar2" exact element={<Reply />} />
+                            <Route path="/SearchForUser" element={<SearchForUser />} />
+                            <Route path="/GrapevineSettings" element={<GrapevineSettings />} />
                         </Routes>
                     </Router>
                 </fieldset>

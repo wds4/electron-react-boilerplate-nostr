@@ -4,7 +4,7 @@ import LeftNavbar from '../../navbars/leftNav.js';
 import * as MiscAppFxns from "../../lib/app/misc.ts";
 import SingleUserElem from "./singleUserElem";
 
-import { useNostrEvents } from "nostr-react";
+import { useNostrEvents, useProfile } from "nostr-react";
 
 import {
     relayInit,
@@ -15,6 +15,8 @@ import {
     validateEvent,
     verifySignature,
 } from 'nostr-tools'
+
+const timeout = MiscAppFxns.timeout
 
 const jQuery = require("jquery");
 
@@ -29,47 +31,55 @@ const FollowerList2 = () => {
         },
     });
 
-    return (
-      <>
-          <div style={{backgroundColor:"#AFAFAF"}} >
-              <SingleUserElem pubkey={window.clickedPubKey} />
-          </div>
-          {events.map( (event) => {
-              var aFollowing = event.tags
-              var aFollowing_ = [];
-              // remove duplicates
-              for (var x=0;x<aFollowing.length;x++) {
-                  var nextPk = aFollowing[x][1];
-                  if (!aFollowing_.includes(nextPk)) {
-                      if (nextPk != window.clickedPubKey) {
-                          aFollowing_.push(nextPk)
-                      }
-                  }
-              }
-              // console.log("aFollowing_: "+JSON.stringify(aFollowing_,null,4))
-              return (
-                  <>
-                      <pre style={{display:"none",border:"1ps solid purple",margin:"5px",padding:"5px"}} >
-                      {JSON.stringify(event,null,4)}
-                      </pre>
-                      <div>
-                          <div style={{textAlign:"center"}}>
-                              Following: {aFollowing_.length}
-                          </div>
-                          {aFollowing_.map( (pk) => {
-                              // var pk = following[1]
-                              return (
-                                  <>
-                                      <SingleUserElem pubkey={pk} />
-                                  </>
-                              )}
-                          )}
-                      </div>
-                  </>
-              )}
-          )}
-      </>
-    )
+    if (events.length > 0) {
+        // need to make sure sort order is correct
+        const reversed = events.reverse()
+        // events.sort((a, b) => parseFloat(a.created_at) - parseFloat(b.created_at));
+        event = events[events.length-1]
+        var aFollowing = event.tags
+        var aFollowing_ = [];
+        // remove duplicates
+        for (var x=0;x<aFollowing.length;x++) {
+            var nextPk = aFollowing[x][1];
+            if (!aFollowing_.includes(nextPk)) {
+                if (nextPk != window.clickedPubKey) {
+                    aFollowing_.push(nextPk)
+                }
+            }
+        }
+        timeout(100)
+        return (
+            <>
+                <div style={{backgroundColor:"#AFAFAF"}} >
+                    <div style={{textAlign:"center",fontSize:"18px"}}>
+                        This user
+                    </div>
+                    <SingleUserElem pubkey={window.clickedPubKey} />
+                </div>
+                <pre style={{display:"none",border:"1px solid purple",margin:"5px",padding:"5px"}} >
+                {JSON.stringify(event,null,4)}
+                </pre>
+                <div>
+                    <div style={{textAlign:"center",fontSize:"18px"}}>
+                        Following: {aFollowing_.length}
+                    </div>
+                    {aFollowing_.map( (pk) => {
+                        // var pk = following[1]
+                        return (
+                            <>
+                                <SingleUserElem pubkey={pk} />
+                            </>
+                        )}
+                    )}
+                </div>
+            </>
+        )
+    } else {
+        return (
+            <>
+            </>
+        )
+    }
 };
 
 export default class FollowerList extends React.Component {

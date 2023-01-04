@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import Masthead from '../../mastheads/mainMasthead.js';
 import LeftNavbar from '../../navbars/leftNav.js';
 import * as MiscAppFxns from "../../lib/app/misc.ts";
@@ -8,15 +8,17 @@ import * as StartupFxns from "../../lib/app/startup.ts";
 import AvatarElem from "./avatarElem";
 import NameElem from "./nameElem";
 import BlankAvatar from "./blankAvatar.png";
+import ActionButtons from "./actionButtons.js";
 import MainFeedTypeSelector from "./mainFeedTypeSelector";
 
-import { useNostrEvents, dateToUnix } from "nostr-react";
+import { useNostrEvents, useProfile, dateToUnix } from "nostr-react";
 
 const jQuery = require("jquery");
 const updateMainColWidth = MiscAppFxns.updateMainColWidth;
 const cloneObj = MiscAppFxns.cloneObj
 const secsToTime = MiscAppFxns.secsToTime
 const timeout = MiscAppFxns.timeout
+const isValidObj = MiscAppFxns.isValidObj
 
 const GlobalFeed = ( ) => {
     const now = useRef(new Date()); // Make sure current time isn't re-rendered
@@ -56,18 +58,9 @@ const GlobalFeed = ( ) => {
                 </div>
             </div>
             <div>
-                <pre style={{display:"none"}} >
-                {JSON.stringify(window.profiles,null,4)}
-                </pre>
                 {events.map( (event) => {
                     const pk = event.pubkey;
-                    // const name = event.name;
-
-                    // ONE of the following:
-                    // <AvatarElem pubkey={pk} />
-                    // <img className="smallAvatarBox" />
-
-                    // <NameElem pubkey={pk} />
+                    const event_id = event.id;
 
                     jQuery(".eventNameContainer").unbind("click").click(async function(){
                         var clickedPubKey = jQuery(this).data("pubkey")
@@ -82,17 +75,27 @@ const GlobalFeed = ( ) => {
                     var nameClass = "nameUnknown";
                     var avatarClass_blank = "smallAvatarBox_show";
                     var avatarClass_pic = "smallAvatarBox_hide";
+
                     if (window.profiles.hasOwnProperty(pk)) {
                         var oEvent_this = window.profiles[pk]
-                        pic_url = JSON.parse(oEvent_this.content).picture;
-                        name = JSON.parse(oEvent_this.content).name;
-                        display_name = JSON.parse(oEvent_this.content).display_name;
+                        pic_url = "";
+                        name = "";
+                        display_name = "";
+                        if (oEvent_this) {
+                            if (isValidObj(oEvent_this.content)) {
+                                pic_url = JSON.parse(oEvent_this.content).picture;
+                                name = JSON.parse(oEvent_this.content).name;
+                                display_name = JSON.parse(oEvent_this.content).display_name;
+                            }
+                        }
                         nameClass = "nameKnown";
                         var avatarClass_blank = "smallAvatarBox_hide";
                         var avatarClass_pic = "smallAvatarBox_show";
                     }
+
                     const howOld = secsToTime(event.created_at)
                     const avatarID = "smallAvatarContainer_"+pk;
+
                     return (
                         <>
                             <div className="eventContainer" >
@@ -105,23 +108,30 @@ const GlobalFeed = ( ) => {
                                         <div className="eventNameContainer" data-pubkey={pk} >
                                             <span className={nameClass} style={{marginRight:"10px"}}>
                                                 {display_name}
-                                                <span style={{color:"grey",marginLeft:"10px"}}>{name}</span>
+                                                <span style={{color:"grey",marginLeft:"10px"}}>@{name}</span>
                                             </span>
                                         </div>
                                         <div className="eventTimeContainer" >
                                             {howOld}
                                         </div>
                                     </div>
-                                    <div className="eventContentContainer" >
+                                    <Link
+                                        onClick={() => window.expandedEvent = event}
+                                        className="eventContentContainer"
+                                        to="/Thread/fooo"
+                                        testVar = "foo"
+                                    >
                                         {event.content}
+                                    </Link>
+                                    <div className="eventActionButtonsContainer" >
+                                        <ActionButtons
+                                        event={event}
+                                        />
                                     </div>
                                 </div>
                             </div>
-                            <pre style={{border:"1px solid purple",padding:"5px",margin:"5px",display:"none"}}>
-                            {JSON.stringify(event,null,4)}
-                            </pre>
                         </>
-                    )}
+                    ) }
                 )}
             </div>
         </>
@@ -157,9 +167,7 @@ export default class Home extends React.Component {
                             <div style={{fontSize:"12px",lineHeight:"100%"}} >user profile</div>
                             <div id="userProfileContainer" ></div>
                         </NavLink>
-
                         <GlobalFeed />
-
                     </div>
                 </div>
             </>

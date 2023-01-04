@@ -3,9 +3,10 @@ import { NavLink } from "react-router-dom";
 import Masthead from '../../mastheads/mainMasthead.js';
 import LeftNavbar from '../../navbars/leftNav.js';
 import * as MiscAppFxns from "../../lib/app/misc.ts";
-import FollowCounts from"./followCounts";
-
-import { useNostrEvents } from "nostr-react";
+import FollowCounts from "./followCounts";
+import FollowButton from "../followingList/followButton";
+import LeaveGrapevineRatings from "./leaveGrapevineRatings";
+import { useNostrEvents, useProfile } from "nostr-react";
 
 import {
     Kind,
@@ -14,6 +15,7 @@ import {
 
 import {
     relayInit,
+    nip19,
     generatePrivateKey,
     getPublicKey,
     getEventHash,
@@ -55,16 +57,21 @@ const UserInfo = () => {
                 {JSON.stringify(event,null,4)}
                 </pre>
                 <div className="mainUserProfileBox" >
-                    <div id="largeAvatarContainer" className="largeAvatarContainer" >
-                        <img src={ JSON.parse(event.content).picture } className='mainProfilePageAvatarBox' />
+                    <div className="mainUserProfileLeftColumnContainer" >
+                        <div id="largeAvatarContainer" className="largeAvatarContainer" >
+                            <img src={ JSON.parse(event.content).picture } className='mainProfilePageAvatarBox' />
+                        </div>
+
+                        <FollowCounts pubkey={window.clickedPubKey} />
                     </div>
+
                     <div id="mainUserProfileRightColumnContainer" className="mainUserProfileRightColumnContainer" >
                         <div id="mainUserNameContainer" className="mainUserNameContainer" >
                             <span style={{color:"black"}} >
                                 { JSON.parse(event.content).display_name }
                             </span>
                             <span style={{color:"grey",marginLeft:"10px"}} >
-                                { JSON.parse(event.content).name }
+                                @{ JSON.parse(event.content).name }
                             </span>
                         </div>
 
@@ -72,10 +79,14 @@ const UserInfo = () => {
                             { JSON.parse(event.content).about }
                         </div>
 
-                        <div style={{fontSize:"10px"}}>
+                        <LeaveGrapevineRatings pubkey={window.clickedPubKey} />
+
+                        <div className="singleUserRightContainer" >
+                            <FollowButton pubkey={window.clickedPubKey} />
+                        </div>
+                        <div className="userProfilePubkeyContainer" >
                             pubkey: {window.clickedPubKey}
                         </div>
-                        <FollowCounts pubkey={window.clickedPubKey} />
                     </div>
                 </div>
             </>
@@ -117,7 +128,7 @@ const UserPosts = () => {
 
     return (
         <>
-            <div>number of posts: {events.length}</div>
+            <div style={{textAlign:"right",marginRight:"20px"}} >{events.length} posts</div>
             {events.map( (event) => {
                 var currentTime = Math.floor(Date.now() / 1000);
                 var displayTime = secsToTime(event.created_at);

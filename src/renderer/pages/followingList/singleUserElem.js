@@ -96,6 +96,7 @@ const updateProfileInSql = async (event) => {
 }
 
 const SingleUserElem2 = (props) => {
+    var pk = props.pubkey;
     var { events } = useNostrEvents({
         filter: {
             authors: [ props.pubkey ],
@@ -103,8 +104,9 @@ const SingleUserElem2 = (props) => {
             kinds: [0],
         },
     });
-    var pk = props.pubkey;
-    if (events.length > 0) {
+
+
+    if ( events.length > 0 ) {
         events.sort((a, b) => parseFloat(b.created_at) - parseFloat(a.created_at));
         var event = events[0];
         var pic_url = JSON.parse(event.content).picture
@@ -143,6 +145,9 @@ const SingleUserElem2 = (props) => {
                             <div className="eventContentContainer" >
                                 {about}
                             </div>
+                            <pre style={{display:"none",border:"2px solid orange",margin:"5px",padding:"5px"}} >
+                            {JSON.stringify(JSON.parse(event.content),null,4)}
+                            </pre>
                         </div>
                     </NavLink>
                     <div className="singleUserRightContainer" >
@@ -190,6 +195,7 @@ const SingleUserElem2 = (props) => {
             </>
         );
     }
+
 }
 
 export default class SingleUserElem extends React.Component {

@@ -6,11 +6,11 @@ export default class LeftNavbar extends React.PureComponent {
     return (
       <>
         <div className="leftNavPanel" >
-            <NavLink className="leftNavButton"  to='/MainFeed'>
+            <NavLink className="leftNavButton" to='/MainFeed'>
                 <div style={{fontSize:"12px",lineHeight:"100%"}} >main feed</div>
             </NavLink>
 
-            <NavLink className="leftNavButton"  to='/SqlSettings' >
+            <NavLink className="leftNavButton" to='/SqlSettings' style={{display:"none"}} >
                 <div style={{fontSize:"12px",lineHeight:"100%"}} >sql settings</div>
             </NavLink>
         </div>

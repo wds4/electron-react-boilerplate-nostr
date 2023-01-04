@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
+import * as MiscAppFxns from "../../lib/app/misc.ts";
 
 import { useNostrEvents } from "nostr-react";
+
+const isValidObj = MiscAppFxns.isValidObj
 
 const jQuery = require("jquery");
 
@@ -15,12 +18,14 @@ const AvatarElem2 = (props) => {
     return (
         <>
             {events.map( (event) => {
-                var pic_url = JSON.parse(event.content).picture;
-                return (
-                  <>
-                      <img src={pic_url} className="smallAvatarBox" />
-                  </>
-                )}
+                if (isValidObj(event.content)) {
+                    var pic_url = JSON.parse(event.content).picture;
+                    return (
+                        <>
+                            <img src={pic_url} className="smallAvatarBox" />
+                        </>
+                    )}
+                }
             )}
         </>
     );
