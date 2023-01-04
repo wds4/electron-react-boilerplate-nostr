@@ -95,7 +95,7 @@ const GlobalFeed = ( ) => {
 
                     const howOld = secsToTime(event.created_at)
                     const avatarID = "smallAvatarContainer_"+pk;
-
+                    const linkTo = "/Thread/"+event.id;
                     return (
                         <>
                             <div className="eventContainer" >
@@ -118,7 +118,7 @@ const GlobalFeed = ( ) => {
                                     <Link
                                         onClick={() => window.expandedEvent = event}
                                         className="eventContentContainer"
-                                        to="/Thread/fooo"
+                                        to={linkTo}
                                         testVar = "foo"
                                     >
                                         {event.content}

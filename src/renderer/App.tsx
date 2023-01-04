@@ -6,9 +6,11 @@ import * as StartupFxns from './lib/app/startup.ts';
 
 import { NostrProvider } from "nostr-react";
 
-import { Provider } from 'react-redux'
+// import { Provider } from 'react-redux'
 // import store from './store'
 
+// NOSTR PAGES
+import LandingPage from './pages/landingPage/index';
 import MainFeed from './pages/mainFeed/index';
 import ManageChannels from './pages/manageChannels/index';
 import UserProfile from './pages/userProfile/index';
@@ -19,11 +21,14 @@ import MyProfile from './pages/myProfile/index';
 import EditMyProfile from './pages/editMyProfile/index';
 import SqlSettings from './pages/sqlSettings/index';
 import CreatePost from './pages/createPost/index';
-import LandingPage from './pages/landingPage/index';
 import Thread from './pages/thread/index';
 import Reply from './pages/reply/index';
 import SearchForUser from './pages/searchForUser/index';
 import GrapevineSettings from './pages/grapevineSettings/index';
+
+// GRAPEVINE PAGES
+import GrapevineLandingPage from './grapevine/landingPage/index';
+import GrapevineVisualization from './grapevine/visualization/index';
 
 import './css/app.css';
 import './css/mastheads.css';
@@ -88,6 +93,9 @@ export default class App extends React.Component {
                             <Route path="/Reply/:testVar2" exact element={<Reply />} />
                             <Route path="/SearchForUser" element={<SearchForUser />} />
                             <Route path="/GrapevineSettings" element={<GrapevineSettings />} />
+
+                            <Route path="/GrapevineLandingPage" element={<GrapevineLandingPage />} />
+                            <Route path="/GrapevineVisualization" element={<GrapevineVisualization />} />
                         </Routes>
                     </Router>
                 </fieldset>

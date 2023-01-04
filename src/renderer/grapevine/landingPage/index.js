@@ -6,15 +6,13 @@ import LeftNavbar from '../../navbars/leftNav.js';
 import * as MiscAppFxns from "../../lib/app/misc.ts";
 import * as StartupFxns from "../../lib/app/startup.ts";
 
-import { useNostrEvents, dateToUnix } from "nostr-react";
-
 const jQuery = require("jquery");
 const updateMainColWidth = MiscAppFxns.updateMainColWidth;
 const cloneObj = MiscAppFxns.cloneObj
 const secsToTime = MiscAppFxns.secsToTime
 const timeout = MiscAppFxns.timeout
 
-export default class Home extends React.Component {
+export default class GrapevineLandingPage extends React.Component {
 
     constructor(props) {
         super(props);
@@ -25,24 +23,10 @@ export default class Home extends React.Component {
 
     async componentDidMount() {
         updateMainColWidth();
-        document.getElementById("mastheadCenterContainer").innerHTML = "landing page"
-
-        // run all startup functions if not already run
-        if (!window.init.initMiscGlobalVars) {
-            StartupFxns.initMiscGlobalVars()
-        }
-        if (!window.init.grapevineSettings) {
-            StartupFxns.setGrapevineDefaults()
-        }
-        if (!window.init.initMyProfileData) {
-            await StartupFxns.initMyProfileData();
-        }
-        if (!window.init.fetchProfilesInfo) {
-            await StartupFxns.fetchProfilesInfo()
-        }
+        document.getElementById("mastheadCenterContainer").innerHTML = "grapevine landing page"
 
         await timeout(10)
-        jQuery("#mainFeedButton").get(0).click()
+        jQuery("#goToMainGrapevinePageButton").get(0).click()
     }
     render() {
         return (
@@ -55,8 +39,8 @@ export default class Home extends React.Component {
                         <Masthead />
                     </div>
                     <div id="mainPanel" >
-                        <NavLink  to='/MainFeed' id="mainFeedButton" >
-                            <div style={{fontSize:"12px",lineHeight:"100%"}} >main feed</div>
+                        <NavLink  to='/GrapevineVisualization' id="goToMainGrapevinePageButton" >
+                            <div style={{fontSize:"12px",lineHeight:"100%"}} >go to main grapevine page</div>
                         </NavLink>
 
                     </div>

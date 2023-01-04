@@ -10,17 +10,22 @@ nostr tools I'm using right now: (nostr-tools)[https://github.com/fiatjaf/nostr-
 - view other profiles
 - follow / unfollow button
 - submit a post
+- reply to a post
+- thread viewer
 
 ## Todo
 
 - refactor following page (need to request events for info on all users at once, not separate request for each user)
-- add reply, retweet, like buttons
-- thread viewer
+- add retweet, like buttons
+- notifications
+- direct messaging
 - show pictures
 - ability to input your own privkey (Alby?)
 - implement caching (redux?)
 - calculate and show number of followers
 - maybe change location of sql database
+- lightning invoice support
+- back button
 
 ## Known issues
 
