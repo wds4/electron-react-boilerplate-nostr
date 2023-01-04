@@ -48,7 +48,7 @@ export default class GrapevineSettings extends React.Component {
 
                         <div className="grapevineSettingsItemContainer" >
                             <div className="grapevineSettingsItemLeftCol" >
-                                Contexts
+                                All Contexts
                             </div>
                             <div className="grapevineSettingsItemMainToggleCol" >
                                 <React.Fragment>
@@ -56,24 +56,22 @@ export default class GrapevineSettings extends React.Component {
                                 </React.Fragment>
                             </div>
                         </div>
-
-                        <div className="h2" style={{marginBottom:"20px"}} >Purpose</div>
-
-                        <div className="grapevineSettingsItemContainer" >
+                        <hr/>
+                        <div className="grapevineSettingsItemContainer" style={{backgroundColor:"#DFDFDF"}} >
                             <div className="grapevineSettingsItemLeftCol" >
-                                Purpose
+                                Purpose:
                             </div>
                             <div className="grapevineSettingsItemMainToggleCol" >
                                 .
                             </div>
                             <div className="grapevineSettingsItemRatingNameCol" >
-                                yes
+                                (affirmative)
                             </div>
                             <div className="grapevineSettingsItemRatingToggleButtonCol" >
                                 .
                             </div>
                             <div className="grapevineSettingsItemRatingNameCol" >
-                                no
+                                (negative)
                             </div>
                             <div className="grapevineSettingsItemRatingToggleButtonCol" >
                                 .
@@ -83,6 +81,38 @@ export default class GrapevineSettings extends React.Component {
                             </div>
                             <div className="grapevineSettingsItemRatingToggleButtonCol" >
                                 .
+                            </div>
+                        </div>
+
+                        <div className="grapevineSettingsItemContainer" >
+                            <div className="grapevineSettingsItemLeftCol" >
+                                All Purposes
+                            </div>
+                            <div className="grapevineSettingsItemMainToggleCol" >
+                                <React.Fragment>
+                                    <ToggleSwitch2 label="worship" />
+                                </React.Fragment>
+                            </div>
+                            <div className="grapevineSettingsItemRatingNameCol" >
+                                yes
+                            </div>
+                            <div className="grapevineSettingsItemRatingToggleButtonCol" >
+                                <React.Fragment>
+                                    <ToggleSwitch2 label="worship_up" />
+                                </React.Fragment>
+                            </div>
+                            <div className="grapevineSettingsItemRatingNameCol" >
+                                no
+                            </div>
+                            <div className="grapevineSettingsItemRatingToggleButtonCol" >
+                                <React.Fragment>
+                                    <ToggleSwitch2 label="worship_down" />
+                                </React.Fragment>
+                            </div>
+                            <div className="grapevineSettingsItemRatingToggleButtonCol" >
+                                <React.Fragment>
+                                    <ToggleSwitch2 label="worship_contextual" />
+                                </React.Fragment>
                             </div>
                         </div>
 
@@ -109,6 +139,11 @@ export default class GrapevineSettings extends React.Component {
                             <div className="grapevineSettingsItemRatingToggleButtonCol" >
                                 <React.Fragment>
                                     <ToggleSwitch2 label="attention_down" />
+                                </React.Fragment>
+                            </div>
+                            <div className="grapevineSettingsItemRatingToggleButtonCol" >
+                                <React.Fragment>
+                                    <ToggleSwitch2 label="attention_contextual" />
                                 </React.Fragment>
                             </div>
                         </div>
@@ -138,6 +173,11 @@ export default class GrapevineSettings extends React.Component {
                                     <ToggleSwitch2 label="believe_down" />
                                 </React.Fragment>
                             </div>
+                            <div className="grapevineSettingsItemRatingToggleButtonCol" >
+                                <React.Fragment>
+                                    <ToggleSwitch2 label="believe_contextual" />
+                                </React.Fragment>
+                            </div>
                         </div>
 
                         <div className="grapevineSettingsItemContainer" >
@@ -147,6 +187,27 @@ export default class GrapevineSettings extends React.Component {
                             <div className="grapevineSettingsItemMainToggleCol" >
                                 <React.Fragment>
                                     <ToggleSwitch2 label="nostr" />
+                                </React.Fragment>
+                            </div>
+                            <div className="grapevineSettingsItemRatingNameCol" >
+                                trust
+                            </div>
+                            <div className="grapevineSettingsItemRatingToggleButtonCol" >
+                                <React.Fragment>
+                                    <ToggleSwitch2 label="nostr_up" />
+                                </React.Fragment>
+                            </div>
+                            <div className="grapevineSettingsItemRatingNameCol" >
+                                don't trust
+                            </div>
+                            <div className="grapevineSettingsItemRatingToggleButtonCol" >
+                                <React.Fragment>
+                                    <ToggleSwitch2 label="nostr_down" />
+                                </React.Fragment>
+                            </div>
+                            <div className="grapevineSettingsItemRatingToggleButtonCol" >
+                                <React.Fragment>
+                                    <ToggleSwitch2 label="nostr_contextual" />
                                 </React.Fragment>
                             </div>
                         </div>

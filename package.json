@@ -1,5 +1,5 @@
 {
-  "description": "A foundation for scalable desktop apps",
+  "description": "A boilerplate for building a nostr client for the desktop",
   "keywords": [
     "electron",
     "boilerplate",
@@ -9,11 +9,13 @@
     "sass",
     "webpack",
     "hot",
-    "reload"
+    "reload",
+    "nostr",
+    "sqlite3"
   ],
-  "homepage": "https://github.com/electron-react-boilerplate/electron-react-boilerplate#readme",
+  "homepage": "https://github.com/wds4/electron-react-boilerplate-nostr#readme",
   "bugs": {
-    "url": "https://github.com/electron-react-boilerplate/electron-react-boilerplate/issues"
+    "url": "https://github.com/wds4/electron-react-boilerplate-nostr/issues"
   },
   "repository": {
     "type": "git",
@@ -21,15 +23,12 @@
   },
   "license": "MIT",
   "author": {
-    "name": "Electron React Boilerplate Maintainers",
-    "email": "electronreactboilerplate@gmail.com",
-    "url": "https://electron-react-boilerplate.js.org"
+    "name": "Electron React Boilerplate Nostr"
   },
   "contributors": [
     {
-      "name": "Amila Welihinda",
-      "email": "amilajack@gmail.com",
-      "url": "https://github.com/amilajack"
+      "name": "David Strayhorn",
+      "url": "https://github.com/wds4"
     }
   ],
   "main": "./src/main/main.ts",
@@ -251,8 +250,8 @@
     ],
     "publish": {
       "provider": "github",
-      "owner": "electron-react-boilerplate",
-      "repo": "electron-react-boilerplate"
+      "owner": "electron-react-boilerplate-nostr",
+      "repo": "electron-react-boilerplate-nostr"
     }
   },
   "collective": {
