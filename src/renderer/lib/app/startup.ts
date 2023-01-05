@@ -88,7 +88,7 @@ export const fetchProfilesInfo = async () => {
 export const setGrapevineDefaults = () => {
     window.grapevineSettings = {};
 
-    window.grapevineSettings.active = true;
+    window.grapevineSettings.active = false;
     window.grapevineSettings.showHeader = false;
     window.grapevineSettings.contexts = false;
 
@@ -118,14 +118,14 @@ export const setGrapevineDefaults = () => {
 
     window.grapevineSettings.ontology = {};
     window.grapevineSettings.ontology.active = false;
-    window.grapevineSettings.ontology.up = true;
-    window.grapevineSettings.ontology.down = true;
+    window.grapevineSettings.ontology.up = false;
+    window.grapevineSettings.ontology.down = false;
     window.grapevineSettings.ontology.contexts = false;
 
     window.grapevineSettings.advice = {};
     window.grapevineSettings.advice.active = false;
-    window.grapevineSettings.advice.up = true;
-    window.grapevineSettings.advice.down = true;
+    window.grapevineSettings.advice.up = false;
+    window.grapevineSettings.advice.down = false;
     window.grapevineSettings.advice.contexts = false;
 
     window.init.grapevineSettings = true;

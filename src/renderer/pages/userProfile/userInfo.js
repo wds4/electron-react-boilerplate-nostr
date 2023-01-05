@@ -54,6 +54,10 @@ const UserInfo = () => {
                             </span>
                         </div>
 
+                        <div className="userProfilePubkeyContainer" >
+                            pubkey: {window.clickedPubKey}
+                        </div>
+
                         <div id="mainUserAboutContainer" className="mainUserAboutContainer" >
                             { JSON.parse(event.content).about }
                         </div>
@@ -62,9 +66,6 @@ const UserInfo = () => {
 
                         <div className="singleUserRightContainer" >
                             <FollowButton pubkey={window.clickedPubKey} />
-                        </div>
-                        <div className="userProfilePubkeyContainer" >
-                            pubkey: {window.clickedPubKey}
                         </div>
                     </div>
                 </div>

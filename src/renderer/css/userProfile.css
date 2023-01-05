@@ -39,11 +39,11 @@
 .mainUserNameContainer {
     font-size:18px;
     width:100%;
-    margin-bottom:2px;
     overflow:scroll;
-    margin-top:5px;
+    margin-bottom:5px;
 }
 .userProfilePubkeyContainer {
     font-size:10px;
     color:brown;
+    margin-bottom:5px;
 }

@@ -15,7 +15,10 @@ export default class Masthead extends React.Component {
           <>
               <div className="mastheadContainer" >
                   <div className="mastheadLeftContainer" >
-                  nostr
+                      <NavLink className="mastheadNavButton" end to='/' style={{display:"none"}} >
+                          back button
+                      </NavLink>
+                      nostr
                   </div>
 
                   <div id="mastheadCenterContainer" className="mastheadCenterContainer" >
@@ -23,14 +26,15 @@ export default class Masthead extends React.Component {
                   </div>
 
                   <div className="mastheadRightContainer" >
-                      <NavLink className="mastheadNavButton" end to='/GrapevineSettings' style={{fontSize:"28px"}} >
-                          &#x1F347;
+                      <NavLink className="mastheadNavButton" end to='/GrapevineSettings' >
+                          <div style={{fontSize:"20px"}} >&#x1F347;</div>
+                          settings
                       </NavLink>
                       <NavLink className="mastheadNavButton" end to='/SearchForUser' >
                           search for user
                       </NavLink>
                       <NavLink className="mastheadNavButton" end to='/CreatePost' >
-                          post
+                          create post
                       </NavLink>
                       <NavLink to='/MyProfile' style={{marginLeft:"10px"}} >
                           <AvatarElem pubkey={this.state.myPubkey} />

@@ -4,6 +4,7 @@ import { useNostrEvents, useProfile } from "nostr-react";
 import * as MiscAppFxns from "../../lib/app/misc.ts";
 import ActionButtons from "./actionButtons.js";
 import BlankAvatar from "./blankAvatar.png";
+import YoutubeEmbed from "./youtubeEmbed";
 
 import {
     validateEvent,
@@ -20,6 +21,22 @@ window.threadRoot_id = event.id
 */
 
 /*
+const youtubeRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})(?:\S+)?/g;
+replacedText = reactStringReplace(replacedText, youtubeRegex, (match, i) => {
+  return (
+    <iframe
+      key={match + i}
+      width="560"
+      height="315"
+      src={`https://www.youtube.com/embed/${match}`}
+      frameBorder="0"
+      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+      allowFullScreen
+    />
+  );
+});
+*/
+/*
 const fetchAuthorData = async (pk) => {
     var oAuthorData = {
         name: "dunno",
@@ -30,6 +47,35 @@ const fetchAuthorData = async (pk) => {
     return oAuthorData;
 }
 */
+
+// from https://www.labnol.org/code/19797-regex-youtube-id
+// input must be a url
+const extractVideoID = (url) => {
+    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+    var match = url.match(regExp);
+    if (match && match[7].length == 11) {
+        console.log("extractVideoID match[7]: "+match[7])
+        return match[7];
+    } else {
+        // return('Could not extract video ID.');
+        return null;
+    }
+}
+// input must contain an url within it
+// output is the entire url
+const extractVideoUrl = (rawContent) => {
+    var youtubeRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&amp;v=))([\w-]{11})(?:\S+)?/g;
+    var match = rawContent.match(youtubeRegex);
+    if (match) {
+        console.log("extractVideoUrl match[0]: "+match[0])
+        // var match = extractVideoID(url)
+        return match[0];
+    } else {
+        // return('Could not extract video ID.');
+        return null;
+    }
+}
+
 const UserPost = ({event, isExpanded, enableReply, currentPage, isRootMessage}) => {
     let ok = false;
     let veryOk = false;
@@ -90,6 +136,25 @@ const UserPost = ({event, isExpanded, enableReply, currentPage, isRootMessage}) 
         if (!window.linkToThread_base) { window.linkToThread_base="Thread" }
         var linkToThread = "/"+window.linkToThread_base+"/"+event.id;
         const linkToAuthor = "/UserProfile";
+
+        var rawContent = event.content
+        // rawContent = "https://www.youtube.com/watch?v=ljvpz2fEyVE";
+        // const embedId = "rokGy0huYEA"; // sample video
+        // const embedId = ""; // if (embedId) is false, no video will embed
+        const embedId = extractVideoID(rawContent)
+        const extractedUrl = extractVideoUrl(rawContent)
+        var embedId2 = null;
+        var contentMinusVideoUrl = rawContent;
+        if (extractedUrl) {
+            embedId2 = extractVideoID(extractedUrl)
+            contentMinusVideoUrl = rawContent.replace(extractedUrl,"")
+        }
+
+        var foo = false;
+        if (extractedUrl == rawContent) {
+            foo = true;
+        }
+
         return (
             <>
                 <div className={eventContainerClassName} id={eventContainer_id} >
@@ -135,7 +200,8 @@ const UserPost = ({event, isExpanded, enableReply, currentPage, isRootMessage}) 
                             to_base={window.linkToThread_base}
                             state={{ focuseventid: event.id }}
                         >
-                            {event.content}
+                            {contentMinusVideoUrl}
+                            <YoutubeEmbed embedId={embedId2} extractedUrl={extractedUrl} />
                         </NavLink>
                         <div className="eventActionButtonsContainer" >
                             <ActionButtons
