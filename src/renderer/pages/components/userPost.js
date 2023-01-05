@@ -19,6 +19,17 @@ window.threadRoot_id = event.id
 (Initially only did this in reply page)
 */
 
+/*
+const fetchAuthorData = async (pk) => {
+    var oAuthorData = {
+        name: "dunno",
+        display_name: "dunno",
+        picture_url: null,
+    }
+
+    return oAuthorData;
+}
+*/
 const UserPost = ({event, isExpanded, enableReply, currentPage, isRootMessage}) => {
     let ok = false;
     let veryOk = false;
@@ -52,6 +63,14 @@ const UserPost = ({event, isExpanded, enableReply, currentPage, isRootMessage}) 
             var avatarClass_blank = "smallAvatarBox_hide";
             var avatarClass_pic = "smallAvatarBox_show";
         }
+        /*
+        else {
+            var oAuthorData = await fetchAuthorData(pk);
+            name = oAuthorData.name;
+            display_name = oAuthorData.display_name;
+            nameClass = "nameKnown";
+        }
+        */
         var eventContainerClassName = "eventContainer"
         if (isExpanded) {
             eventContainerClassName += " expandedEventContainer"
