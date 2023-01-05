@@ -62,12 +62,12 @@ export default class SearchForUser extends React.Component {
                         <div>
                         Enter a pubkey:
                         </div>
-                        <textarea id="userPubkey" style={{width:"500px",height:"50px"}} ></textarea>
+                        <textarea id="userPubkey" style={{width:"80%",height:"40px"}} ></textarea>
 
                         <div>
                         Enter a public account id (starts with npub):
                         </div>
-                        <textarea id="userNpub" style={{width:"500px",height:"50px"}} ></textarea>
+                        <textarea id="userNpub" style={{width:"80%",height:"40px"}} ></textarea>
 
                         <br/>
 

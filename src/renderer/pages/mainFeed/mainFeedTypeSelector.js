@@ -56,7 +56,10 @@ export default class MainFeedTypeSelector extends React.Component {
                     <div style={{fontSize:"12px",lineHeight:"100%"}} >landing page</div>
                 </NavLink>
                 <div id="numFollowingContainer" className={this.state.numFollowingContainerClass} >
-                You are following {this.props.following.length} users.
+                    You are following
+                    <NavLink onClick={() => { window.clickedPubKey=window.myPubkey; } } to='/FollowingList' style={{marginLeft:"5px"}} >
+                        {this.props.following.length} users
+                    </NavLink>.
                 </div>
                 <select id="mainFeedTypeSelector" >
                     <option data-type="firehose" value="firehose" selected={this.state.isFirehoseSelected} >firehose</option>

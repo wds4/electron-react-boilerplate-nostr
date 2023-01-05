@@ -29,7 +29,7 @@ const UserInfo = () => {
         jQuery(".smallAvatarContainer").html(picHTML)
         var name = JSON.parse(event.content).name;
         window.clickedName = name;
-        jQuery(".eventNameContainer").html(name)
+        // jQuery(".eventNameContainer").html(name)
         return (
             <>
                 <pre style={{border:"2px solid blue",margin:"5px",padding:"5px",display:"none"}}>

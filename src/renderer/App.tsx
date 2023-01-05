@@ -28,7 +28,7 @@ import GrapevineSettings from './pages/grapevineSettings/index';
 
 // GRAPEVINE PAGES
 import GrapevineLandingPage from './grapevine/landingPage/index';
-import GrapevineVisualization from './grapevine/visualization/index';
+import NostrFollowGrapevineVisualization from './grapevine/nostrFollowGrapevine/index';
 
 import './css/app.css';
 import './css/mastheads.css';
@@ -44,6 +44,7 @@ import './css/grapevine.css';
 import './css/toggleSwitch1.css'; // probably will use just one of these
 import './css/grapevineToggleSwitch.css';
 import './css/grapevineSettings.css';
+import './css/nfgGraphic.css';
 
 import { asyncSql } from "./index.tsx";
 
@@ -89,13 +90,15 @@ export default class App extends React.Component {
                             <Route path="/SqlSettings" element={<SqlSettings />} />
                             <Route path="/CreatePost" element={<CreatePost />} />
                             <Route path="/LandingPage" element={<LandingPage />} />
-                            <Route path="/Thread/:testVar1" exact element={<Thread />} />
-                            <Route path="/Reply/:testVar2" exact element={<Reply />} />
+                            <Route path="/Thread/:focuseventid" exact element={<Thread />} />
+                            <Route path="/Thread2/:focuseventid" exact element={<Thread />} />
+                            <Route path="/Reply/:focuseventid" exact element={<Reply />} />
+                            <Route path="/Reply2/:focuseventid" exact element={<Reply />} />
                             <Route path="/SearchForUser" element={<SearchForUser />} />
                             <Route path="/GrapevineSettings" element={<GrapevineSettings />} />
 
                             <Route path="/GrapevineLandingPage" element={<GrapevineLandingPage />} />
-                            <Route path="/GrapevineVisualization" element={<GrapevineVisualization />} />
+                            <Route path="/NostrFollowGrapevineVisualization" element={<NostrFollowGrapevineVisualization />} />
                         </Routes>
                     </Router>
                 </fieldset>

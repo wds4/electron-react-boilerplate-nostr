@@ -39,7 +39,7 @@ export default class GrapevineLandingPage extends React.Component {
                         <Masthead />
                     </div>
                     <div id="mainPanel" >
-                        <NavLink  to='/GrapevineVisualization' id="goToMainGrapevinePageButton" >
+                        <NavLink  to='/NostrFollowGrapevineVisualization' id="goToMainGrapevinePageButton" >
                             <div style={{fontSize:"12px",lineHeight:"100%"}} >go to main grapevine page</div>
                         </NavLink>
 

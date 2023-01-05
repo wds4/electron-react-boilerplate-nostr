@@ -52,7 +52,7 @@ const FollowerList2 = () => {
             <>
                 <div style={{backgroundColor:"#AFAFAF"}} >
                     <div style={{textAlign:"center",fontSize:"18px"}}>
-                        This user
+                        You are looking at the list of accounts this user is following:
                     </div>
                     <SingleUserElem pubkey={window.clickedPubKey} />
                 </div>

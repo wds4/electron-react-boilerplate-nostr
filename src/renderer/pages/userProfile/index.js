@@ -7,26 +7,6 @@ import { useNostrEvents, useProfile } from "nostr-react";
 import UserPosts from "./userPosts";
 import UserInfo from "./userInfo";
 
-/*
-import {
-    Kind,
-    dateToUnix,
-} from "@nostrgg/react";
-
-import {
-    relayInit,
-    nip19,
-    generatePrivateKey,
-    getPublicKey,
-    getEventHash,
-    signEvent,
-    validateEvent,
-    verifySignature,
-} from 'nostr-tools'
-
-const jQuery = require("jquery");
-*/
-
 const updateMainColWidth = MiscAppFxns.updateMainColWidth;
 
 export default class Home extends React.Component {

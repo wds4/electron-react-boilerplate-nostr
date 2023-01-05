@@ -5,14 +5,14 @@ import Masthead from '../../mastheads/mainMasthead.js';
 import LeftNavbar from '../../navbars/leftNav.js';
 import * as MiscAppFxns from "../../lib/app/misc.ts";
 import * as StartupFxns from "../../lib/app/startup.ts";
-
+import NFG_Graphic from "./graphic";
 const jQuery = require("jquery");
 const updateMainColWidth = MiscAppFxns.updateMainColWidth;
 const cloneObj = MiscAppFxns.cloneObj
 const secsToTime = MiscAppFxns.secsToTime
 const timeout = MiscAppFxns.timeout
 
-export default class GrapevineVisualization extends React.Component {
+export default class NostrFollowGrapevineVisualization extends React.Component {
 
     constructor(props) {
         super(props);
@@ -23,7 +23,7 @@ export default class GrapevineVisualization extends React.Component {
 
     async componentDidMount() {
         updateMainColWidth();
-        document.getElementById("mastheadCenterContainer").innerHTML = "grapevine visualization"
+        document.getElementById("mastheadCenterContainer").innerHTML = "nostr-follow-grapevine (NFG) visualization"
 
     }
     render() {
@@ -37,7 +37,7 @@ export default class GrapevineVisualization extends React.Component {
                         <Masthead />
                     </div>
                     <div id="mainPanel" >
-
+                        <NFG_Graphic />
                     </div>
                 </div>
             </>

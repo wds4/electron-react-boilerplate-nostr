@@ -23,13 +23,13 @@ export default class Masthead extends React.Component {
                   </div>
 
                   <div className="mastheadRightContainer" >
-                      <NavLink className="mastheadNavButton" to='/GrapevineSettings' style={{fontSize:"28px"}} >
+                      <NavLink className="mastheadNavButton" end to='/GrapevineSettings' style={{fontSize:"28px"}} >
                           &#x1F347;
                       </NavLink>
-                      <NavLink className="mastheadNavButton" to='/SearchForUser' >
+                      <NavLink className="mastheadNavButton" end to='/SearchForUser' >
                           search for user
                       </NavLink>
-                      <NavLink className="mastheadNavButton" to='/CreatePost' >
+                      <NavLink className="mastheadNavButton" end to='/CreatePost' >
                           post
                       </NavLink>
                       <NavLink to='/MyProfile' style={{marginLeft:"10px"}} >

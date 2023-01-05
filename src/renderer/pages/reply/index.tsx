@@ -3,9 +3,10 @@ import { NavLink, Link, useLocation } from "react-router-dom";
 import Masthead from '../../mastheads/mainMasthead.js';
 import LeftNavbar from '../../navbars/leftNav.js';
 import * as MiscAppFxns from "../../lib/app/misc.ts";
-import BlankAvatar from "../mainFeed/blankAvatar.png";
+import BlankAvatar from "../components/blankAvatar.png";
 import ActionButtons from "../mainFeed/actionButtons.js";
-import RootMessage from "../thread/rootMessage";
+import RootMessage from "../components/rootMessage";
+import UserPost from "../components/userPost";
 
 import { useNostr, useNostrEvents, dateToUnix } from "nostr-react";
 import {
@@ -148,7 +149,7 @@ const ThreadFeed = ({root_id}) => {
         jQuery(".newEventContainer").html(JSON.stringify(event,null,4))
         publish(event);
     };
-
+    const currentPage = "reply";
     const reversed = events.reverse()
     scrollDistance = 0;
     var passedExpandedEventYet = false;
@@ -160,114 +161,27 @@ const ThreadFeed = ({root_id}) => {
         </div>
         <RootMessage />
         {reversed.map( (event) => {
-            let ok = false;
-            let veryOk = false;
-            if (isValidObj(event)) {
-                ok = validateEvent(event)
-                veryOk = verifySignature(event)
+            var enableReply = false;
+            var isExpanded = false;
+            if (window.expandedEvent.id == event.id) {
+                isExpanded = true;
+                passedExpandedEventYet = true;
+                enableReply = true;
             }
-            if ((ok) && (veryOk)) {
-                const pk = event.pubkey;
-                const event_id = event.id;
-
-                jQuery(".eventNameContainer").unbind("click").click(async function(){
-                    var clickedPubKey = jQuery(this).data("pubkey")
-                    console.log("eventNameContainer clicked; clickedPubKey: "+clickedPubKey)
-                    jQuery("#userProfileContainer").html(clickedPubKey)
-                    window.clickedPubKey = clickedPubKey;
-                    jQuery("#userProfileButton").get(0).click();
-                })
-                var pic_url = "";
-                var name = "..." + pk.slice(-6);
-                var display_name = "";
-                var nameClass = "nameUnknown";
-                var avatarClass_blank = "smallAvatarBox_show";
-                var avatarClass_pic = "smallAvatarBox_hide";
-
-                if (window.profiles.hasOwnProperty(pk)) {
-                    var oEvent_this = window.profiles[pk]
-                    pic_url = "";
-                    name = "";
-                    display_name = "";
-                    if (oEvent_this) {
-                        if (isValidObj(oEvent_this.content)) {
-                            pic_url = JSON.parse(oEvent_this.content).picture;
-                            name = JSON.parse(oEvent_this.content).name;
-                            display_name = JSON.parse(oEvent_this.content).display_name;
-                        }
-                    }
-                    nameClass = "nameKnown";
-                    var avatarClass_blank = "smallAvatarBox_hide";
-                    var avatarClass_pic = "smallAvatarBox_show";
-                }
-
-                const howOld = secsToTime(event.created_at)
-                const avatarID = "smallAvatarContainer_"+pk;
-
-                var eventContainerClassName = "eventContainer"
-                var replyContainerClassName = "replyContainer_hide"
-                var newReplyTextareaId = "newReplyTextarea_NOT"
-                if (window.expandedEvent.id == event_id) {
-                    eventContainerClassName += " expandedEventContainer"
-                    passedExpandedEventYet = true;
-                    replyContainerClassName = "replyContainer_show"
-                    newReplyTextareaId = "newReplyTextarea"
-                }
-                if (!passedExpandedEventYet) {
-                    // scrollDistance += 50;
-                    aScrollPast.push(event_id);
-                }
-                var eventContainer_id = "mainId_"+event_id;
-                var toLink = "/Thread/"+event.id
-                return (
-                    <>
-                        <div className={eventContainerClassName} id={eventContainer_id} >
-                            <div style={{fontSize:"18px",display:"none"}}>
-                                event_id:{event_id}
-                            </div>
-                            <div id={avatarID} className="smallAvatarContainer" >
-                                <img src={BlankAvatar} className={avatarClass_blank} />
-                                <img src={pic_url} className={avatarClass_pic} />
-                            </div>
-                            <div className="eventMainBodyContainer" >
-                                <div className="eventNameAndTimeContainer" >
-                                    <div className="eventNameContainer" data-pubkey={pk} >
-                                        <span className={nameClass} style={{marginRight:"10px"}}>
-                                            {display_name}
-                                            <span style={{color:"grey",marginLeft:"10px"}}>@{name}</span>
-                                        </span>
-                                    </div>
-                                    <div className="eventTimeContainer" >
-                                        {howOld}
-                                    </div>
-                                </div>
-                                <Link
-                                    onClick={() => { window.expandedEvent = event; window.threadRoot_id = event.id } }
-                                    className="eventContentContainer"
-                                    to={toLink}
-                                    testVar = {event.id}
-                                >
-                                    {event.content}
-                                </Link>
-                                <div className="eventActionButtonsContainer" >
-                                    <ActionButtons
-                                    event={event}
-                                    />
-                                </div>
-                            </div>
-                            <div className={replyContainerClassName} >
-                                <pre style={{display:"none"}}>
-                                {JSON.stringify(event,null,4)}
-                                </pre>
-                                <textarea id={newReplyTextareaId} style={{width:"80%",height:"200px",borderRadius:"10px",padding:"5px"}} ></textarea>
-                                <div onClick={() => sendReply(event.id)} className="doSomethingButton" style={{verticalAlign:"bottom"}} >Reply</div>
-                                <pre className="newEventContainer">
-                                </pre>
-                            </div>
-                        </div>
-                    </>
-                )}
+            if (!passedExpandedEventYet) {
+                aScrollPast.push(event.id);
             }
+
+            return (
+                <>
+                    <UserPost
+                        event={event}
+                        enableReply={enableReply}
+                        isExpanded={isExpanded}
+                        currentPage={currentPage}
+                    />
+                </>
+            )}
         )}
         </>
     )
@@ -317,10 +231,12 @@ export default class Thread extends React.Component {
         for (var s=0;s<aScrollPast.length;s++) {
             var nextEventId = aScrollPast[s];
             var nextElemId = "mainId_"+nextEventId;
-            var nextElemHeight = document.getElementById(nextElemId).offsetHeight;
-            scrollDistance += nextElemHeight + 10; // extra 10 pixels for the margin-bottom of class eventContainer; could get offsetMarginBottom?
-            console.log("for nextEventId: "+nextEventId)
-            console.log("+= nextElemHeight: "+nextElemHeight)
+            try {
+                var nextElemHeight = document.getElementById(nextElemId).offsetHeight;
+                scrollDistance += nextElemHeight + 10; // extra 10 pixels for the margin-bottom of class eventContainer; could get offsetMarginBottom?
+                console.log("for nextEventId: "+nextEventId)
+                console.log("+= nextElemHeight: "+nextElemHeight)
+            } catch (e) {}
         }
         console.log("scrollDistance: "+scrollDistance)
         var scrollTop = "+="+scrollDistance+"px"
