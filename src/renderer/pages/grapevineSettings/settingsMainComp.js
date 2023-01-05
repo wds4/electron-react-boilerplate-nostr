@@ -15,24 +15,24 @@ const cloneObj = MiscAppFxns.cloneObj
 const secsToTime = MiscAppFxns.secsToTime
 const timeout = MiscAppFxns.timeout
 
-const grapevineSettingsMainComponent = (props) => {
-    if (window.grapevineSettings.active) {
-        return (
-            <>
-                <div >
-                    <GrapevineIsActive />
-                </div>
-            </>
-        )
-    } else {
-        return (
-            <>
-                <div >
-                    <GrapevineIsInactive />
-                </div>
-            </>
-        )
+const grapevineSettingsMainComponent = ({activationState}) => {
+    console.log("activationState: "+activationState)
+    var activeBlockClassName = "block_show"
+    var inactiveBlockClassName = "block_hide"
+    if (!activationState) {
+        activeBlockClassName = "block_hide"
+        inactiveBlockClassName = "block_show"
     }
+    return (
+        <>
+            <div className={activeBlockClassName} >
+                <GrapevineIsActive />
+            </div>
+            <div className={inactiveBlockClassName} >
+                <GrapevineIsInactive />
+            </div>
+        </>
+    )
 }
 
 export default grapevineSettingsMainComponent

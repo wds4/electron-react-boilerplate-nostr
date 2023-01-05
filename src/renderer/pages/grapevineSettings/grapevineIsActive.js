@@ -17,7 +17,7 @@ const activeGrapevine = (props) => {
     return (
         <>
             <div className="grapevineSettingsItemContainer" style={{textAlign:"center"}} >
-                <div className="grapevineSettingsItemLeftCol" >
+                <div className="grapevineSettingsItemLeftCol" style={{width:"200px"}} >
                     Activate Contexts
                 </div>
                 <div className="grapevineSettingsItemMainToggleCol" >

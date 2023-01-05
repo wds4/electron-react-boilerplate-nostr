@@ -130,3 +130,9 @@ div.h4 {
 .doSomethingButton_tiny:hover {
     background-color:yellow;
 }
+.block_show {
+    display:block;
+}
+.block_hide {
+    display:none;
+}
