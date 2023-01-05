@@ -159,7 +159,7 @@ const ThreadFeed = ({root_id}) => {
         <div style={{fontSize:"64px",display:"none"}}>
         Need to fetch root_id message and put at the top.
         </div>
-        <RootMessage />
+        <RootMessage currentPage={currentPage} />
         {reversed.map( (event) => {
             var enableReply = false;
             var isExpanded = false;

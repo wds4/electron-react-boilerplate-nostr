@@ -19,7 +19,7 @@ window.threadRoot_id = event.id
 (Initially only did this in reply page)
 */
 
-const UserPost = ({event, isExpanded, enableReply, currentPage}) => {
+const UserPost = ({event, isExpanded, enableReply, currentPage, isRootMessage}) => {
     let ok = false;
     let veryOk = false;
     if (isValidObj(event)) {
@@ -55,6 +55,9 @@ const UserPost = ({event, isExpanded, enableReply, currentPage}) => {
         var eventContainerClassName = "eventContainer"
         if (isExpanded) {
             eventContainerClassName += " expandedEventContainer"
+        }
+        if (isRootMessage) {
+            eventContainerClassName += " rootEventContainer"
         }
         var eventContainer_id = "mainId_"+event.id;
 

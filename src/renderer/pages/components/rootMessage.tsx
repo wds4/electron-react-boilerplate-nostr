@@ -6,6 +6,7 @@ import * as MiscAppFxns from "../../lib/app/misc.ts";
 import BlankAvatar from "../components/blankAvatar.png";
 import ActionButtons from "./actionButtons.js";
 import { determineNip10Scheme, fetchRootEvent_d, fetchRootEvent_p} from "../thread/index";
+import UserPost from "./userPost";
 
 import { useNostr, useNostrEvents, dateToUnix } from "nostr-react";
 import {
@@ -26,7 +27,7 @@ const timeout = MiscAppFxns.timeout
 const fetchMySk = MiscAppFxns.fetchMySk
 
 // I ought to pass root_id to RootMessage rather than repeating the discovery of root_id using functions imported from ../thread/
-export default function RootMessage() {
+export default function RootMessage({currentPage}) {
     const { publish } = useNostr();
     const expandedEvent = window.expandedEvent
     const expandedEventTags = expandedEvent.tags;
@@ -85,6 +86,36 @@ export default function RootMessage() {
             },
         });
         const event = events[0];
+
+        if (event) {
+            var enableReply = false;
+            var isExpanded = false;
+            if (window.expandedEvent.id == event.id) {
+                enableReply = true;
+                isExpanded = true;
+            }
+
+            const rootMessage = true;
+            return (
+                <>
+                    <UserPost
+                        event={event}
+                        enableReply={enableReply}
+                        isExpanded={isExpanded}
+                        currentPage={currentPage}
+                        isRootMessage={rootMessage}
+                    />
+                </>
+            )
+        } else {
+            return (
+                <>
+                    <div>Searching for root_id: {root_id} </div>
+                </>
+            )
+        }
+
+        /*
         let ok = false;
         let veryOk = false;
         if (isValidObj(event)) {
@@ -130,33 +161,29 @@ export default function RootMessage() {
             const avatarID = "smallAvatarContainer_"+pk;
 
             var eventContainerClassName = "eventContainer rootEventContainer"
-            /*
+
             if (window.expandedEvent.id == event_id) {
                 eventContainerClassName += " rootEventContainer"
             }
-            */
+
             var eventContainer_id = "mainId_"+event_id;
 
             var replyContainerClassName = "replyContainer_hide"
             var newReplyTextareaId = "newReplyTextarea_NOT"
+            var enableReply = false;
+            var isExpanded = false;
             if (window.expandedEvent.id == event_id) {
                 eventContainerClassName += " expandedEventContainer"
                 replyContainerClassName = "replyContainer_show"
                 newReplyTextareaId = "newReplyTextarea"
+                enableReply = true;
+                isExpanded = true;
             }
+
+
             return (
                 <>
                     <div className={eventContainerClassName} id={eventContainer_id} >
-
-                        <div style={{fontSize:"18px",display:"none"}} >
-                            this event_id:{event_id}
-                            <br/>
-                            root_id:{root_id}
-                            <br/>
-                            window.expandedEvent.id: {window.expandedEvent.id}
-                        </div>
-
-
                         <div id={avatarID} className="smallAvatarContainer" >
                             <img src={BlankAvatar} className={avatarClass_blank} />
                             <img src={pic_url} className={avatarClass_pic} />
@@ -188,9 +215,6 @@ export default function RootMessage() {
                             </div>
                         </div>
                         <div className={replyContainerClassName} >
-                            <pre style={{display:"none"}}>
-                            {JSON.stringify(event,null,4)}
-                            </pre>
                             <textarea id={newReplyTextareaId} style={{width:"80%",height:"200px",borderRadius:"10px",padding:"5px"}} ></textarea>
                             <div onClick={() => sendReply(event.id)} className="doSomethingButton" style={{verticalAlign:"bottom"}} >Reply</div>
                             <pre className="newEventContainer">
@@ -199,6 +223,7 @@ export default function RootMessage() {
                     </div>
                 </>
             )
+
         } else {
             return (
                 <>
@@ -206,5 +231,6 @@ export default function RootMessage() {
                 </>
             )
         }
+        */
     }
 }

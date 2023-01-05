@@ -93,6 +93,7 @@ var aScrollPast = [];
 var scrollDistance = 0;
 
 const ThreadFeed = ({root_id}) => {
+    const currentPage = "thread";
     if (!root_id) {
         window.threadRoot_id = window.expandedEvent.id;
         return (
@@ -104,7 +105,7 @@ const ThreadFeed = ({root_id}) => {
                 <br/>
                 window.expandedEvent.id: {window.expandedEvent.id}
             </div>
-            <RootMessage />
+            <RootMessage currentPage={currentPage} />
             </>
         )
     }
@@ -116,7 +117,7 @@ const ThreadFeed = ({root_id}) => {
             "#e": [root_id],
         },
     });
-    const currentPage = "thread";
+
     const reversed = events.reverse()
     scrollDistance = 0;
     var passedExpandedEventYet = false;
@@ -126,7 +127,7 @@ const ThreadFeed = ({root_id}) => {
         <div style={{fontSize:"18px",display:"none"}}>
         root_id:{root_id}
         </div>
-        <RootMessage />
+        <RootMessage currentPage={currentPage} />
         {reversed.map( (event) => {
             var isExpanded = false;
             var eventContainerClassName = "eventContainer"
