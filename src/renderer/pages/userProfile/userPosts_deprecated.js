@@ -4,10 +4,10 @@ import { useNostrEvents, useProfile } from "nostr-react";
 import * as MiscAppFxns from "../../lib/app/misc.ts";
 import UserPost from "../components/userPost";
 
-const UserPosts = () => {
+const UserPosts = ({pubkey}) => {
     var { events } = useNostrEvents({
         filter: {
-            authors: [ window.clickedPubKey ],
+            authors: [ pubkey ],
             since: 0, // all new events from now
             kinds: [1],
         },

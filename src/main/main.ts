@@ -89,6 +89,7 @@ createNostrProfilesTableCommand += "nip05 TEXT NULL, ";
 createNostrProfilesTableCommand += "lud06 TEXT NULL, ";
 createNostrProfilesTableCommand += "followers TEXT NULL, ";
 createNostrProfilesTableCommand += "following TEXT NULL, ";
+// createNostrProfilesTableCommand += "degreesOfSeparation INTEGER NULL, ";
 createNostrProfilesTableCommand += "firstSeen INTEGER NULL, ";
 createNostrProfilesTableCommand += "lastUpdate INTEGER NULL, ";
 createNostrProfilesTableCommand += "UNIQUE(event_id, pubkey) ";
@@ -110,11 +111,23 @@ createMyProfileTableCommand += "nip05_verification TEXT NULL, ";
 createMyProfileTableCommand += "lastUpdate INTEGER NULL, ";
 createMyProfileTableCommand += "UNIQUE(pubkey, privkey) ";
 
+var createMyFollowingNetworkTableCommand = "";
+createMyFollowingNetworkTableCommand += "id INTEGER PRIMARY KEY, ";
+createMyFollowingNetworkTableCommand += "seed TEXT NULL, ";
+createMyFollowingNetworkTableCommand += "pubkeys TEXT NULL ";
+/*
+TABLES:
+myProfile: my nostr profile fields
+nostrProfiles: profile info on the accounts I am following directly
+followingNetwork: profile info on accounts within N degrees of separation from me; for use (experimental)
+*/
 db.serialize(() => {
     // db.run('DROP TABLE IF EXISTS nostrProfiles');
     // db.run('DROP TABLE IF EXISTS anotherCoolTable');
     // db.run('DROP TABLE IF EXISTS myProfile');
+    // db.run('DROP TABLE IF EXISTS followingNetwork');
     db.run('CREATE TABLE IF NOT EXISTS nostrProfiles ('+createNostrProfilesTableCommand+')');
+    db.run('CREATE TABLE IF NOT EXISTS followingNetwork ('+createMyFollowingNetworkTableCommand+')');
     db.run('CREATE TABLE IF NOT EXISTS myProfile ('+createMyProfileTableCommand+')');
 });
 

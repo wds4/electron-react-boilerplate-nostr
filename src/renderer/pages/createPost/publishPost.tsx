@@ -55,16 +55,26 @@ export default function PublishPost() {
         event.id = getEventHash(event);
         event.sig = signEvent(event, privKey);
 
-        jQuery("#newEventContainer").html(JSON.stringify(event,null,4))
         publish(event);
+        jQuery("#newPostTextarea").val("")
+        jQuery("#successMessageContainer").html("Your message has been submitted to the nostr network!")
+        jQuery("#newEventContainer").html("Here it is:<br/><br/>"+JSON.stringify(event,null,4))
+        jQuery("#newPostTextareaContainer").change(function(){
+            jQuery("#successMessageContainer").html("")
+            jQuery("#newEventContainer").html("")
+        })
     };
 
     return (
         <div style={{position:"relative",display:"inline-block",width:"90%"}} >
-            <textarea id="newPostTextarea" className="newPostTextarea" ></textarea>
-            <br/>
+            <div id="newPostTextareaContainer">
+                <textarea id="newPostTextarea" className="newPostTextarea" ></textarea>
+            </div>
             <div onClick={onPost} className="doSomethingButton" style={{position:"absolute",right:"0px"}} >Post a message!</div>
-            <div id="newEventContainer" className="newEventContainer" style={{display:"none"}} >newEventContainer</div>
+            <div id="successMessageContainer" style={{fontSize:"14px",marginTop:"20px"}} ></div>
+            <div id="newEventContainer" className="newEventContainer"
+                style={{fontSize:"14px",marginTop:"20px",width:"80%",height:"250px",overflow:"scroll",padding:"5px"}} >
+            </div>
         </div>
     );
 }

@@ -1,6 +1,6 @@
 {
   "name": "electron-react-boilerplate-nostr",
-  "version": "0.1.0",
+  "version": "0.1.2-alpha",
   "description": "A foundation for building a decentralized web client using electron and nostr",
   "license": "MIT",
   "author": {

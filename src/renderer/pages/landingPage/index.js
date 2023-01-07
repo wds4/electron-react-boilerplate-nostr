@@ -27,6 +27,7 @@ export default class Home extends React.Component {
         updateMainColWidth();
         document.getElementById("mastheadCenterContainer").innerHTML = "landing page"
 
+        console.log("landingPage; A")
         // run all startup functions if not already run
         if (!window.init.initMiscGlobalVars) {
             StartupFxns.initMiscGlobalVars()
@@ -40,8 +41,12 @@ export default class Home extends React.Component {
         if (!window.init.fetchProfilesInfo) {
             await StartupFxns.fetchProfilesInfo()
         }
+        if (!window.init.fetchExtendedFollowingList) {
+            await StartupFxns.fetchExtendedFollowingList()
+        }
+        console.log("landingPage; Z")
 
-        await timeout(10)
+        await timeout(100)
         jQuery("#mainFeedButton").get(0).click()
     }
     render() {

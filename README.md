@@ -26,6 +26,9 @@ nostr tools I'm using right now: (nostr-tools)[https://github.com/fiatjaf/nostr-
 - maybe change location of sql database
 - lightning invoice support
 - back button
+- bookmark
+- pin
+- multiple accounts
 
 ## Known issues
 

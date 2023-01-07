@@ -4,7 +4,8 @@ import Masthead from '../../mastheads/mainMasthead.js';
 import LeftNavbar from '../../navbars/leftNav.js';
 import * as MiscAppFxns from "../../lib/app/misc.ts";
 import FollowCounts from "../userProfile/followCounts";
-import Settings from "./settings";
+import UserPosts from "../components/userPosts";
+// import Settings from "./settings";
 
 import {generatePrivateKey, getPublicKey} from 'nostr-tools'
 
@@ -97,15 +98,20 @@ export default class Home extends React.Component {
                         <Masthead />
                     </div>
                     <div id="mainPanel" >
-                        <div className="myProfileBox" >
-                            <div id="myProfileAvatarContainer" className="myProfileAvatarContainer" >
+                        <div className="mainUserProfileBox myProfileBox" >
+                            <div className="mainUserProfileLeftColumnContainer" >
+                                <div id="largeAvatarContainer" className="largeAvatarContainer" >
+                                    <div id="myProfileAvatarContainer" className="myProfileAvatarContainer" ></div>
+                                </div>
+
+                                <FollowCounts pubkey={window.myPubkey} />
                             </div>
 
                             <NavLink to='/EditMyProfile' style={{position:"absolute",right:"5px",top:"5px"}} >
                                 <div className="doSomethingButton">edit my profile</div>
                             </NavLink>
 
-                            <div id="myProfileRightColumnContainer" className="myProfileRightColumnContainer" >
+                            <div id="mainUserProfileRightColumnContainer" className="mainUserProfileRightColumnContainer" >
                                 <div  className="myProfileNameContainer" >
                                     <span id="myProfileDisplayNameContainer" style={{color:"black"}} >
                                         myProfileDisplayNameContainer
@@ -115,19 +121,20 @@ export default class Home extends React.Component {
                                     </span>
                                 </div>
 
+                                <div className="userProfilePubkeyContainer" >
+                                    pubkey: {window.myPubkey}
+                                </div>
+
                                 <div id="myProfileAboutContainer" className="myProfileAboutContainer" >
                                     myProfileAboutContainer
                                 </div>
-                                <div id="pubkeyContainer" style={{display:"inline-block",fontSize:"10px"}}></div>
-                                <FollowCounts pubkey={window.myPubkey} />
                             </div>
                         </div>
 
-                        <br/>
+                        <UserPosts
+                            pubkey={window.myPubkey}
+                        />
 
-                        <div className="settingsContainer" style={{display:"none"}} >
-                            <Settings />
-                        </div>
                     </div>
                 </div>
             </>

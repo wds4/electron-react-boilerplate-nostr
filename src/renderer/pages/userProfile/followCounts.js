@@ -28,12 +28,12 @@ const FollowCounts2 = (props) => {
             <>
                 <div className="followCountContainer" data-createdat={event_.created_at} >
                     <NavLink className="followsNavLink" to='/FollowingList'>
+                        <div style={{display:"inline-block",marginRight:"5px"}} >{aFollowing_.length}</div>
                         following
-                        <div style={{display:"inline-block",marginLeft:"5px"}} >{aFollowing_.length}</div>
                     </NavLink>
-                    <div style={{display:"inline-block",marginLeft:"5px"}} >
+                    <div style={{display:"inline-block",marginLeft:"10px"}} >
+                        <div style={{display:"inline-block",marginRight:"5px"}} >?</div>
                         followers
-                        <div style={{display:"inline-block",marginLeft:"5px"}} >?</div>
                     </div>
                 </div>
             </>
@@ -43,12 +43,12 @@ const FollowCounts2 = (props) => {
             <>
                 <div className="followCountContainer" >
                     <NavLink className="followsNavLink" to='/FollowingList'>
+                        <div style={{display:"inline-block",marginRight:"5px"}} >?</div>
                         following
-                        <div style={{display:"inline-block",marginLeft:"5px"}} >?</div>
                     </NavLink>
-                    <div style={{display:"inline-block",marginLeft:"5px"}} >
+                    <div style={{display:"inline-block",marginLeft:"10px"}} >
+                        <div style={{display:"inline-block",marginRight:"5px"}} >?</div>
                         followers
-                        <div style={{display:"inline-block",marginLeft:"5px"}} >?</div>
                     </div>
                 </div>
             </>

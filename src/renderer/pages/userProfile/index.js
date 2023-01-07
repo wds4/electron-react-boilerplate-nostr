@@ -4,7 +4,7 @@ import Masthead from '../../mastheads/mainMasthead.js';
 import LeftNavbar from '../../navbars/leftNav.js';
 import * as MiscAppFxns from "../../lib/app/misc.ts";
 import { useNostrEvents, useProfile } from "nostr-react";
-import UserPosts from "./userPosts";
+import UserPosts from "../components/userPosts";
 import UserInfo from "./userInfo";
 
 const updateMainColWidth = MiscAppFxns.updateMainColWidth;
@@ -35,7 +35,9 @@ export default class Home extends React.Component {
                     </div>
                     <div id="mainPanel" >
                         <UserInfo />
-                        <UserPosts />
+                        <UserPosts
+                            pubkey={window.clickedPubKey}
+                        />
                     </div>
                 </div>
             </>

@@ -4,7 +4,7 @@ import Masthead from '../../mastheads/mainMasthead.js';
 import LeftNavbar from '../../navbars/leftNav.js';
 import * as MiscAppFxns from "../../lib/app/misc.ts";
 import { useNostrEvents } from "nostr-react";
-import FollowButton from "./followButton";
+import FollowButton from "../components/followButton";
 import { asyncSql } from "../../index.tsx";
 
 import {
@@ -151,7 +151,10 @@ const SingleUserElem2 = (props) => {
                         </div>
                     </NavLink>
                     <div className="singleUserRightContainer" >
-                        <FollowButton pubkey={pk} />
+                        <FollowButton
+                            pubkey={pk}
+                            aFollowing={window.myProfile.following}
+                        />
                     </div>
                 </div>
             </>
@@ -189,7 +192,10 @@ const SingleUserElem2 = (props) => {
                         </div>
                     </NavLink>
                     <div className="singleUserRightContainer" >
-                        <FollowButton pubkey={pk} />
+                        <FollowButton
+                            pubkey={pk}
+                            aFollowing={window.myProfile.following}
+                        />
                     </div>
                 </div>
             </>

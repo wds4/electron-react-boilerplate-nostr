@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { NavLink } from "react-router-dom";
 import FollowCounts from "./followCounts";
-import FollowButton from "../followingList/followButton";
+import FollowButton from "../components/followButton";
 import LeaveGrapevineRatings from "./leaveGrapevineRatings";
 import { useNostrEvents, useProfile } from "nostr-react";
 import * as MiscAppFxns from "../../lib/app/misc.ts";
@@ -32,7 +32,7 @@ const UserInfo = () => {
         // jQuery(".eventNameContainer").html(name)
         return (
             <>
-                <pre style={{border:"2px solid blue",margin:"5px",padding:"5px",display:"none"}}>
+                <pre style={{border:"2px solid blue",margin:"5px",padding:"5px",display:"none"}} >
                 {JSON.stringify(event,null,4)}
                 </pre>
                 <div className="mainUserProfileBox" >
@@ -65,7 +65,10 @@ const UserInfo = () => {
                         <LeaveGrapevineRatings pubkey={window.clickedPubKey} />
 
                         <div className="singleUserRightContainer" >
-                            <FollowButton pubkey={window.clickedPubKey} />
+                            <FollowButton
+                                pubkey={window.clickedPubKey}
+                                aFollowing={window.myProfile.following}
+                            />
                         </div>
                     </div>
                 </div>
@@ -75,21 +78,39 @@ const UserInfo = () => {
         return (
             <>
                 <div className="mainUserProfileBox" >
-                    <div id="largeAvatarContainer" className="largeAvatarContainer" >
-                        <img className='mainProfilePageAvatarBox' />
+
+                    <div className="mainUserProfileLeftColumnContainer" >
+                        <div id="largeAvatarContainer" className="largeAvatarContainer" >
+                            <img className='mainProfilePageAvatarBox' />
+                        </div>
+
+                        <FollowCounts pubkey={window.clickedPubKey} />
                     </div>
+
                     <div id="mainUserProfileRightColumnContainer" className="mainUserProfileRightColumnContainer" >
                         <div id="mainUserNameContainer" className="mainUserNameContainer" style={{color:"grey"}} >
-                            ... {window.clickedPubKey.slice(-6)}
+                            <span style={{color:"grey",marginLeft:"10px"}} >
+                                ... {window.clickedPubKey.slice(-6)}
+                            </span>
+                        </div>
+
+                        <div style={{fontSize:"10px"}}>
+                            pubkey: {window.clickedPubKey}
                         </div>
 
                         <div id="mainUserAboutContainer" className="mainUserAboutContainer" style={{color:"grey"}}  >
                             about
                         </div>
 
-                        <div style={{fontSize:"10px"}}>
-                            pubkey: {window.clickedPubKey}
+                        <LeaveGrapevineRatings pubkey={window.clickedPubKey} />
+
+                        <div className="singleUserRightContainer" >
+                            <FollowButton
+                                pubkey={window.clickedPubKey}
+                                aFollowing={window.myProfile.following}
+                            />
                         </div>
+
                     </div>
                 </div>
             </>

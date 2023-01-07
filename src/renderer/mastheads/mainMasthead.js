@@ -26,11 +26,17 @@ export default class Masthead extends React.Component {
                   </div>
 
                   <div className="mastheadRightContainer" >
-                      <NavLink className="mastheadNavButton" end to='/GrapevineSettings' >
+                      <NavLink className="mastheadNavButton" end to='/ExtendedFollowingList' style={{display:"none",fontSize:"7px"}} >
+                          extended following list
+                      </NavLink>
+                      <NavLink className="mastheadNavButton" end to='/VisJsHelloWorld' style={{display:"none",fontSize:"8px"}} >
+                          visjs hello world
+                      </NavLink>
+                      <NavLink className="mastheadNavButton" end to='/GrapevineSettings' style={{display:"none",fontSize:"7px"}} >
                           <div style={{fontSize:"20px"}} >&#x1F347;</div>
                           settings
                       </NavLink>
-                      <NavLink className="mastheadNavButton" end to='/SearchForUser' >
+                      <NavLink className="mastheadNavButton" end to='/SearchForUser' style={{fontSize:"7px"}} >
                           search for user
                       </NavLink>
                       <NavLink className="mastheadNavButton" end to='/CreatePost' >

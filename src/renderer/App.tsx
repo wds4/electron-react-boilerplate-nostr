@@ -15,6 +15,7 @@ import MainFeed from './pages/mainFeed/index';
 import ManageChannels from './pages/manageChannels/index';
 import UserProfile from './pages/userProfile/index';
 import FollowingList from './pages/followingList/index';
+import ExtendedFollowingList from './pages/extendedFollowingList/index';
 import DownloadProfiles from './pages/downloadProfiles/index';
 import UserList from './pages/userList/index';
 import MyProfile from './pages/myProfile/index';
@@ -25,6 +26,7 @@ import Thread from './pages/thread/index';
 import Reply from './pages/reply/index';
 import SearchForUser from './pages/searchForUser/index';
 import GrapevineSettings from './pages/grapevineSettings/index';
+import VisJsHelloWorld from './pages/visJsHelloWorld/index';
 
 // GRAPEVINE PAGES
 import GrapevineLandingPage from './grapevine/landingPage/index';
@@ -46,6 +48,7 @@ import './css/grapevineToggleSwitch.css';
 import './css/grapevineSettings.css';
 import './css/nfgGraphic.css';
 import './css/youTubeEmbed.css';
+import './css/misc.css';
 
 import { asyncSql } from "./index.tsx";
 
@@ -84,6 +87,7 @@ export default class App extends React.Component {
                             <Route path="/ManageChannels" element={<ManageChannels />} />
                             <Route path="/UserProfile" element={<UserProfile />} />
                             <Route path="/FollowingList" element={<FollowingList />} />
+                            <Route path="/ExtendedFollowingList" element={<ExtendedFollowingList />} />
                             <Route path="/DownloadProfiles" element={<DownloadProfiles />} />
                             <Route path="/UserList" element={<UserList />} />
                             <Route path="/MyProfile" element={<MyProfile />} />
@@ -100,6 +104,7 @@ export default class App extends React.Component {
 
                             <Route path="/GrapevineLandingPage" element={<GrapevineLandingPage />} />
                             <Route path="/NostrFollowGrapevineVisualization" element={<NostrFollowGrapevineVisualization />} />
+                            <Route path="/VisJsHelloWorld" element={<VisJsHelloWorld />} />
                         </Routes>
                     </Router>
                 </fieldset>

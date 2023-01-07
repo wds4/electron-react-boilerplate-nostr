@@ -30,6 +30,13 @@ const GlobalFeed = ( ) => {
     if (window.myProfile) {
         aAuthors = window.myProfile.following
     }
+    var aExtendedAuthors = [];
+    if (window.aExtendedAuthors) {
+        aExtendedAuthors = window.aExtendedAuthors
+    }
+    // console.log("aAuthors: "+JSON.stringify(aAuthors))
+    // console.log("aExtendedAuthors: "+JSON.stringify(aExtendedAuthors))
+    // console.log("window.mainFeed.type: "+window.mainFeed.type)
     if (window.mainFeed.type=="following") {
         const howLongAgo = 2 * 24 * 60 * 60; // 60 * 60 = fetch messages as old as one hour
         const sinceAgo = currentTime - howLongAgo;
@@ -41,12 +48,23 @@ const GlobalFeed = ( ) => {
             },
         });
     }
+    if (window.mainFeed.type=="ffollowing") {
+        const howLongAgo = 2 * 24 * 60 * 60; // 60 * 60 = fetch messages as old as one hour
+        const sinceAgo = currentTime - howLongAgo;
+        var { events } = useNostrEvents({
+            filter: {
+                authors: aExtendedAuthors,
+                since: sinceAgo, // all new events from now
+                kinds: [1],
+            },
+        });
+    }
     const currentPage="mainFeed";
     return (
         <>
-            <div style={{position:"relative",height:"30px"}} >
+            <div style={{position:"relative",height:"40px"}} >
                 <div className="mainFeedTypeSelector" >
-                    <MainFeedTypeSelector following={aAuthors}  />
+                    <MainFeedTypeSelector following={aAuthors} extendedFollowing={aExtendedAuthors}  />
                 </div>
             </div>
             <div>

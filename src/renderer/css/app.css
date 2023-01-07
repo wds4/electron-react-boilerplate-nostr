@@ -35,6 +35,25 @@ div, pre {
     word-wrap: break-word;
 
 }
+
+:root {
+  --select-border: ;
+  --select-focus: #101484;
+  --select-arrow: var(--select-border);
+}
+
+select {
+    min-width: 5ch;
+    max-width: 30ch;
+    border: 1px solid #393939;
+    border-radius: 0.25em;
+    padding: 3px;
+    font-size: 1.0rem;
+    cursor: pointer;
+    background: linear-gradient(to bottom, #ffffff 0%, #e5e5e5 100%);
+}
+
+
 div.h1 {
     font-size:36px;
     text-align:center;

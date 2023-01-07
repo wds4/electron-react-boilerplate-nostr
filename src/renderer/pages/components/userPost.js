@@ -20,39 +20,13 @@ window.threadRoot_id = event.id
 (Initially only did this in reply page)
 */
 
-/*
-const youtubeRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})(?:\S+)?/g;
-replacedText = reactStringReplace(replacedText, youtubeRegex, (match, i) => {
-  return (
-    <iframe
-      key={match + i}
-      width="560"
-      height="315"
-      src={`https://www.youtube.com/embed/${match}`}
-      frameBorder="0"
-      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-      allowFullScreen
-    />
-  );
-});
-*/
-/*
-const fetchAuthorData = async (pk) => {
-    var oAuthorData = {
-        name: "dunno",
-        display_name: "dunno",
-        picture_url: null,
-    }
-
-    return oAuthorData;
-}
-*/
-
+// const regExpImageUrls = /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png) // not yet tested or implemented
+const regExpVideoID = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+const youtubeRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&amp;v=))([\w-]{11})(?:\S+)?/g;
 // from https://www.labnol.org/code/19797-regex-youtube-id
 // input must be a url
 const extractVideoID = (url) => {
-    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
-    var match = url.match(regExp);
+    var match = url.match(regExpVideoID);
     if (match && match[7].length == 11) {
         console.log("extractVideoID match[7]: "+match[7])
         return match[7];
@@ -64,7 +38,6 @@ const extractVideoID = (url) => {
 // input must contain an url within it
 // output is the entire url
 const extractVideoUrl = (rawContent) => {
-    var youtubeRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&amp;v=))([\w-]{11})(?:\S+)?/g;
     var match = rawContent.match(youtubeRegex);
     if (match) {
         console.log("extractVideoUrl match[0]: "+match[0])
@@ -96,13 +69,18 @@ const UserPost = ({event, isExpanded, enableReply, currentPage, isRootMessage}) 
         var nameClass = "nameUnknown";
         var avatarClass_blank = "smallAvatarBox_show";
         var avatarClass_pic = "smallAvatarBox_hide";
+        var oEvent_this = {}
         if (window.profiles.hasOwnProperty(pk)) {
-            var oEvent_this = window.profiles[pk]
+            oEvent_this = window.profiles[pk]
             if (oEvent_this) {
                 if (isValidObj(oEvent_this.content)) {
                     picture_url = JSON.parse(oEvent_this.content).picture;
                     name = JSON.parse(oEvent_this.content).name;
                     display_name = JSON.parse(oEvent_this.content).display_name;
+                } else {
+                    picture_url = oEvent_this.picture_url;
+                    name = oEvent_this.name;
+                    display_name = oEvent_this.display_name;
                 }
             }
             nameClass = "nameKnown";

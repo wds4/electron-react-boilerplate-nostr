@@ -104,11 +104,11 @@ function PublishProfile() {
 
         var sProfileInfo = JSON.stringify(oProfileInfo)
         const event: NostrEvent = {
-          content: sProfileInfo,
-          kind: 0,
-          tags: [],
-          created_at: dateToUnix(),
-          pubkey: getPublicKey(privKey),
+            content: sProfileInfo,
+            kind: 0,
+            tags: [],
+            created_at: dateToUnix(),
+            pubkey: getPublicKey(privKey),
         };
 
         event.id = getEventHash(event);
@@ -116,10 +116,11 @@ function PublishProfile() {
 
         jQuery("#newEventContainer").html(JSON.stringify(event,null,4))
         publish(event);
+        jQuery("#successMessageContainer").html("You profile settings have been saved locally & submitted to the nostr network.")
     };
 
     return (
-        <div>
+        <div style={{marginBottom:"10px"}} >
             <div onClick={onPost} className="doSomethingButton" >Save & Submit your profile!</div>
             <div id="newEventContainer" className="newEventContainer" style={{display:"none"}} >newEventContainer</div>
         </div>
@@ -164,6 +165,10 @@ export default class Home extends React.Component {
         document.getElementById("mastheadCenterContainer").innerHTML = "edit my profile"
 
         await populateMyProfileInfo();
+
+        jQuery("#dataFieldsContainer").change(function(){
+            jQuery("#successMessageContainer").html("")
+        })
     }
     render() {
         return (
@@ -177,63 +182,71 @@ export default class Home extends React.Component {
                     </div>
                     <div id="mainPanel" >
 
-                        <div className="editProfileFieldContainer" >
-                            <div className="editProfileLeftColContainer" >
-                                NAME (username)
+                        <div id="dataFieldsContainer" >
+                            <div className="editProfileFieldContainer" >
+                                <div className="editProfileLeftColContainer" >
+                                    NAME (username)
+                                </div>
+                                <textarea id="nameContainer" className="editProfileRightColContainer" placeholder="Satoshi Nakamoto" >
+                                </textarea>
                             </div>
-                            <textarea id="nameContainer" className="editProfileRightColContainer" placeholder="Satoshi Nakamoto" >
-                            </textarea>
-                        </div>
 
-                        <div className="editProfileFieldContainer" >
-                            <div className="editProfileLeftColContainer" >
-                                DISPLAY NAME
+                            <div className="editProfileFieldContainer" >
+                                <div className="editProfileLeftColContainer" >
+                                    DISPLAY NAME
+                                </div>
+                                <textarea id="displayNameContainer" className="editProfileRightColContainer" placeholder="satoshi" >
+                                </textarea>
                             </div>
-                            <textarea id="displayNameContainer" className="editProfileRightColContainer" placeholder="satoshi" >
-                            </textarea>
-                        </div>
 
-                        <div className="editProfileFieldContainer" >
-                            <div className="editProfileLeftColContainer" >
-                                PROFILE PICTURE URL
+                            <div className="editProfileFieldContainer" >
+                                <div className="editProfileLeftColContainer" >
+                                    PROFILE PICTURE URL
+                                </div>
+                                <textarea id="profilePictureUrlContainer" className="editProfileRightColContainer" placeholder="https://example.com/pic.jpg" >
+                                </textarea>
+                                <div className="editProfileRightColContainer" style={{maxWidth:"275px",color:"grey",fontStyle:"italic"}} >
+                                    * Need a way to upload and host an image for your avatar? Here is an easy tool:
+                                    <a href="http://nostr.build" target="_blank" style={{marginLeft:"5px"}} >nostr.build</a>
+                                </div>
                             </div>
-                            <textarea id="profilePictureUrlContainer" className="editProfileRightColContainer" placeholder="https://example.com/pic.jpg" >
-                            </textarea>
-                        </div>
 
-                        <div className="editProfileFieldContainer" >
-                            <div className="editProfileLeftColContainer" >
-                                WEBSITE
+                            <div className="editProfileFieldContainer" >
+                                <div className="editProfileLeftColContainer" >
+                                    WEBSITE
+                                </div>
+                                <textarea id="websiteContainer" className="editProfileRightColContainer" placeholder="https://www.bitcointalk.org" >
+                                </textarea>
                             </div>
-                            <textarea id="websiteContainer" className="editProfileRightColContainer" placeholder="https://www.bitcointalk.org" >
-                            </textarea>
-                        </div>
 
-                        <div className="editProfileFieldContainer" >
-                            <div className="editProfileLeftColContainer" >
-                                ABOUT ME
+                            <div className="editProfileFieldContainer" >
+                                <div className="editProfileLeftColContainer" >
+                                    ABOUT ME
+                                </div>
+                                <textarea id="aboutMeContainer" className="editProfileRightColContainer" placeholder="inventor of bitcoin" >
+                                </textarea>
                             </div>
-                            <textarea id="aboutMeContainer" className="editProfileRightColContainer" placeholder="inventor of bitcoin" >
-                            </textarea>
-                        </div>
 
-                        <div className="editProfileFieldContainer" >
-                            <div className="editProfileLeftColContainer" >
-                                BITCION LIGHTNING TIPS
+                            <div className="editProfileFieldContainer" >
+                                <div className="editProfileLeftColContainer" >
+                                    BITCION LIGHTNING TIPS
+                                </div>
+                                <textarea id="btcLightningTipsContainer" className="editProfileRightColContainer" placeholder="Lightning Address of LNURL" >
+                                </textarea>
                             </div>
-                            <textarea id="btcLightningTipsContainer" className="editProfileRightColContainer" placeholder="Lightning Address of LNURL" >
-                            </textarea>
-                        </div>
 
-                        <div className="editProfileFieldContainer" >
-                            <div className="editProfileLeftColContainer" >
-                                NIP05 VERIFICATION
+                            <div className="editProfileFieldContainer" >
+                                <div className="editProfileLeftColContainer" >
+                                    NIP05 VERIFICATION
+                                </div>
+                                <textarea id="nip05VerificationContainer" className="editProfileRightColContainer" placeholder="jb55@jb55.com" >
+                                </textarea>
                             </div>
-                            <textarea id="nip05VerificationContainer" className="editProfileRightColContainer" placeholder="jb55@jb55.com" >
-                            </textarea>
                         </div>
 
                         <PublishProfile />
+
+                        <div id="successMessageContainer" style={{fontSize:"14px"}} ></div>
 
                     </div>
                 </div>

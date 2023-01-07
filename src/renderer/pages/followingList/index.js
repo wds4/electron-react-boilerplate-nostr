@@ -4,7 +4,7 @@ import LeftNavbar from '../../navbars/leftNav.js';
 import * as MiscAppFxns from "../../lib/app/misc.ts";
 import SingleUserElem from "./singleUserElem";
 
-import { useNostrEvents, useProfile } from "nostr-react";
+import { useNostrEvents } from "nostr-react";
 
 import {
     relayInit,
@@ -33,9 +33,10 @@ const FollowerList2 = () => {
 
     if (events.length > 0) {
         // need to make sure sort order is correct
-        const reversed = events.reverse()
+        // const reversed = events.reverse()
         // events.sort((a, b) => parseFloat(a.created_at) - parseFloat(b.created_at));
-        event = events[events.length-1]
+        // event = events[events.length-1] // seems to get an older one
+        event = events[0]
         var aFollowing = event.tags
         var aFollowing_ = [];
         // remove duplicates
@@ -56,7 +57,7 @@ const FollowerList2 = () => {
                     </div>
                     <SingleUserElem pubkey={window.clickedPubKey} />
                 </div>
-                <pre style={{display:"none",border:"1px solid purple",margin:"5px",padding:"5px"}} >
+                <pre style={{border:"1px solid purple",margin:"5px",padding:"5px",display:"none"}} >
                 {JSON.stringify(event,null,4)}
                 </pre>
                 <div>

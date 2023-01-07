@@ -114,6 +114,14 @@
     display:none;
     margin-right:10px;
 }
+.numFFollowingContainer_show {
+    display:inline-block;
+    margin-right:10px;
+}
+.numFFollowingContainer_hide {
+    display:none;
+    margin-right:10px;
+}
 .eventActionButtonsContainer {
     padding:2px;
 }
