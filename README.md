@@ -24,6 +24,8 @@ Currently, this app works in dev mode. The mac release (v0.1.x-alpha) also is fu
 - extended
 - graphical visualization of extended following list using vis.js (in v0.2.0-alpha release)
 
+<img src=".erb/img/electron-nostr.png" width="100%" />
+
 ## Todo
 
 
