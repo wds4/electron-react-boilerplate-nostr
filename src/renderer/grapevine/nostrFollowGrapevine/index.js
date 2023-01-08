@@ -44,7 +44,7 @@ export default class ExtendedFollowerList extends React.Component {
     }
     async componentDidMount() {
         updateMainColWidth();
-        document.getElementById("mastheadCenterContainer").innerHTML = "nostr following grapevine"
+        document.getElementById("mastheadCenterContainer").innerHTML = "visualization of the extended following list"
 
         var oFollowingNetworkData = await fetchFollowingNetworkInfo()
         if (oFollowingNetworkData) {

@@ -147,12 +147,15 @@ const FetchFollowingList = ({pubkeys, updatePubkeys}) => {
         <>
             <div>
                 <div>
-                    <div>number of users: {Object.keys(pubkeys).length}</div>
-                    <table>
+                    <div>number of users (pubkeys) discovered: {Object.keys(pubkeys).length}</div>
+
+                    <div>Once a pubkey is added to the list, its profile info and following list are requested from the network.</div>
+
+                    <table style={{marginBottom:"20px"}} >
                         <tr>
-                            <th>kind</th>
-                            <th>Known</th>
-                            <th>Unknown</th>
+                            <th></th>
+                            <th>fetched</th>
+                            <th>not fetched</th>
                         </tr>
                         <tr>
                             <td>Following</td>
@@ -165,24 +168,37 @@ const FetchFollowingList = ({pubkeys, updatePubkeys}) => {
                             <td>{numProfilesUnknown}</td>
                         </tr>
                     </table>
+
+                    <div style={{fontSize:"18px",marginBottom:"20px"}} >
+                        Percent of extended list whose profile info has been fetched:
+                        <div style={{color:"red",marginLeft:"10px",display:"inline-block"}} >
+                            {Math.floor(100 * numProfilesKnown / (numProfilesKnown + numProfilesUnknown))} %
+                        </div>
+                    </div>
+
+                    <div style={{textAlign:"left"}} >number of users for various degrees of separation:</div>
                     <table>
                         <tr>
-                            <th>numLevel0</th>
-                            <th>numLevel1</th>
-                            <th>numLevel2</th>
-                            <th>numLevel3</th>
-                            <th>numLevel4</th>
-                            <th>numLevel5</th>
-                            <th>numLevel6</th>
+                            <th>0 (me)</th>
+                            <th>1 (my following)</th>
+                            <th>2 (their following)</th>
+                            <div style={{display:"none"}} >
+                                <th>numLevel3</th>
+                                <th>numLevel4</th>
+                                <th>numLevel5</th>
+                                <th>numLevel6</th>
+                            </div>
                         </tr>
                         <tr>
                             <td>{numLevel0}</td>
                             <td>{numLevel1}</td>
                             <td>{numLevel2}</td>
-                            <td>{numLevel3}</td>
-                            <td>{numLevel4}</td>
-                            <td>{numLevel5}</td>
-                            <td>{numLevel6}</td>
+                            <div style={{display:"none"}} >
+                                <td>{numLevel3}</td>
+                                <td>{numLevel4}</td>
+                                <td>{numLevel5}</td>
+                                <td>{numLevel6}</td>
+                            </div>
                         </tr>
                     </table>
                 </div>

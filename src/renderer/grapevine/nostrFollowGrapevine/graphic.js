@@ -72,8 +72,8 @@ const loadFollowingNetwork = async (seed,pubkeys) => {
             id: nextPk,
             label: oProfileData.name,
             title: oProfileData.display_name,
-            shape:"circle",
-            // shape:"circularImage",
+            // shape:"circle",
+            shape:"circularImage",
             image: picture_url,
             brokenImage: "https://nostr.build/i/2282.png",
             size: size,
@@ -196,8 +196,8 @@ const populateProfileInfoContainer = (pubkey,oPubkeys,aAllNodes) => {
     for (var p=0;p<aAllNodes.length;p++) {
         var pk = aAllNodes[p];
         if (aFollowing.includes(pk)) {
-            var oNxtNode = {id: pk, color: "red", size: 1000, shape: "circle" }
-            nodes.update(oNxtNode);
+            // var oNxtNode = {id: pk, color: "red", size: 1000, shape: "circle" }
+            // nodes.update(oNxtNode);
             var oNxtEdge = {from:pubkey, to:pk}
             edges.update(oNxtEdge)
         }
@@ -232,8 +232,8 @@ const NFG_Graphic2 = ({seed,pubkeys}) => {
         id: window.myPubkey,
         label: window.myProfile.display_name,
         title: window.myProfile.display_name,
-        // shape:"circularImage",
-        shape: "circle",
+        shape:"circularImage",
+        // shape: "circle",
         image: window.myProfile.picture_url,
         brokenImage: "https://nostr.build/i/2282.png",
         size: 1000
@@ -317,6 +317,13 @@ const NFG_Graphic2 = ({seed,pubkeys}) => {
             });
             network.current.on("blurNode", function (params) {
                 // delete all edges; restore all nodes to normal
+                var aAllEdges = edges.getIds()
+                data.edges.remove(aAllEdges)
+                /*
+                for (var e=0;e<aAllEdges.length;e++) {
+
+                }
+                */
             });
 
             network.current.on("click",function(params){
@@ -331,6 +338,7 @@ const NFG_Graphic2 = ({seed,pubkeys}) => {
                 } else {
                     // var aPubkeys = Object.keys(pubkeys);
                     for (var p=0;p<aAllNodes.length;p++) {
+                        /*
                         var pk = aAllNodes[p];
                         var size = 200;
                         if (pubkeys[pk].followingData.level) {
@@ -355,14 +363,15 @@ const NFG_Graphic2 = ({seed,pubkeys}) => {
 
                         if (picture_url) {
                             var oNxtNode = {id: pk, size: size, color: "white",
-                                // shape: "circularImage",
-                                shape: "circle",
+                                shape: "circularImage",
+                                // shape: "circle",
                                 image: picture_url, brokenImage: "https://nostr.build/i/2282.png", }
                         } else {
                             var oNxtNode = {id: pk, size: size, color: "white", shape: "circle" }
                         }
 
                         nodes.update(oNxtNode);
+                        */
                     }
                 }
 

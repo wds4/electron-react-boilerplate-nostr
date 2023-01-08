@@ -78,7 +78,7 @@ export default class MainFeedTypeSelector extends React.Component {
                     </div>
                     <select id="mainFeedTypeSelector"  >
                         <option data-type="following" value="following" selected={this.state.isFollowingSelected} >following list</option>
-                        <option data-type="ffollowing" value="ffollowing" disabled="disabled" style={{display:"none"}} selected={this.state.isFFollowingSelected} >Extended &#8482; following list</option>
+                        <option data-type="ffollowing" value="ffollowing" selected={this.state.isFFollowingSelected} >Extended &#8482; following list</option>
                         <option data-type="firehose" value="firehose" selected={this.state.isFirehoseSelected} >firehose</option>
                         <option data-type="otherUserFollowing" value="otherUserFollowing" disabled="disabled" style={{display:"none"}} selected={this.state.isOtherUserFollowingSelected} >_____'s following list</option>
                         <option data-type="grapevine" value="grapevine" disabled="disabled" style={{display:"none"}} selected={this.state.isGrapevineSelected} >grapevine</option>

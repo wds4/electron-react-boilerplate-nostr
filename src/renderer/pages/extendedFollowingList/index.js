@@ -51,6 +51,7 @@ const fetchFollowingNetworkInfo = async (seed,pubkeys) => {
     console.log("aFollowingNetworkData.length: "+aFollowingNetworkData.length)
     if (aFollowingNetworkData.length==0) {
         await initializeFirstFollowingNetwork(seed,pubkeys);
+        jQuery("#successNotificationContainer").html("extended following list has been saved.")
     }
 }
 
@@ -76,7 +77,7 @@ export default class ExtendedFollowerList extends React.Component {
 
     async componentDidMount() {
         updateMainColWidth();
-        document.getElementById("mastheadCenterContainer").innerHTML = "following"
+        document.getElementById("mastheadCenterContainer").innerHTML = "extended following list: setup"
 
         var pubkeys_new = this.state.pubkeys;
         pubkeys_new[window.myPubkey] = {
@@ -111,8 +112,6 @@ export default class ExtendedFollowerList extends React.Component {
                         <Masthead />
                     </div>
                     <div id="mainPanel" >
-
-
                         <div style={{display:"none"}} >
                             <div>
                                 <div style={{display:"inline-block",marginRight:"5px",fontSize:"14px"}} >
@@ -128,12 +127,31 @@ export default class ExtendedFollowerList extends React.Component {
                             </div>
                             numUpdates (which trigger a re-render): <span id="numUpdatesContainer">numUpdatesContainer</span>
                         </div>
-                        <div id="saveFollowingGraphButton" onClick={() => {this.sFG(this.state.seed,this.state.pubkeys)}} className="doSomethingButton" >Save Graph</div>
+                        <div>
+                        Your extended following list is being (re)generated at a max distance of two degrees of separation. (More than that seems to jam up the relays.)
+                        </div>
+
                         <FetchFollowingList
                             seed = {this.state.seed}
                             pubkeys = {this.state.pubkeys}
                             updatePubkeys = {this.updatePubkeys}
                         />
+
+                        <div style={{marginTop:"20px"}} >
+                            Once enough users with profile data is scraped, click this button to save the list.
+
+                            (Assuming you've followed a handful of active users,
+                            it shouldn't take more than a minute or two to get at least a few hundred users in your extended list, with more than 80% of those profiles having been fetched.)
+                            <br/>
+                            Then check out the extended following list on the main feed page. Also check out the visualization of the extended following list.
+                            <br/>
+                            (Future: this will be performed in the background. Possibly using a dedicated renderer thread.)
+                        </div>
+
+                        <div id="saveFollowingGraphButton" onClick={() => {this.sFG(this.state.seed,this.state.pubkeys)}} className="doSomethingButton" >Save/Update Extended Following List</div>
+
+                        <div id="successNotificationContainer" > </div>
+
                     </div>
                 </div>
             </>

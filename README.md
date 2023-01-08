@@ -14,13 +14,15 @@ Currently, this app works in dev mode. The mac release (v0.1.x-alpha) also is fu
 
 - automatic generation of privkey and pubkey
 - view and manage basics of your profile (name, picture_url, etc)
-- main feed in 2 modes, "firehose" (unfiltered) and "following"
+- main feed in 3 modes: "following" (your follows), "Extended following" (+ their follows) and "firehose" (completely unfiltered)
 - view other profiles
 - follow / unfollow button
 - submit a post
 - reply to a post
 - thread viewer (very basic implementation)
 - youtube video playback
+- extended
+- graphical visualization of extended following list using vis.js (in v0.2.0-alpha release)
 
 ## Todo
 

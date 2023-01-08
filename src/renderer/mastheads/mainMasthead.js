@@ -18,7 +18,7 @@ export default class Masthead extends React.Component {
                       <NavLink className="mastheadNavButton" end to='/' style={{display:"none"}} >
                           back button
                       </NavLink>
-                      nostr
+                      electron-nostr
                   </div>
 
                   <div id="mastheadCenterContainer" className="mastheadCenterContainer" >
@@ -26,8 +26,8 @@ export default class Masthead extends React.Component {
                   </div>
 
                   <div className="mastheadRightContainer" >
-                      <NavLink className="mastheadNavButton" end to='/ExtendedFollowingList' style={{display:"none",fontSize:"7px"}} >
-                          extended following list
+                      <NavLink className="mastheadNavButton" end to='/ExtendedFollowingList' style={{fontSize:"7px"}} >
+                          setup extended following list
                       </NavLink>
                       <NavLink className="mastheadNavButton" end to='/VisJsHelloWorld' style={{display:"none",fontSize:"8px"}} >
                           visjs hello world
