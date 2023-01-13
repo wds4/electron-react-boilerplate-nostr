@@ -13,7 +13,9 @@ Let me know if you would like to use and/or contribute to the basic electron-nos
 Currently, this app works in dev mode. The mac release (v0.1.x-alpha) also is functional. linux and windows releases are not yet functional.
 
 - automatic generation of privkey and pubkey
+- abiliity to import privkey and pubkey
 - view and manage basics of your profile (name, picture_url, etc)
+- support for multiple profiles
 - main feed in 3 modes: "following" (your follows), "Extended following" (+ their follows) and "firehose" (completely unfiltered)
 - view other profiles
 - follow / unfollow button
@@ -28,14 +30,12 @@ Currently, this app works in dev mode. The mac release (v0.1.x-alpha) also is fu
 
 ## Todo
 
-
-- abiliity to import privkey and pubkey
+- direct messaging
 - refactor thread viewer
 - refactor following page (need to request events for info on all users at once, not separate request for each user)
 - add retweet, like buttons
 - add notifications
-- direct messaging
-- show pictures
+- show pictures in posts
 - implement caching (redux?)
 - calculate and show number of followers
 - maybe change location of sql database
