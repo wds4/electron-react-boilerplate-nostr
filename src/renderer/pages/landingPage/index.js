@@ -49,7 +49,7 @@ export default class Home extends React.Component {
         // window.relayUrls = relayUrls;
         // console.log("window.relayUrls: "+JSON.stringify(window.relayUrls))
 
-        // await timeout(5000)
+        await timeout(10)
         jQuery("#mainFeedButton").get(0).click()
     }
     render() {

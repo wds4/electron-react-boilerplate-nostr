@@ -1,10 +1,10 @@
 import React from 'react';
 import { NavLink } from "react-router-dom";
-import Masthead from '../../mastheads/mainMasthead.js';
-import LeftNavbar from '../../navbars/leftNav.js';
-import LeftNavbar2 from '../../navbars/leftNav2/settings.js';
-import * as MiscAppFxns from "../../lib/app/misc.ts";
-import SqlDemoApp from './sqlDemoApp'
+import Masthead from '../../../mastheads/mainMasthead.js';
+import LeftNavbar from '../../../navbars/leftNav.js';
+import LeftNavbar2 from '../../../navbars/leftNav2/settings.js';
+import * as MiscAppFxns from "../../../lib/app/misc.ts";
+import SqlBody from './sql'
 
 const updateMainColWidth = MiscAppFxns.updateMainColWidth;
 
@@ -33,7 +33,7 @@ export default class Home extends React.Component {
                         <Masthead />
                     </div>
                     <div id="mainPanel" >
-                        <SqlDemoApp />
+                        <SqlBody />
                     </div>
                 </div>
             </>

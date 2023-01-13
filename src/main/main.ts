@@ -32,6 +32,26 @@ class AppUpdater {
 
 let mainWindow: BrowserWindow | null = null;
 
+// fetch relays from sql to send to the renderer process.
+ipcMain.on('ipc-fetch-relays', async (event, arg) => {
+    var sql = "";
+    sql += "SELECT * FROM relays "
+    db.all(sql, (err, aRelaysData) => {
+        // console.log("ipc-fetch-relays result: "+JSON.stringify(aRelaysData,null,4))
+        var aActive = [];
+        for (var r=0;r<aRelaysData.length;r++) {
+            var oNextRelayData = aRelaysData[r]
+            var url = oNextRelayData.url;
+            var default_app = oNextRelayData.default_app;
+            var active = oNextRelayData.active;
+            if (active) {
+                aActive.push(url)
+            }
+        }
+        event.reply('ipc-fetch-relays', aActive);
+    });
+});
+
 ipcMain.on('ipc-example', async (event, arg) => {
     const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
     console.log(msgTemplate(arg));

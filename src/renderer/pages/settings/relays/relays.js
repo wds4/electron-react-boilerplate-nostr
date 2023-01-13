@@ -1,5 +1,6 @@
 import React from 'react';
 import * as MiscAppFxns from "../../../lib/app/misc.ts";
+import { asyncSql } from "../../../index.tsx";
 
 import {
     dateToUnix,
@@ -18,24 +19,36 @@ const createKnownRelaysList = async () => {
 
     jQuery("#knownRelaysContainer").html("")
 
-    for (var z=0;z<6;z++) {
+    for (var z=0;z<aAll.length;z++) {
         var url = aAll[z];
         var nextRelayHTML = "";
-        nextRelayHTML += "<div >";
+        nextRelayHTML += "<div class='relayInfoContainer' >";
             nextRelayHTML += "<input class='relayCheckbox' style='display:inline-block;' type='checkbox' ";
+            nextRelayHTML += " data-z='"+z+"' ";
+            nextRelayHTML += " data-url='"+url+"' ";
             if (aActive.includes(url)) { nextRelayHTML += " checked "; }
             nextRelayHTML += " />";
 
-            nextRelayHTML += "<div style='display:inline-block;margin-left:5px;width:200px;' >";
+            nextRelayHTML += "<div class='relayUrlContainer' >";
             nextRelayHTML += url;
             nextRelayHTML += "</div>";
 
-            nextRelayHTML += "<div class='doSomethingButton_small' >";
+            nextRelayHTML += "<div class='doSomethingButton' >";
             nextRelayHTML += "delete";
             nextRelayHTML += "</div>";
         nextRelayHTML += "</div>";
         jQuery("#knownRelaysContainer").append(nextRelayHTML)
     }
+    jQuery(".relayCheckbox").change(function(){
+        var newState = jQuery(this).prop("checked")
+        var z = jQuery(this).data("z")
+        var url = jQuery(this).data("url")
+        var sql = " UPDATE relays SET active="+newState+" WHERE url='"+url+"' "
+        console.log("relayCheckbox changed; z: "+z+"; url: "+url+"; newState: "+newState+"; sql: "+sql)
+        asyncSql(sql).then((result) => {
+            jQuery("#updateStatusSuccess").html(url+" activity status has been updated to "+newState)
+        });
+    })
 }
 
 export default class RelaysSettings extends React.Component {
@@ -48,6 +61,9 @@ export default class RelaysSettings extends React.Component {
             var sql = "";
             sql += "INSERT OR IGNORE INTO relays (url, default_app, active) VALUES ('"+newRelayUrl+"', false, false) ";
             console.log("addRelayButton sql: "+sql)
+            asyncSql(sql).then((result) => {
+                jQuery("#newRelayAddedSuccess").html("New relay added.")
+            });
         })
         jQuery("#selectAllRelaysButton").click(function(){
             jQuery(".relayCheckbox").attr("checked",true)
@@ -60,7 +76,7 @@ export default class RelaysSettings extends React.Component {
         return (
             <>
                 <div>
-                    <div>Known relays</div>
+                    <div className="h4" >Known relays</div>
                     <div id="selectAllRelaysButton" className="doSomethingButton" >
                     select all
                     </div>
@@ -79,6 +95,8 @@ export default class RelaysSettings extends React.Component {
                     <div id="addRelayButton" className="doSomethingButton" >
                     add a new relay
                     </div>
+                    <div id="newRelayAddedSuccess" ></div>
+                    <div id="updateStatusSuccess" ></div>
                 </div>
             </>
         );

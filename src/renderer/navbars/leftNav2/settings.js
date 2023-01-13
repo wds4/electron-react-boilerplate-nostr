@@ -14,7 +14,7 @@ export default class LeftNavbar2_Settings extends React.PureComponent {
                 relays
             </NavLink>
 
-            <NavLink className="leftNav2Button" end to='/SqlSettings' >
+            <NavLink className="leftNav2Button" end to='/Settings_sql' >
                 sql
             </NavLink>
         </div>

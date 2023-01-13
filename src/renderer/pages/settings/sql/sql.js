@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { asyncSql } from "../../index.tsx";
+import { asyncSql } from "../../../index.tsx";
 
-function SqlDemoApp() {
+function SqlBody() {
     const [message, setMessage] = useState('SELECT * FROM nostrProfiles');
     const [response, setResponse] = useState();
 
@@ -60,4 +60,4 @@ function SqlDemoApp() {
     );
 }
 
-export default SqlDemoApp
+export default SqlBody

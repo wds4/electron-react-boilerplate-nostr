@@ -16,3 +16,13 @@ div.relays:before {
     padding:2px;
     background-color:white;
 }
+.relayInfoContainer {
+    margin-bottom:5px;
+    font-size:18px;
+    padding:5px;
+}
+.relayUrlContainer {
+    display:inline-block;
+    margin-left:5px;
+    width:400px;
+}

@@ -35,7 +35,7 @@
     height:50px;
     margin-top:-20px;
     display:inline-block;
-    color:#6f6f6f;
+    color:#3f3f3f;
     margin-left:5px;
     font-size:56px;
     vertical-align:middle;
@@ -43,7 +43,7 @@
     text-decoration:none;
 }
 .mastheadEmojiNavButton:hover {
-    color:#0F0F0F;
+    color:orange;
 }
 .mastheadNavButton {
     width:35px;

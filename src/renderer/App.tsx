@@ -14,6 +14,7 @@ import LandingPage from './pages/landingPage/index';
 import Settings from './pages/settings/index';
 import Settings_keys from './pages/settings/profilekeys/index';
 import Settings_relays from './pages/settings/relays/index';
+import Settings_sql from './pages/settings/sql/index';
 import MainFeed from './pages/mainFeed/index';
 import ManageChannels from './pages/manageChannels/index';
 import UserProfile from './pages/userProfile/index';
@@ -23,7 +24,6 @@ import DownloadProfiles from './pages/downloadProfiles/index';
 import UserList from './pages/userList/index';
 import MyProfile from './pages/myProfile/index';
 import EditMyProfile from './pages/editMyProfile/index';
-import SqlSettings from './pages/sqlSettings/index';
 import CreatePost from './pages/createPost/index';
 import Thread from './pages/thread/index';
 import Reply from './pages/reply/index';
@@ -68,7 +68,7 @@ const relayUrls = [
     "wss://nostr.oxtr.dev",
 ];
 
-window.relayUrls = [];
+// window.relayUrls = [];
 
 const updateMainColWidth = MiscAppFxns.updateMainColWidth;
 
@@ -83,14 +83,16 @@ export default class App extends React.Component {
     async componentDidMount() {
         window.addEventListener('resize', updateMainColWidth);
         document.getElementById("mastheadCenterContainer").innerHTML = "App"
+        /*
         var relayUrls = await fetchRelays("active") // fetch from sqlite3
         this.setState({relayUrls:relayUrls})
         window.relayUrls = relayUrls;
         this.forceUpdate();
+        */
     }
     render() {
         return (
-            <NostrProvider relayUrls={this.state.relayUrls} debug={true} >
+            <NostrProvider relayUrls={window.relayUrls} debug={true} >
                 <fieldset id="app" >
                     <pre style={{display:"none"}} >
                         {typeof this.state.relayUrls}
@@ -111,7 +113,7 @@ export default class App extends React.Component {
                             <Route path="/UserList" element={<UserList />} />
                             <Route path="/MyProfile" element={<MyProfile />} />
                             <Route path="/EditMyProfile" element={<EditMyProfile />} />
-                            <Route path="/SqlSettings" element={<SqlSettings />} />
+                            <Route path="/Settings_sql" element={<Settings_sql />} />
                             <Route path="/CreatePost" element={<CreatePost />} />
                             <Route path="/LandingPage" element={<LandingPage />} />
                             <Route path="/Settings" element={<Settings />} />
