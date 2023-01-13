@@ -1,14 +1,21 @@
 import React from 'react';
-import { NavLink } from "react-router-dom";
 import Masthead from '../../mastheads/mainMasthead.js';
 import LeftNavbar from '../../navbars/leftNav.js';
 import LeftNavbar2 from '../../navbars/leftNav2/settings.js';
 import * as MiscAppFxns from "../../lib/app/misc.ts";
-import SqlDemoApp from './sqlDemoApp'
+import * as StartupFxns from "../../lib/app/startup.ts";
 
+const fetchMyPk = MiscAppFxns.fetchMyPk;
+
+import { useNostrEvents, dateToUnix } from "nostr-react";
+
+const jQuery = require("jquery");
 const updateMainColWidth = MiscAppFxns.updateMainColWidth;
+const cloneObj = MiscAppFxns.cloneObj
+const secsToTime = MiscAppFxns.secsToTime
+const timeout = MiscAppFxns.timeout
 
-export default class Home extends React.Component {
+export default class Settings extends React.Component {
 
     constructor(props) {
         super(props);
@@ -19,7 +26,7 @@ export default class Home extends React.Component {
 
     async componentDidMount() {
         updateMainColWidth();
-        document.getElementById("mastheadCenterContainer").innerHTML = "settings: sqlite3"
+        document.getElementById("mastheadCenterContainer").innerHTML = "settings"
     }
     render() {
         return (
@@ -33,7 +40,7 @@ export default class Home extends React.Component {
                         <Masthead />
                     </div>
                     <div id="mainPanel" >
-                        <SqlDemoApp />
+                        Choose an option on the left
                     </div>
                 </div>
             </>

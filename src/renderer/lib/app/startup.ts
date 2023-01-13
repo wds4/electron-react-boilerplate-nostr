@@ -1,5 +1,6 @@
 
 import { asyncSql } from "../../index.tsx";
+import {nip19, generatePrivateKey, getPublicKey} from 'nostr-tools'
 
 // may deprecate these
 window.init = {};
@@ -34,11 +35,27 @@ export const fetchExtendedFollowingList = async () => {
     return aExtendedAuthors;
 }
 
+export const generateNewKeys = async () => {
+    let sk = generatePrivateKey() // `sk` is a hex string
+    let pk = getPublicKey(sk) // `pk` is a hex string
+    const currentTime = dateToUnix(new Date())
+    console.log("sk: "+sk)
+    console.log("pk: "+pk)
+
+    var sql = "";
+    sql += "INSERT OR IGNORE INTO myProfile (pubkey, privkey, active, created_at) VALUES ('"+pk+"', '"+sk+"', true, "+currentTime+") ";
+
+    var result = await asyncSql(sql);
+    console.log("result: "+JSON.stringify(result,null,4))
+
+    return [sk,pk]
+}
+
 export const initMyProfileData = async () => {
     window.myProfile = {};
     window.myProfile.following = [];
     var sql = ""
-    sql += "SELECT * FROM myProfile WHERE id=1"
+    sql += "SELECT * FROM myProfile WHERE active=true"
     // console.log("======================================= fetchMyData sql: "+sql)
     var aMyProfileData = await asyncSql(sql);
     if (aMyProfileData.length > 0) {
@@ -124,8 +141,8 @@ export const fetchProfilesInfo = async () => {
        console.log("fetchProfilesInfo; aExtendedAuthors.length: "+aExtendedAuthors.length)
        for (var a=0;a<aExtendedAuthors.length;a++) {
           var pK = aExtendedAuthors[a];
-          console.log("fetchProfilesInfo; a: "+a+"; pK: "+pK)
-          console.log("fetchProfilesInfo; a: "+a+"; oPubkeys[pK: "+JSON.stringify(oPubkeys[pK],null,4))
+          // console.log("fetchProfilesInfo; a: "+a+"; pK: "+pK)
+          // console.log("fetchProfilesInfo; a: "+a+"; oPubkeys[pK: "+JSON.stringify(oPubkeys[pK],null,4))
           var name = oPubkeys[pK].profileData.name;
           var display_name = oPubkeys[pK].profileData.display_name;
           var picture_url = oPubkeys[pK].profileData.picture_url;
@@ -133,7 +150,7 @@ export const fetchProfilesInfo = async () => {
           window.profiles[pK].name = name;
           window.profiles[pK].display_name = display_name;
           window.profiles[pK].picture_url = picture_url;
-          console.log("fetchProfilesInfo; a: "+a+"; name: "+name)
+          // console.log("fetchProfilesInfo; a: "+a+"; name: "+name)
        }
    }
 

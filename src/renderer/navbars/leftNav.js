@@ -13,10 +13,6 @@ export default class LeftNavbar extends React.PureComponent {
             <NavLink className="leftNavButton" end to='/GrapevineLandingPage' >
                 <div style={{fontSize:"12px",lineHeight:"100%"}} >visualization of extended following list</div>
             </NavLink>
-
-            <NavLink className="leftNavButton" end to='/SqlSettings' style={{display:"none"}} >
-                <div style={{fontSize:"12px",lineHeight:"100%"}} >sql settings</div>
-            </NavLink>
         </div>
       </>
     );

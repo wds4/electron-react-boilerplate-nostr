@@ -13,13 +13,14 @@ const updateMainColWidth = MiscAppFxns.updateMainColWidth;
 const cloneObj = MiscAppFxns.cloneObj
 const secsToTime = MiscAppFxns.secsToTime
 const timeout = MiscAppFxns.timeout
+const fetchRelays = MiscAppFxns.fetchRelays;
 
 export default class Home extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-          events: []
+            events: []
         }
     }
 
@@ -27,7 +28,6 @@ export default class Home extends React.Component {
         updateMainColWidth();
         document.getElementById("mastheadCenterContainer").innerHTML = "landing page"
 
-        console.log("landingPage; A")
         // run all startup functions if not already run
         if (!window.init.initMiscGlobalVars) {
             StartupFxns.initMiscGlobalVars()
@@ -44,9 +44,12 @@ export default class Home extends React.Component {
         if (!window.init.fetchExtendedFollowingList) {
             await StartupFxns.fetchExtendedFollowingList()
         }
-        console.log("landingPage; Z")
 
-        await timeout(100)
+        // var relayUrls = await fetchRelays("active") // fetch from sqlite3
+        // window.relayUrls = relayUrls;
+        // console.log("window.relayUrls: "+JSON.stringify(window.relayUrls))
+
+        // await timeout(5000)
         jQuery("#mainFeedButton").get(0).click()
     }
     render() {

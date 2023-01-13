@@ -3,11 +3,11 @@ import { NavLink } from "react-router-dom";
 import Masthead from '../../mastheads/mainMasthead.js';
 import LeftNavbar from '../../navbars/leftNav.js';
 import * as MiscAppFxns from "../../lib/app/misc.ts";
+import * as StartupFxns from "../../lib/app/startup.ts";
 import FollowCounts from "../userProfile/followCounts";
 import UserPosts from "../components/userPosts";
-// import Settings from "./settings";
 
-import {generatePrivateKey, getPublicKey} from 'nostr-tools'
+import {nip19, generatePrivateKey, getPublicKey} from 'nostr-tools'
 
 import { asyncSql } from "../../index.tsx";
 
@@ -18,10 +18,12 @@ import {
 const jQuery = require("jquery");
 
 const updateMainColWidth = MiscAppFxns.updateMainColWidth;
+const generateNewKeys = StartupFxns.generateNewKeys;
 
 const populateMyProfileInfo = (oMyProfileData) => {
-    var myPubkey = oMyProfileData.pubkey;
-    window.clickedPubKey = myPubkey;
+    var myPubkey_hex = oMyProfileData.pubkey;
+    window.clickedPubKey = myPubkey_hex;
+    var myPubkey_bech32 = nip19.npubEncode(myPubkey_hex)
     var myName = oMyProfileData.name;
     var myDisplayName = oMyProfileData.display_name;
     var myAbout = oMyProfileData.about;
@@ -33,7 +35,7 @@ const populateMyProfileInfo = (oMyProfileData) => {
 
     jQuery("#myProfileAboutContainer").html(myAbout)
 
-    jQuery("#pubkeyContainer").html(myPubkey)
+    jQuery("#myBech32PubkeyContainer").html(myPubkey_bech32)
 
     const avatarHTML = "<img src='"+picture_url+"' class='myProfileAvatarImg' />"
 
@@ -42,11 +44,11 @@ const populateMyProfileInfo = (oMyProfileData) => {
 
 const fetchMyProfileInfo = async (withEditing) => {
     var sql = ""
-    sql += "SELECT * FROM myProfile WHERE id=1"
+    sql += "SELECT * FROM myProfile WHERE active=1"
     var aMyProfileData = await asyncSql(sql);
 
     if (aMyProfileData.length==0) {
-        const [sk,pk] = await generateMyKeys();
+        const [sk,pk] = await generateNewKeys();
         var aMyProfileData = await asyncSql(sql);
     }
 
@@ -60,6 +62,7 @@ const fetchMyProfileInfo = async (withEditing) => {
     return oMyProfileData;
 }
 
+/*
 const generateMyKeys = async () => {
     let sk = generatePrivateKey() // `sk` is a hex string
     let pk = getPublicKey(sk) // `pk` is a hex string
@@ -75,6 +78,7 @@ const generateMyKeys = async () => {
 
     return [sk,pk]
 }
+*/
 
 export default class Home extends React.Component {
     constructor(props) {
@@ -122,7 +126,8 @@ export default class Home extends React.Component {
                                 </div>
 
                                 <div className="userProfilePubkeyContainer" >
-                                    pubkey: {window.myPubkey}
+                                    pubkey (hex): {window.myPubkey}<br/>
+                                    pubkey (bech32): <span id="myBech32PubkeyContainer" ></span>
                                 </div>
 
                                 <div id="myProfileAboutContainer" className="myProfileAboutContainer" >

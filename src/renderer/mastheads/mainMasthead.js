@@ -45,6 +45,9 @@ export default class Masthead extends React.Component {
                       <NavLink to='/MyProfile' style={{marginLeft:"10px"}} >
                           <AvatarElem pubkey={this.state.myPubkey} />
                       </NavLink>
+                      <NavLink className="mastheadEmojiNavButton" end to='/Settings' >
+                          &#x2699;
+                      </NavLink>
                   </div>
               </div>
 

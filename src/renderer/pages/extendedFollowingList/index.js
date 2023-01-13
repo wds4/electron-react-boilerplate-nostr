@@ -127,6 +127,12 @@ export default class ExtendedFollowerList extends React.Component {
                             </div>
                             numUpdates (which trigger a re-render): <span id="numUpdatesContainer">numUpdatesContainer</span>
                         </div>
+                        <div className="h4" >
+                        Extended Following List
+                        </div>
+
+                        <br/>
+
                         <div>
                         Your extended following list is being (re)generated at a max distance of two degrees of separation. (More than that seems to jam up the relays.)
                         </div>

@@ -30,7 +30,21 @@
     transform: translate(0%, -50%);
     color:purple;
 }
-
+.mastheadEmojiNavButton {
+    width:50px;
+    height:50px;
+    margin-top:-20px;
+    display:inline-block;
+    color:#6f6f6f;
+    margin-left:5px;
+    font-size:56px;
+    vertical-align:middle;
+    text-align:center;
+    text-decoration:none;
+}
+.mastheadEmojiNavButton:hover {
+    color:#0F0F0F;
+}
 .mastheadNavButton {
     width:35px;
     height:35px;

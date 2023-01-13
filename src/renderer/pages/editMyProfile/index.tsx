@@ -229,7 +229,7 @@ export default class Home extends React.Component {
 
                             <div className="editProfileFieldContainer" >
                                 <div className="editProfileLeftColContainer" >
-                                    BITCION LIGHTNING TIPS
+                                    BITCOIN LIGHTNING TIPS
                                 </div>
                                 <textarea id="btcLightningTipsContainer" className="editProfileRightColContainer" placeholder="Lightning Address of LNURL" >
                                 </textarea>

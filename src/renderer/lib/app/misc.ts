@@ -91,3 +91,59 @@ export const fetchMySk = async () => {
     }
     return false;
 }
+
+export const fetchMyPk = async () => {
+    var sql = ""
+    sql += "SELECT * FROM myProfile WHERE id=1"
+    var aMyProfileData = await asyncSql(sql);
+
+    if (aMyProfileData.length > 0) {
+        var oMyProfileData = aMyProfileData[0]
+
+        var myPk = oMyProfileData.pubkey;
+        var mySk = oMyProfileData.privkey;
+        return myPk
+    }
+    return false;
+}
+
+export const fetchRelays = async (which) => {
+    var sql = ""
+    sql += "SELECT * FROM relays "
+    var aRelaysData = await asyncSql(sql);
+
+    var aDefault = [];
+    var aActive = [];
+    var aAll = [];
+    console.log("aRelaysData.length: "+aRelaysData.length)
+    for (var r=0;r<aRelaysData.length;r++) {
+        var oNextRelayData = aRelaysData[r]
+
+        var url = oNextRelayData.url;
+        var default_app = oNextRelayData.default_app;
+        var active = oNextRelayData.active;
+        aAll.push(url)
+        if (default_app) {
+            aDefault.push(url)
+        }
+        if (active) {
+            aActive.push(url)
+        }
+    }
+    if (!which) {
+        return aActive;
+    }
+    if (which=="active") {
+        return aActive;
+    }
+    if (which=="default") {
+        return aDefault;
+    }
+    if (which=="all") {
+        return aAll;
+    }
+    if (which=="verbose") {
+        return [aActive, aDefault, aAll];
+    }
+    return aActive;
+}

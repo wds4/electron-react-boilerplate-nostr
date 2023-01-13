@@ -4,6 +4,7 @@ import FollowCounts from "./followCounts";
 import FollowButton from "../components/followButton";
 import LeaveGrapevineRatings from "./leaveGrapevineRatings";
 import { useNostrEvents, useProfile } from "nostr-react";
+import {nip19} from 'nostr-tools'
 import * as MiscAppFxns from "../../lib/app/misc.ts";
 
 const jQuery = require("jquery");
@@ -16,6 +17,7 @@ const UserInfo = () => {
             kinds: [0],
         },
     });
+    var npub = nip19.npubEncode(window.clickedPubKey)
     window.clickedAvatarHTML = "";
     window.clickedName = "..." + window.clickedPubKey.slice(-6);
     window.clickedAvatarUrl = "";
@@ -55,7 +57,8 @@ const UserInfo = () => {
                         </div>
 
                         <div className="userProfilePubkeyContainer" >
-                            pubkey: {window.clickedPubKey}
+                            pubkey (hex): {window.clickedPubKey}<br/>
+                            pubkey (bech32): {npub}
                         </div>
 
                         <div id="mainUserAboutContainer" className="mainUserAboutContainer" >

@@ -147,27 +147,35 @@ const FetchFollowingList = ({pubkeys, updatePubkeys}) => {
         <>
             <div>
                 <div>
-                    <div>number of users (pubkeys) discovered: {Object.keys(pubkeys).length}</div>
-
                     <div>Once a pubkey is added to the list, its profile info and following list are requested from the network.</div>
 
-                    <table style={{marginBottom:"20px"}} >
+                    <table id="fetchingtable" style={{marginBottom:"20px"}} >
                         <tr>
                             <th></th>
-                            <th>fetched</th>
-                            <th>not fetched</th>
+                            <th># fetched</th>
+                            <th># not fetched</th>
+                            <th>total</th>
+                            <th>% fetched</th>
                         </tr>
                         <tr>
-                            <td>Following</td>
-                            <td>{numFollowingKnown}</td>
-                            <td>{numFollowingUnknown}</td>
+                            <td>Following list</td>
+                            <td className="data" >{numFollowingKnown}</td>
+                            <td className="data" >{numFollowingUnknown}</td>
+                            <td >{Object.keys(pubkeys).length}</td>
+                            <td >{Math.floor(100 * numFollowingKnown / (numFollowingKnown + numFollowingUnknown))} %</td>
                         </tr>
                         <tr>
-                            <td>Profiles</td>
-                            <td>{numProfilesKnown}</td>
-                            <td>{numProfilesUnknown}</td>
+                            <td>Profile data</td>
+                            <td className="data" >{numProfilesKnown}</td>
+                            <td className="data" >{numProfilesUnknown}</td>
+                            <td >{Object.keys(pubkeys).length}</td>
+                            <td >{Math.floor(100 * numProfilesKnown / (numProfilesKnown + numProfilesUnknown))} %</td>
                         </tr>
                     </table>
+
+                    <div style={{fontSize:"18px",marginBottom:"20px"}} >
+                        number of users (pubkeys) discovered: <span style={{color:"red"}} >{Object.keys(pubkeys).length}</span>
+                    </div>
 
                     <div style={{fontSize:"18px",marginBottom:"20px"}} >
                         Percent of extended list whose profile info has been fetched:

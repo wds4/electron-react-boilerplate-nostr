@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useRef }  from 'react';
 import ReactDOM from 'react-dom';
 import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
 import * as MiscAppFxns from './lib/app/misc.ts';
@@ -11,6 +11,9 @@ import { NostrProvider } from "nostr-react";
 
 // NOSTR PAGES
 import LandingPage from './pages/landingPage/index';
+import Settings from './pages/settings/index';
+import Settings_keys from './pages/settings/profilekeys/index';
+import Settings_relays from './pages/settings/relays/index';
 import MainFeed from './pages/mainFeed/index';
 import ManageChannels from './pages/manageChannels/index';
 import UserProfile from './pages/userProfile/index';
@@ -49,8 +52,12 @@ import './css/grapevineSettings.css';
 import './css/nfgGraphic.css';
 import './css/youTubeEmbed.css';
 import './css/misc.css';
+import './css/settings.css';
 
 import { asyncSql } from "./index.tsx";
+
+const fetchRelays = MiscAppFxns.fetchRelays;
+const timeout = MiscAppFxns.timeout;
 
 const relayUrls = [
     "wss://nostr-pub.wellorder.net",
@@ -61,25 +68,37 @@ const relayUrls = [
     "wss://nostr.oxtr.dev",
 ];
 
+window.relayUrls = [];
+
 const updateMainColWidth = MiscAppFxns.updateMainColWidth;
 
 export default class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            random_key: "12345",
-            someValue: "abcde"
+            relayUrls: relayUrls,
         }
     }
 
     async componentDidMount() {
         window.addEventListener('resize', updateMainColWidth);
-
+        document.getElementById("mastheadCenterContainer").innerHTML = "App"
+        var relayUrls = await fetchRelays("active") // fetch from sqlite3
+        this.setState({relayUrls:relayUrls})
+        window.relayUrls = relayUrls;
+        this.forceUpdate();
     }
     render() {
         return (
-            <NostrProvider relayUrls={relayUrls} debug>
+            <NostrProvider relayUrls={this.state.relayUrls} debug={true} >
                 <fieldset id="app" >
+                    <pre style={{display:"none"}} >
+                        {typeof this.state.relayUrls}
+                        {this.state.relayUrls.length}
+                        {this.state.relayUrls}
+                        <hr/>
+                        {window.relayUrls}
+                    </pre>
                     <Router>
                         <Routes>
                             <Route path="/" element={<LandingPage />} />
@@ -95,6 +114,9 @@ export default class App extends React.Component {
                             <Route path="/SqlSettings" element={<SqlSettings />} />
                             <Route path="/CreatePost" element={<CreatePost />} />
                             <Route path="/LandingPage" element={<LandingPage />} />
+                            <Route path="/Settings" element={<Settings />} />
+                            <Route path="/Settings_keys" element={<Settings_keys />} />
+                            <Route path="/Settings_relays" element={<Settings_relays />} />
                             <Route path="/Thread/:focuseventid" exact element={<Thread />} />
                             <Route path="/Thread2/:focuseventid" exact element={<Thread />} />
                             <Route path="/Reply/:focuseventid" exact element={<Reply />} />
