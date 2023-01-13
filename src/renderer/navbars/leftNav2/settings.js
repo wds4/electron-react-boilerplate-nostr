@@ -17,6 +17,10 @@ export default class LeftNavbar2_Settings extends React.PureComponent {
             <NavLink className="leftNav2Button" end to='/Settings_sql' >
                 sql
             </NavLink>
+
+            <NavLink className="leftNav2Button" end to='/ExtendedFollowingList' >
+                <div style={{fontSize:"32px"}} >&#x1F310;</div>
+            </NavLink>
         </div>
       </>
     );

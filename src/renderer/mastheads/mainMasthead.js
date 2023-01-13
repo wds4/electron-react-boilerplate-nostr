@@ -26,9 +26,6 @@ export default class Masthead extends React.Component {
                   </div>
 
                   <div className="mastheadRightContainer" >
-                      <NavLink className="mastheadNavButton" end to='/ExtendedFollowingList' style={{fontSize:"7px"}} >
-                          setup extended following list
-                      </NavLink>
                       <NavLink className="mastheadNavButton" end to='/VisJsHelloWorld' style={{display:"none",fontSize:"8px"}} >
                           visjs hello world
                       </NavLink>
@@ -37,16 +34,19 @@ export default class Masthead extends React.Component {
                           settings
                       </NavLink>
                       <NavLink className="mastheadNavButton" end to='/SearchForUser' style={{fontSize:"7px"}} >
-                          search for user
+                          <div style={{fontSize:"20px"}} >&#x1F50D;</div>
+                          <div style={{fontSize:"10px"}} >search</div>
                       </NavLink>
                       <NavLink className="mastheadNavButton" end to='/CreatePost' >
-                          create post
+                          <div style={{fontSize:"20px"}} >✏️</div>
+                          <div style={{fontSize:"10px"}} >post</div>
                       </NavLink>
                       <NavLink to='/MyProfile' style={{marginLeft:"10px"}} >
                           <AvatarElem pubkey={this.state.myPubkey} />
                       </NavLink>
-                      <NavLink className="mastheadEmojiNavButton" end to='/Settings' >
-                          &#x2699;
+                      <NavLink className="mastheadNavButton" end to='/Settings' >
+                          <div style={{fontSize:"20px"}} >⚙️</div>
+                          <div style={{fontSize:"10px"}} >settings</div>
                       </NavLink>
                   </div>
               </div>
