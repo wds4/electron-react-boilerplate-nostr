@@ -45,10 +45,6 @@ export default class Home extends React.Component {
             await StartupFxns.fetchExtendedFollowingList()
         }
 
-        // var relayUrls = await fetchRelays("active") // fetch from sqlite3
-        // window.relayUrls = relayUrls;
-        // console.log("window.relayUrls: "+JSON.stringify(window.relayUrls))
-
         await timeout(10)
         jQuery("#mainFeedButton").get(0).click()
     }

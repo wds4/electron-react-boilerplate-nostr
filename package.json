@@ -197,8 +197,8 @@
     "websocket-polyfill": "^0.0.3"
   },
   "build": {
-    "productName": "ElectronReactNostr",
-    "appId": "org.erb.ElectronReactNostr",
+    "productName": "ElectronNostr",
+    "appId": "org.erb.ElectronNostr",
     "asar": true,
     "asarUnpack": "**\\*.{node,dll}",
     "files": [

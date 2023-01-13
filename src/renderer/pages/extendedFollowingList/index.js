@@ -33,6 +33,7 @@ const saveFollowingGraph = async (seed, pubkeys) => {
     // console.log("saveFollowingGraph; sql: "+sql)
     var result = await asyncSql(sql);
     console.log("saveFollowingGraph result: "+JSON.stringify(result,null,4))
+    jQuery("#successNotificationContainer").html("extended following list has been saved.")
 }
 
 const initializeFirstFollowingNetwork = async (seed,pubkeys) => {
@@ -98,7 +99,6 @@ export default class ExtendedFollowerList extends React.Component {
         await fetchFollowingNetworkInfo(this.state.seed,this.state.pubkeys)
         jQuery("#saveFollowingGraphButton").click(async function(){
             console.log("saveFollowingGraphButton clicked")
-            // await this.sFG();
         })
     }
     render() {

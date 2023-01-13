@@ -17,9 +17,9 @@ div.relays:before {
     background-color:white;
 }
 .relayInfoContainer {
-    margin-bottom:5px;
+    margin-bottom:2px;
     font-size:18px;
-    padding:5px;
+    padding:2px;
 }
 .relayUrlContainer {
     display:inline-block;

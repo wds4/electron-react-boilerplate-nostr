@@ -17,10 +17,8 @@ export const fetchExtendedFollowingList = async () => {
     var sql = ""
     sql += " SELECT * FROM followingNetwork WHERE id=1 "
     var aFollowingNetworkData = await asyncSql(sql);
-    console.log("aFollowingNetworkData.length: "+aFollowingNetworkData.length)
     if (aFollowingNetworkData.length > 0) {
         const oFollowingNetworkData = aFollowingNetworkData[0]
-        // console.log("oFollowingNetworkData.id: "+oFollowingNetworkData.id)
         aExtendedAuthors = Object.keys(JSON.parse(oFollowingNetworkData.pubkeys))
         window.aExtendedAuthors = aExtendedAuthors
         window.init.fetchExtendedFollowingList = true;
@@ -39,14 +37,11 @@ export const generateNewKeys = async () => {
     let sk = generatePrivateKey() // `sk` is a hex string
     let pk = getPublicKey(sk) // `pk` is a hex string
     const currentTime = dateToUnix(new Date())
-    console.log("sk: "+sk)
-    console.log("pk: "+pk)
 
     var sql = "";
     sql += "INSERT OR IGNORE INTO myProfile (pubkey, privkey, active, created_at) VALUES ('"+pk+"', '"+sk+"', true, "+currentTime+") ";
 
     var result = await asyncSql(sql);
-    console.log("result: "+JSON.stringify(result,null,4))
 
     return [sk,pk]
 }
@@ -56,7 +51,6 @@ export const initMyProfileData = async () => {
     window.myProfile.following = [];
     var sql = ""
     sql += "SELECT * FROM myProfile WHERE active=true"
-    // console.log("======================================= fetchMyData sql: "+sql)
     var aMyProfileData = await asyncSql(sql);
     if (aMyProfileData.length > 0) {
         var oMyProfileData = aMyProfileData[0]
@@ -68,7 +62,6 @@ export const initMyProfileData = async () => {
         var sMyFollowingList = oMyProfileData.following;
         if (!sMyFollowingList) { sMyFollowingList = "[]"; }
         var aMyFollowingList = JSON.parse(sMyFollowingList)
-        // console.log("======================================= initMyProfileData; myPk: "+myPk)
         window.myProfile = {};
         window.myProfile.pubkey = myPk;
         window.myProfile.name = myName;
@@ -90,7 +83,6 @@ export const initMiscGlobalVars = () => {
     /*
     firehose: show messages from all users
     following: show messages from users you follow
-    FUTURE: custom filters using the grapevine
     */
 
     // nostrFollowGrapevine page
@@ -108,8 +100,6 @@ export const fetchProfilesInfo = async () => {
    sql += "SELECT * FROM nostrProfiles "
 
    var aNostrProfilesData = await asyncSql(sql);
-   console.log("=========== aNostrProfilesData.length: "+aNostrProfilesData.length)
-   // console.log("=========== aNostrProfilesData: "+JSON.stringify(aNostrProfilesData,null,4))
    for (var n=0;n<aNostrProfilesData.length;n++) {
         var oNextProfileInfo = aNostrProfilesData[n];
         var pK = oNextProfileInfo.pubkey;
@@ -133,16 +123,12 @@ export const fetchProfilesInfo = async () => {
    var sql = ""
    sql += " SELECT * FROM followingNetwork WHERE id=1 "
    var aFollowingNetworkData = await asyncSql(sql);
-   console.log("fetchProfilesInfo; aFollowingNetworkData.length: "+aFollowingNetworkData.length)
    if (aFollowingNetworkData.length > 0) {
        var oFollowingNetworkData = aFollowingNetworkData[0]
        var oPubkeys = JSON.parse(oFollowingNetworkData.pubkeys)
        var aExtendedAuthors = Object.keys(oPubkeys)
-       console.log("fetchProfilesInfo; aExtendedAuthors.length: "+aExtendedAuthors.length)
        for (var a=0;a<aExtendedAuthors.length;a++) {
           var pK = aExtendedAuthors[a];
-          // console.log("fetchProfilesInfo; a: "+a+"; pK: "+pK)
-          // console.log("fetchProfilesInfo; a: "+a+"; oPubkeys[pK: "+JSON.stringify(oPubkeys[pK],null,4))
           var name = oPubkeys[pK].profileData.name;
           var display_name = oPubkeys[pK].profileData.display_name;
           var picture_url = oPubkeys[pK].profileData.picture_url;
@@ -150,7 +136,6 @@ export const fetchProfilesInfo = async () => {
           window.profiles[pK].name = name;
           window.profiles[pK].display_name = display_name;
           window.profiles[pK].picture_url = picture_url;
-          // console.log("fetchProfilesInfo; a: "+a+"; name: "+name)
        }
    }
 
