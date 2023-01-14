@@ -44,7 +44,7 @@ export default class ExtendedFollowerList extends React.Component {
     }
     async componentDidMount() {
         updateMainColWidth();
-        document.getElementById("mastheadCenterContainer").innerHTML = "visualization of the extended following list"
+        document.getElementById("mastheadCenterContainer").innerHTML = "visualization of the social graph<br/>based on following"
 
         var oFollowingNetworkData = await fetchFollowingNetworkInfo()
         if (oFollowingNetworkData) {
@@ -74,14 +74,13 @@ export default class ExtendedFollowerList extends React.Component {
                                 pubkeys={this.state.pubkeys}
                             />
                         </div>
-                        <div style={{height:"600px",width:"35%",border:"1px dashed grey",marginLeft:"5px",display:"inline-block"}} >
+                        <div style={{height:"600px",width:"35%",border:"1px dashed grey",marginLeft:"5px",display:"inline-block",padding:"10px"}} >
                             <div style={{textAlign:"center",marginBottom:"10px"}} >
-                                Extended Follower List<br/>
                                 <div id="totalNumberLoadedContainer" style={{display:"inline-block"}} >0</div>
                                 <div style={{display:"inline-block",marginLeft:"5px",marginRight:"5px"}} >of {Object.keys(this.state.pubkeys).length}</div>
                                  profiles loaded
                             </div>
-                            <div id="profileInfoContainer" >profileInfoContainer</div>
+                            <div id="profileInfoContainer" ></div>
                         </div>
                     </div>
                 </div>

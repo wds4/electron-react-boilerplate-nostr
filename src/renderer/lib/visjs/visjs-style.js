@@ -31,11 +31,11 @@ function deleteNodeFunction() {
 }
 
 export const options = {
-    clickToUse: true,
+    clickToUse: false,
     layout: {
         improvedLayout: false
     },
-  	interaction:{hover:true},
+  	interaction: {hover: true},
   	manipulation: {
   		  enabled: false,
   	},
@@ -52,7 +52,13 @@ export const options = {
         }
     },
   	edges: {
-  	    physics: false
+  	    physics: false,
+        arrows: {
+            to: {
+                enabled: true,
+                scaleFactor: 4
+            }
+        }
   	},
   	groups: groupOptions
 };
