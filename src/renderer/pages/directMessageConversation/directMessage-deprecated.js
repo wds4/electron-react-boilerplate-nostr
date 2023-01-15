@@ -2,9 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, NavLink } from "react-router-dom";
 import { useNostrEvents, useProfile } from "nostr-react";
 import * as MiscAppFxns from "../../lib/app/misc.ts";
-import ActionButtons from "./actionButtons.js";
-import BlankAvatar from "./blankAvatar.png";
-import YoutubeEmbed from "./youtubeEmbed";
+import BlankAvatar from "../components/blankAvatar.png";
+import YoutubeEmbed from "../components/youtubeEmbed";
 import { doesEventValidate } from "../../lib/nostr/eventValidation";
 
 import {
@@ -14,6 +13,7 @@ import {
 
 const secsToTime = MiscAppFxns.secsToTime
 const isValidObj = MiscAppFxns.isValidObj
+const fetchMySk = MiscAppFxns.fetchMySk
 
 /*
 Need to rething actions upon click link, especially whether / when to do this:
@@ -29,7 +29,7 @@ const youtubeRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:
 const extractVideoID = (url) => {
     var match = url.match(regExpVideoID);
     if (match && match[7].length == 11) {
-        // console.log("extractVideoID match[7]: "+match[7])
+        console.log("extractVideoID match[7]: "+match[7])
         return match[7];
     } else {
         // return('Could not extract video ID.');
@@ -41,7 +41,7 @@ const extractVideoID = (url) => {
 const extractVideoUrl = (rawContent) => {
     var match = rawContent.match(youtubeRegex);
     if (match) {
-        // console.log("extractVideoUrl match[0]: "+match[0])
+        console.log("extractVideoUrl match[0]: "+match[0])
         // var match = extractVideoID(url)
         return match[0];
     } else {
@@ -50,7 +50,7 @@ const extractVideoUrl = (rawContent) => {
     }
 }
 
-const UserPost = ({event, isExpanded, enableReply, currentPage, isRootMessage}) => {
+const DirectMessage = ({event, myPrivKey}) => {
     /*
     let ok = false;
     let veryOk = false;
@@ -91,35 +91,18 @@ const UserPost = ({event, isExpanded, enableReply, currentPage, isRootMessage}) 
             var avatarClass_blank = "smallAvatarBox_hide";
             var avatarClass_pic = "smallAvatarBox_show";
         }
-        /*
-        else {
-            var oAuthorData = await fetchAuthorData(pk);
-            name = oAuthorData.name;
-            display_name = oAuthorData.display_name;
-            nameClass = "nameKnown";
-        }
-        */
         var eventContainerClassName = "eventContainer"
-        if (isExpanded) {
-            eventContainerClassName += " expandedEventContainer"
-        }
-        if (isRootMessage) {
-            eventContainerClassName += " rootEventContainer"
-        }
         var eventContainer_id = "mainId_"+event.id;
 
         var replyContainerClassName = "replyContainer_hide"
         var newReplyTextareaId = "newReplyTextarea_NOT"
-        if (enableReply) {
-            replyContainerClassName = "replyContainer_show"
-            newReplyTextareaId = "newReplyTextarea"
-        }
         const linkToThread_base = "Thread";
         if (!window.linkToThread_base) { window.linkToThread_base="Thread" }
         var linkToThread = "/"+window.linkToThread_base+"/"+event.id;
         const linkToAuthor = "/UserProfile";
 
         var rawContent = event.content
+        // let rawContent = await nip04.decrypt(myPrivKey, pubkey, event.content)
         // rawContent = "https://www.youtube.com/watch?v=ljvpz2fEyVE";
         // const embedId = "rokGy0huYEA"; // sample video
         // const embedId = ""; // if (embedId) is false, no video will embed
@@ -133,6 +116,9 @@ const UserPost = ({event, isExpanded, enableReply, currentPage, isRootMessage}) 
         }
         return (
             <>
+                <pre>
+                {JSON.stringify(event,null,4)}
+                </pre>
                 <div className={eventContainerClassName} id={eventContainer_id} >
                     <div id={avatarID} className="smallAvatarContainer" >
                         <img src={BlankAvatar} className={avatarClass_blank} />
@@ -179,12 +165,6 @@ const UserPost = ({event, isExpanded, enableReply, currentPage, isRootMessage}) 
                             {contentMinusVideoUrl}
                             <YoutubeEmbed embedId={embedId2} extractedUrl={extractedUrl} />
                         </NavLink>
-                        <div className="eventActionButtonsContainer" >
-                            <ActionButtons
-                            event={event}
-                            state={{ focuseventid: event.id }}
-                            />
-                        </div>
                     </div>
                     <div className={replyContainerClassName} >
                         <textarea id={newReplyTextareaId} style={{width:"80%",height:"200px",borderRadius:"10px",padding:"5px"}} ></textarea>
@@ -205,4 +185,4 @@ const UserPost = ({event, isExpanded, enableReply, currentPage, isRootMessage}) 
         )
     }
 }
-export default UserPost
+export default DirectMessage

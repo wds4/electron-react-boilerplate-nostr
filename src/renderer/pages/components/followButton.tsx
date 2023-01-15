@@ -129,7 +129,7 @@ export default function FollowButton({pubkey,aFollowing}) {
 
     return (
         <>
-            <div onClick={() => onPublish()} className={buttonClass} data-currentaction={currentAction} style={{position:"absolute",right:"5px",top:"5px"}} >
+            <div onClick={() => onPublish()} className={buttonClass} data-currentaction={currentAction} >
                 {buttonHTML}
             </div>
         </>

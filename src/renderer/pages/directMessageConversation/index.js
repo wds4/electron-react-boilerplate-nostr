@@ -1,24 +1,29 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { NavLink } from "react-router-dom";
 import Masthead from '../../mastheads/mainMasthead.js';
 import LeftNavbar from '../../navbars/leftNav.js';
 import * as MiscAppFxns from "../../lib/app/misc.ts";
-import { useNostrEvents, useProfile } from "nostr-react";
-import UserPosts from "../components/userPosts";
-import UserInfo from "./userInfo";
+import SendDirectMessage from "./sendDirectMessage";
+import DirectMessageConversationHistory from "./convoHistory";
+
+const fetchMySk = MiscAppFxns.fetchMySk
+const timeout = MiscAppFxns.timeout
+
+const jQuery = require("jquery");
 
 const updateMainColWidth = MiscAppFxns.updateMainColWidth;
 
-export default class Home extends React.Component {
+export default class DirectMessageConversation extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            events: []
+            myPrivKey: null
         }
     }
     async componentDidMount() {
         updateMainColWidth();
-        document.getElementById("mastheadCenterContainer").innerHTML = "user profile"
+        document.getElementById("mastheadCenterContainer").innerHTML = "DM convo"
+        const myPrivKey = await fetchMySk();
+        this.setState({myPrivKey:myPrivKey})
     }
     render() {
         return (
@@ -31,10 +36,11 @@ export default class Home extends React.Component {
                         <Masthead />
                     </div>
                     <div id="mainPanel" >
-                        <UserInfo
+                        <DirectMessageConversationHistory
+                            pubkey = {window.clickedPubKey}
+                            myPrivKey = {this.state.myPrivKey}
                         />
-                        <UserPosts
-                            pubkey={window.clickedPubKey}
+                        <SendDirectMessage
                         />
                     </div>
                 </div>

@@ -151,10 +151,12 @@ const SingleUserElem2 = (props) => {
                         </div>
                     </NavLink>
                     <div className="singleUserRightContainer" >
-                        <FollowButton
-                            pubkey={pk}
-                            aFollowing={window.myProfile.following}
-                        />
+                        <div style={{position:"absolute",right:"5px",top:"5px"}} >
+                            <FollowButton
+                                pubkey={pk}
+                                aFollowing={window.myProfile.following}
+                            />
+                        </div>
                     </div>
                 </div>
             </>

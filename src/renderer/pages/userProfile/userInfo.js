@@ -61,18 +61,25 @@ const UserInfo = () => {
                             pubkey (bech32): {npub}
                         </div>
 
+                        <div >
+                            <div style={{display:"inline-block"}} >
+                                <NavLink end to='/DirectMessageConversation' style={{textDecoration:"none"}} >
+                                    <div style={{fontSize:"28px"}} >&#x1F4AC;</div>
+                                </NavLink>
+                            </div>
+                            <div style={{display:"inline-block",marginLeft:"10px"}} >
+                                <FollowButton
+                                    pubkey={window.clickedPubKey}
+                                    aFollowing={window.myProfile.following}
+                                />
+                            </div>
+                        </div>
+
                         <div id="mainUserAboutContainer" className="mainUserAboutContainer" >
                             { JSON.parse(event.content).about }
                         </div>
 
                         <LeaveGrapevineRatings pubkey={window.clickedPubKey} />
-
-                        <div className="singleUserRightContainer" >
-                            <FollowButton
-                                pubkey={window.clickedPubKey}
-                                aFollowing={window.myProfile.following}
-                            />
-                        </div>
                     </div>
                 </div>
             </>

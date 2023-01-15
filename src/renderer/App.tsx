@@ -30,6 +30,7 @@ import Reply from './pages/reply/index';
 import SearchForUser from './pages/searchForUser/index';
 import GrapevineSettings from './pages/grapevineSettings/index';
 import VisJsHelloWorld from './pages/visJsHelloWorld/index';
+import DirectMessageConversation from './pages/directMessageConversation/index';
 
 // GRAPEVINE PAGES
 import GrapevineLandingPage from './grapevine/landingPage/index';
@@ -53,6 +54,7 @@ import './css/nfgGraphic.css';
 import './css/youTubeEmbed.css';
 import './css/misc.css';
 import './css/settings.css';
+import './css/directMessaging.css';
 
 import { asyncSql } from "./index.tsx";
 
@@ -92,7 +94,7 @@ export default class App extends React.Component {
     }
     render() {
         return (
-            <NostrProvider relayUrls={window.relayUrls} debug={true} >
+            <NostrProvider relayUrls={window.relayUrls} debug >
                 <fieldset id="app" >
                     <pre style={{display:"none"}} >
                         {typeof this.state.relayUrls}
@@ -125,7 +127,7 @@ export default class App extends React.Component {
                             <Route path="/Reply2/:focuseventid" exact element={<Reply />} />
                             <Route path="/SearchForUser" element={<SearchForUser />} />
                             <Route path="/GrapevineSettings" element={<GrapevineSettings />} />
-
+                            <Route path="/DirectMessageConversation" element={<DirectMessageConversation />} />
                             <Route path="/GrapevineLandingPage" element={<GrapevineLandingPage />} />
                             <Route path="/NostrFollowGrapevineVisualization" element={<NostrFollowGrapevineVisualization />} />
                             <Route path="/VisJsHelloWorld" element={<VisJsHelloWorld />} />

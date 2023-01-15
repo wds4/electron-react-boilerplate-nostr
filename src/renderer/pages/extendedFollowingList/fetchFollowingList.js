@@ -19,7 +19,7 @@ const FetchFollowingList = ({pubkeys, updatePubkeys}) => {
 
     {events.map( (event) => {
         timeout(10)
-        if (doesEventValidate) {
+        if ( doesEventValidate(event) ) {
             var doUpdate = false;
             var kind = event.kind;
             var created_at = event.created_at

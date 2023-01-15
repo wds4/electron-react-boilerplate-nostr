@@ -16,20 +16,7 @@ import {
     dateToUnix,
 } from "@nostrgg/react";
 
-const fetchMySk = async () => {
-    var sql = ""
-    sql += "SELECT * FROM myProfile WHERE id=1"
-    var aMyProfileData = await asyncSql(sql);
-
-    if (aMyProfileData.length > 0) {
-        var oMyProfileData = aMyProfileData[0]
-
-        var myPk = oMyProfileData.pubkey;
-        var mySk = oMyProfileData.privkey;
-        return mySk
-    }
-    return false;
-}
+const fetchMySk = MiscAppFxns.fetchMySk
 
 const updateMainColWidth = MiscAppFxns.updateMainColWidth;
 

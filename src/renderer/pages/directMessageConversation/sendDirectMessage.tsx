@@ -7,13 +7,15 @@ import {
     getEventHash,
     getPublicKey,
     signEvent,
+    nip04,
 } from "nostr-tools";
 
 const fetchMySk = MiscAppFxns.fetchMySk
 
 const jQuery = require("jquery");
 
-export default function PublishPost() {
+export default function SendDirectMessage() {
+    const pubkey_recipient = window.clickedPubKey;
     const { publish } = useNostr();
 
     const onPost = async () => {
@@ -27,17 +29,21 @@ export default function PublishPost() {
 
         const message = jQuery("#newPostTextarea").val()
 
+        let ciphertext = await nip04.encrypt(privKey, pubkey_recipient, message)
+
         if (!message) {
           alert("no message provided");
           return;
         }
 
         const event: NostrEvent = {
-            content: message,
-            kind: 1,
-            tags: [],
-            created_at: dateToUnix(),
+            id: null,
+            kind: 4,
             pubkey: getPublicKey(privKey),
+            created_at: dateToUnix(),
+            content: ciphertext,
+            tags: [["p",pubkey_recipient]],
+            sig: null,
         };
 
         event.id = getEventHash(event);
@@ -58,10 +64,10 @@ export default function PublishPost() {
             <div id="newPostTextareaContainer">
                 <textarea id="newPostTextarea" className="newPostTextarea" ></textarea>
             </div>
-            <div onClick={onPost} className="doSomethingButton" style={{position:"absolute",right:"0px"}} >Post a message!</div>
-            <div id="successMessageContainer" style={{fontSize:"14px",marginTop:"20px"}} ></div>
+            <div onClick={onPost} className="doSomethingButton" style={{position:"absolute",right:"0px"}} >Send this direct message!</div>
+            <div id="successMessageContainer" style={{fontSize:"14px",marginTop:"20px",display:"none"}} ></div>
             <div id="newEventContainer" className="newEventContainer"
-                style={{fontSize:"14px",marginTop:"20px",width:"80%",height:"250px",overflow:"scroll",padding:"5px"}} >
+                style={{fontSize:"14px",marginTop:"20px",width:"80%",height:"250px",overflow:"scroll",padding:"5px",display:"none"}} >
             </div>
         </div>
     );

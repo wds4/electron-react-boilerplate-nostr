@@ -1,5 +1,5 @@
 div.relays:before {
-  content: attr(data-currentstate);
+   content: attr(data-currentstate);
 }
 .singleProfileDataContainer {
     width:100%;

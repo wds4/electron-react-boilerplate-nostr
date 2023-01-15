@@ -10,3 +10,10 @@ table#fetchingtable > tr > td {
     width:60px;
     padding:3px;
 }
+#connectedRelaysButton {
+    display:inline-block;
+}
+#connectedRelaysButton:hover {
+    background-color:yellow;
+    cursor:pointer;
+}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink } from "react-router-dom";
 import AvatarElem from "./avatarElem";
+import RelaysStatus from "../pages/components/relaysStatus"
 
 export default class Masthead extends React.Component {
     constructor(props) {
@@ -52,7 +53,7 @@ export default class Masthead extends React.Component {
               </div>
 
               <div className="mastheadSubBanner" >
-                  <div>still in alpha. expect breaking changes</div>
+                  <div id="relaysStatusContainer" ><RelaysStatus /></div>
               </div>
           </>
         );
