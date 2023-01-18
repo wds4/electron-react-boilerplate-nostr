@@ -127,7 +127,7 @@ export default class App extends React.Component {
                         {typeof this.state.relayUrls}
                         {this.state.relayUrls.length}
                         {this.state.relayUrls}
-                        <hr/>
+                        <hr/><hr/>
                         {window.relayUrls}
                     </pre>
                     <Router>
