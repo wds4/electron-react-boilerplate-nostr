@@ -196,15 +196,15 @@ export default class PkSettings extends React.Component {
           var pk_hex = nip19.decode(pk_beck32).data
           jQuery("#outsidePubkeyHex").val(pk_hex)
         })
-        jQuery("#saveKeysGeneratedElsewhereButton").click(function(){
+        jQuery("#saveKeysGeneratedElsewhereButton").click(async function(){
             var sk_out = jQuery("#outsidePrivkey").val()
             var pk_out = jQuery("#outsidePubkeyHex").val()
             var currentTime = dateToUnix(new Date())
             var sql = "";
             sql += "INSERT OR IGNORE INTO myProfile (pubkey, privkey, created_at) VALUES ('"+pk_out+"', '"+sk_out+"', "+currentTime+") ";
 
-            // var result = await asyncSql(sql);
-            // console.log("result: "+JSON.stringify(result,null,4))
+            var result = await asyncSql(sql);
+            console.log("result: "+JSON.stringify(result,null,4))
             jQuery("#savedKeysGeneratedElsewhereMessageContainer").html("Keys have been saved.")
         })
     }

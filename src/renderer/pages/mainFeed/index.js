@@ -95,7 +95,6 @@ export default class Home extends React.Component {
     async componentDidMount() {
         updateMainColWidth();
         document.getElementById("mastheadCenterContainer").innerHTML = "main feed"
-
     }
     render() {
         return (

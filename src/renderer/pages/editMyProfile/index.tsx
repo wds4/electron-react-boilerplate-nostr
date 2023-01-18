@@ -24,7 +24,7 @@ const jQuery = require("jquery");
 
 const populateMyProfileInfo = async () => {
     var sql = ""
-    sql += "SELECT * FROM myProfile WHERE id=1"
+    sql += "SELECT * FROM myProfile WHERE active=true"
     var aMyProfileData = await asyncSql(sql);
 
     if (aMyProfileData.length==0) {

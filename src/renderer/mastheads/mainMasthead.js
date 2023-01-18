@@ -10,7 +10,8 @@ export default class Masthead extends React.Component {
             myPubkey: window.myPubkey
         }
     }
-    async componentDidMount() {}
+    async componentDidMount() {
+    }
     render() {
         return (
           <>
@@ -53,7 +54,7 @@ export default class Masthead extends React.Component {
               </div>
 
               <div className="mastheadSubBanner" >
-                  <div id="relaysStatusContainer" ><RelaysStatus /></div>
+                  <RelaysStatus />
               </div>
           </>
         );
