@@ -93,7 +93,6 @@ export default class App extends React.Component {
         window.relayUrls = relayUrls;
         this.forceUpdate();
         */
-       console.log("Snort: "+JSON.stringify(Snort,null,4))
     }
     render() {
         return (
@@ -102,14 +101,14 @@ export default class App extends React.Component {
                 <fieldset id="app" >
                     sum of 1+2: {TsPlex.grapevineSum(1,2)}
                     <pre style={{display:"none"}} >
-                    
+
                         {typeof this.state.relayUrls}
                         {this.state.relayUrls.length}
                         {this.state.relayUrls}
                         <hr/><hr/>
                         {window.relayUrls}
                     </pre>
-                    
+
                     <Router>
                         <Routes>
                             <Route path="/" element={<LandingPage />} />
