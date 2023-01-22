@@ -5,7 +5,7 @@ import LeftNavbar2 from '../../../navbars/leftNav2/settings.js';
 import * as MiscAppFxns from "../../../lib/app/misc.ts";
 import * as StartupFxns from "../../../lib/app/startup.ts";
 import PkSettings from "./pk";
-import RelaysSettings from "./relays";
+
 
 const fetchMyPk = MiscAppFxns.fetchMyPk;
 

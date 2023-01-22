@@ -6,6 +6,7 @@ import ErrorBoundary from './errorBoundary';
 import * as TsdxTest from '@wds4/tsdxtest';
 import * as TsPlex from '@wds4/tsplex';
 
+
 // import { sum as summ } from '@wds4/tsdxtest';
 
 // import { Provider } from 'react-redux'
@@ -80,24 +81,14 @@ export default class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            relayUrls: relayUrls,
         }
     }
 
     async componentDidMount() {
-        window.addEventListener('resize', updateMainColWidth);
-        document.getElementById("mastheadCenterContainer").innerHTML = "App"
-        /*
-        var relayUrls = await fetchRelays("active") // fetch from sqlite3
-        this.setState({relayUrls:relayUrls})
-        window.relayUrls = relayUrls;
-        this.forceUpdate();
-        */
-       console.log("Snort: "+JSON.stringify(Snort,null,4))
     }
     render() {
         return (
-          <ErrorBoundary >
+            <ErrorBoundary >
             <NostrProvider relayUrls={window.relayUrls} debug={true} autoReconnect={true} >
                 <fieldset id="app" >
                     sum of 1+2: {TsPlex.grapevineSum(1,2)}

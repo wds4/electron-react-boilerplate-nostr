@@ -8,13 +8,10 @@ import App from './App';
 
 // wrap this in a function and don't call it until ipc-fetch-relays returns with data from sqlite3
 const startApp = () => {
-    const container = document.getElementById('root')!;
-    const root = createRoot(container);
-    root.render(
-        <App />
-    );
-}
-
+  const container = document.getElementById('root')!;
+  const root = createRoot(container);
+  root.render(<App />);
+};
 
 window.electron.ipcRenderer.once('ipc-fetch-relays', (relayUrls) => {
     console.log("ipc-fetch-relays; relayUrls: "+relayUrls);

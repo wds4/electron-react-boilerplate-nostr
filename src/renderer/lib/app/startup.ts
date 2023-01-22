@@ -1,20 +1,19 @@
-
+import { generatePrivateKey, getPublicKey } from 'nostr-tools';
 import { asyncSql } from "../../index.tsx";
-import {nip19, generatePrivateKey, getPublicKey} from 'nostr-tools'
 
 // may deprecate these
 window.init = {};
-window.init.initMyProfileData = false
-window.init.initMiscGlobalVars = false
-window.init.fetchProfilesInfo = false
-window.init.grapevineSettings = false
+window.init.initMyProfileData = false;
+window.init.initMiscGlobalVars = false;
+window.init.fetchProfilesInfo = false;
+window.init.grapevineSettings = false;
 window.init.fetchExtendedFollowingList = false;
 
 window.relayForReplies = "wss://relay.damus.io";
 
 export const fetchExtendedFollowingList = async () => {
-    var aExtendedAuthors = [];
-    var sql = ""
+  let aExtendedAuthors = [];
+  let sql = ""
     sql += " SELECT * FROM followingNetwork WHERE id=1 "
     var aFollowingNetworkData = await asyncSql(sql);
     if (aFollowingNetworkData.length > 0) {
