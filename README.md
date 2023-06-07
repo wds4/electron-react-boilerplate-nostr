@@ -1,3 +1,7 @@
+As of early 2023, this project has been forked and moved to [Pretty Good Apps](https://github.com/wds/pretty-good). See also this repo: [Decentralized Curation of Simple Lists](https://github.com/wds4/DCoSL), which specifies the protocol for decentralized reputation that is implemented in the Pretty Good Apps client.
+
+<hr />
+
 Boilerplate nostr desktop client using electron, react, sqlite3, and electron-builder. [electron-react-boilerplate](https://github.com/electron-react-boilerplate/electron-react-boilerplate) is my starting point, to which I have added [nostr-tools](https://github.com/fiatjaf/nostr-tools) and [nostr-react](https://github.com/t4t5/nostr-react), as well as [sqlite3](https://github.com/TryGhost/node-sqlite3).
 
 Once this project has progressed far enough, I plan to incorporate a system of decentralized reputation, two projects that I call the Grapevine and the Concept Graph. I have some very thoroughly fleshed out ideas on how to do this.
