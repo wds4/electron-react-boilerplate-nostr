@@ -1,4 +1,4 @@
-As of early 2023, this project has been forked and moved to [Pretty Good Apps](https://github.com/wds4/pretty-good). See also this repo: [Decentralized Curation of Simple Lists](https://github.com/wds4/DCoSL), which specifies the protocol for decentralized reputation that is implemented in the Pretty Good Apps client.
+As of early 2023, this project has been refactored and moved to [Pretty Good Apps](https://github.com/wds4/pretty-good). See also this repo: [Decentralized Curation of Simple Lists](https://github.com/wds4/DCoSL), which specifies the protocol for decentralized reputation that is implemented in the Pretty Good Apps client.
 
 <hr />
 
